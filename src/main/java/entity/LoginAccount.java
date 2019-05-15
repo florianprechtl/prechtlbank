@@ -3,14 +3,25 @@ package entity;
 import entity.util.GeneratedIdEntity;
 
 import javax.persistence.Entity;
+import javax.persistence.Id;
 import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
 public class LoginAccount extends GeneratedIdEntity implements Serializable {
 
+
     private String loginId;
     private String password;
+
+    public LoginAccount() {
+
+    }
+
+    public LoginAccount(String loginId, String password) {
+        this.loginId = loginId;
+        this.password = password;
+    }
 
     public String getLoginId() {
         return loginId;
