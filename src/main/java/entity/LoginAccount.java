@@ -3,7 +3,6 @@ package entity;
 import entity.util.GeneratedIdEntity;
 
 import javax.persistence.Entity;
-import javax.persistence.Id;
 import java.io.Serializable;
 import java.util.Objects;
 

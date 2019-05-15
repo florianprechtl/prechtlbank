@@ -3,10 +3,20 @@
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:h="http://xmlns.jcp.org/jsf/html">
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
 
-    <h1>OTH Regensburg</h1>
-    <h2>Softwareentwicklung (index.xhtml)</h2>
-    <h:commandButton class="margin2px" action="#{testModel.logInTestService()}"/>
+
+    <ui:composition template="./WEB-INF/templates/basicTemplate.xhtml">
+        <ui:define name="content">
+            <f:view>
+                <h:form>
+                    <h1>OTH Regensburg</h1>
+                    <h:commandButton value="Angebot berechnen" action="#{testModel.init()}"/>
+                </h:form>
+        </f:view>
+        </ui:define>
+    </ui:composition>
+
 
 </html>

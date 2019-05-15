@@ -18,7 +18,7 @@ import javax.transaction.Transactional.TxType;
 */
 public abstract class SingleIdEntityRepository<K, E extends SingleIdEntity> implements Serializable {
     
-    public static final String PERSISTENCE_UNIT_NAME = "studmgmtPU";
+    public static final String PERSISTENCE_UNIT_NAME = "prechtlBankPU";
     
     private Class<E> entityClass;
     
