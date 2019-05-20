@@ -1,27 +1,22 @@
+@import url('//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css');
+
+@font-face
+{
+    font-family: 'Roboto-Regular';
+    src: url('../fonts/Roboto/Roboto-Regular.ttf');
+}
+
 body {
-    background-color: #ffffff;
+    font-family: "Roboto-Regular", sans-serif !important;
+    background-image: url(#{request.contextPath}/resources/images/city.jpg) !important;
+    background-size: cover !important;
+    filter: alpha(20%);
+    -ms-background-size: cover !important;
+    -o-background-size: cover !important;
+    -moz-background-size: cover !important;
+    -webkit-background-size: cover !important;
     font-size: 12px;
-    font-family: Verdana, "Verdana CE",  Arial, "Arial CE", "Lucida Grande CE", lucida, "Helvetica CE", sans-serif;
-    color: #000000;  
-    margin: 10px;
-}
-
-h1 {
-    font-family: Arial, "Arial CE", "Lucida Grande CE", lucida, "Helvetica CE", sans-serif;
-    border-bottom: 1px solid #AFAFAF; 
-    font-size:  36px;
-    font-weight: bold;
-    margin: 0px;
-    padding: 0px;
-    color: #036fab;
-}
-
-h2 {
-    color: #036fab;
-}
-
-h3 {
-    color: white;
+    margin: 10px
 }
 
 a:link, a:visited {
@@ -34,4 +29,37 @@ a:link:hover, a:visited:hover  {
   color: #045491;
   font-weight : bold;
   text-decoration : underline;
+}
+
+.float-container {
+    overflow: hidden;
+}
+
+.boxed {
+    overflow: hidden;
+    display: inline-block;
+}
+
+.margin2px {
+    margin: 2px;
+}
+
+.padding2px {
+    padding: 2px;
+}
+
+.padding4px {
+    padding: 4px;
+}
+
+.padding6px {
+    padding: 6px;
+}
+
+.full-width {
+    width: 100%;
+}
+
+.marginAuto {
+    margin: auto;
 }

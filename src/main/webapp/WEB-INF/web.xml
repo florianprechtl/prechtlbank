@@ -29,8 +29,13 @@
         <url-pattern>*.xhtml</url-pattern>
     </servlet-mapping>
 
+    <error-page>
+        <exception-type>javax.faces.application.ViewExpiredException</exception-type>
+        <location>/views/content/index.xhtml</location>
+    </error-page>
+
     <welcome-file-list>
-        <welcome-file>index.xhtml</welcome-file>
+        <welcome-file>/views/content/index.xhtml</welcome-file>
     </welcome-file-list>
 
 </web-app>

@@ -1,0 +1,15 @@
+.nav-item {
+    font-size: 20px;
+    margin-top: auto;
+}
+
+.nav-header {
+    font-size: 22px;
+    margin-top: auto;
+}
+
+.nav-bar {
+    background-color: white !important;
+    border-radius: 0 !important;
+    border: none !important;
+}
