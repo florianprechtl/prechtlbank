@@ -1,0 +1,27 @@
+.nav-item {
+    font-size: 20px;
+    margin-top: auto;
+}
+
+.nav-header {
+    font-size: 22px;
+    margin-top: auto;
+}
+
+.navbar {
+    background-color: white !important;
+    border-radius: 0 !important;
+    margin-bottom: 0 !important;
+    border-bottom: 1px solid #7FDBFF !important;
+}
+
+.navbar a:link, .navbar a:visited {
+    color: #0074D9 !important;
+    font-weight : bold;
+    text-decoration: none;
+}
+
+.navbar a:link:hover, .navbar a:visited:hover  {
+    color: #001f3f !important;
+    text-decoration: none;
+}

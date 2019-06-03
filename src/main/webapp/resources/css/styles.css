@@ -8,15 +8,7 @@
 
 body {
     font-family: "Roboto-Regular", sans-serif !important;
-    background-image: url(#{request.contextPath}/resources/images/city.jpg) !important;
-    background-size: cover !important;
-    filter: alpha(20%);
-    -ms-background-size: cover !important;
-    -o-background-size: cover !important;
-    -moz-background-size: cover !important;
-    -webkit-background-size: cover !important;
     font-size: 12px;
-    margin: 10px
 }
 
 a:link, a:visited {
@@ -29,6 +21,16 @@ a:link:hover, a:visited:hover  {
   color: #045491;
   font-weight : bold;
   text-decoration : underline;
+}
+
+.btn-primary {
+    background-color: #7FDBFF;
+    color: #001f3f;
+}
+
+.btn-primary:hover {
+    background-color: #7FDBFF;
+    color: white;
 }
 
 .float-container {

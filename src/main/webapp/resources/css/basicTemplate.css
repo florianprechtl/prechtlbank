@@ -1,15 +1,36 @@
-.nav-item {
-    font-size: 20px;
-    margin-top: auto;
+.grid-container {
+    display: grid;
+    grid-gap: 15px 15px;
 }
 
-.nav-header {
-    font-size: 22px;
-    margin-top: auto;
+#top {
+    grid-area: top;
 }
 
-.nav-bar {
-    background-color: white !important;
-    border-radius: 0 !important;
-    border: none !important;
+#content {
+    grid-area: content;
+    margin: 0 15px;
 }
+
+#bottom {
+    grid-area: bottom;
+    font-size: 16px;
+    padding-left: 15px;
+    background-color: #0074D9;
+    color: white
+}
+
+.grid-container-basic-template {
+    grid-template-columns: auto;
+    grid-template-rows: 50px auto 20px;
+    grid-template-areas: 'top' 'content' 'bottom';
+    grid-row-gap: 0;
+    height: 100vh;
+}
+
+
+#top, #content {
+    background-color: white;
+}
+
+

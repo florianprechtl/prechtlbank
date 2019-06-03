@@ -8,49 +8,29 @@
       xmlns:b="http://bootsfaces.net/ui">
 
 <h:head>
-    <h:outputStylesheet library="css" name="layout.css"/>
     <h:outputStylesheet library="css" name="styles.css"/>
     <h:outputStylesheet library="css" name="basicTemplate.css"/>
 </h:head>
 
 
 <h:body>
-    <div id="top">
-        <b:navBar class="nav-bar" fixed="false" sticky="false" brand="PrechtlBank" brandHref="#" fluid="true">
-            <b:navbarLinks pull="left">
-                <b:navLink value="Home" iconAwesome="home" outcome="index"/>
-            </b:navbarLinks>
-
-            <b:navbarLinks pull="right">
-            </b:navbarLinks>
-
-            <b:navbarLinks pull="right">
-                <b:dropMenu value="Login" iconAwesome="sign-in" rendered="#{!loginAccountModel.isLoggedIn()}">
-                    <h:panelGroup rendered="#{!loginAccountModel.isLoggedIn()}">
-                        <ui:include src="/views/frames/login.xhtml"/>
-                    </h:panelGroup>
-                </b:dropMenu>
-                <b:navLink value="Logout" iconAwesome="sign-out" outcome="index" rendered="#{loginAccountModel.isLoggedIn()}"/>
-            </b:navbarLinks>
-        </b:navBar>
-    </div>
-    <div class="float-container">
-        <div id="left">
-            <ui:insert name="left">
-                LEFT
-            </ui:insert>
+    <div class="grid-container grid-container-basic-template">
+        <div id="top">
+            <ui:include src="/views/frames/navigation.xhtml"></ui:include>
         </div>
-        <div id="content" class="left_content">
+        <div id="content">
             <ui:insert name="content">
                 CONTENT
             </ui:insert>
         </div>
+        <div id="bottom">
+            <ui:insert name="bottom">
+                Vorlesung Softwareentwicklung WS 2018/19
+            </ui:insert>
+        </div>
     </div>
-    <div id="bottom">
-        <ui:insert name="bottom">
-            Vorlesung Softwareentwicklung WS 2018/19
-        </ui:insert>
-    </div>
+
+
 
 </h:body>
 </html>

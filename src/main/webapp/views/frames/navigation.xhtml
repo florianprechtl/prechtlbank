@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:b="http://bootsfaces.net/ui">
+
+    <h:head>
+        <h:outputStylesheet library="css" name="navigation.css"/>
+        <h:outputStylesheet library="css" name="styles.css"/>
+    </h:head>
+
+    <f:view>
+        <b:navBar class="nav-bar" fixed="false" sticky="false" brand="PrechtlBank" brandHref="#" fluid="true">
+            <b:navbarLinks pull="left">
+                <b:navLink value="Home" iconAwesome="home" outcome="index"/>
+            </b:navbarLinks>
+
+            <b:navbarLinks pull="right">
+            </b:navbarLinks>
+
+            <b:navbarLinks pull="right">
+                <b:dropMenu value="Login" iconAwesome="sign-in" rendered="#{!loginAccountModel.isLoggedIn()}">
+                    <h:panelGroup rendered="#{!loginAccountModel.isLoggedIn()}">
+                        <ui:include src="/views/frames/login.xhtml"/>
+                    </h:panelGroup>
+                </b:dropMenu>
+                <b:navLink value="Logout" iconAwesome="sign-out" outcome="index" rendered="#{loginAccountModel.isLoggedIn()}"/>
+            </b:navbarLinks>
+        </b:navBar>
+    </f:view>
+</html>
