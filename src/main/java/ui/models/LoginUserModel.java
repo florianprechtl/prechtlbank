@@ -2,12 +2,13 @@ package ui.models;
 
 import entity.User;
 import entity.dto.LoginDTO;
-import org.apache.log4j.Logger;
 import service.UserService;
 
 import javax.enterprise.context.SessionScoped;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.servlet.http.HttpSession;
 import java.io.Serializable;
 
 @Named
@@ -17,13 +18,11 @@ public class LoginUserModel implements Serializable {
     @Inject
     private UserService userService;
 
-    @Inject
-    private transient Logger logger;
-
     private String error;
     private String loginId;
     private String password;
     private User user;
+    private String sessionId;
 
 
     public String doLogin() {
@@ -36,9 +35,8 @@ public class LoginUserModel implements Serializable {
 
         } catch(UserService.InvalidCredentialsException e) {
             error = e.getMessage();
-            logger.info(e.getMessage());
         }
-        return "index";
+        return "signup";
     }
 
     public String doLogout() {

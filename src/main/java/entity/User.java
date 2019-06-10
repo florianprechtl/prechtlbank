@@ -28,12 +28,11 @@ public class User extends GeneratedIdEntity implements Serializable {
     public User() {
     }
 
-    public User(String firstname, String lastname, UserType userType, String password, Address address) {
+    public User(String firstname, String lastname, String loginId, UserType userType, String password, Address address) {
         this.firstname = firstname;
         this.lastname = lastname;
         this.userType = userType;
-        // Create random loginId
-        this.loginId = "" + firstname.substring(0,1).toUpperCase() + lastname.substring(0,2).toUpperCase() + EntityUtils.createRandomString(2);
+        this.loginId = loginId;
         this.password = password;
         this.address = address;
     }

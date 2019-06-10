@@ -27,7 +27,8 @@ public class InitService {
         logger.info("initService :: PostConstruct!");
         try {
             Address address = new Address("Marktplatz 35", "92249", "Vilseck", "Germany");
-            User newUser = new User("Florian", "Prechtl", User.UserType.CONSULTANT, "testPW", address);
+
+            User newUser = new User("Florian", "Prechtl", "testID", User.UserType.CONSULTANT, "testPW", address);
             userService.registerUser(newUser);
         } catch (Exception e) {
             logger.error(e.getMessage());

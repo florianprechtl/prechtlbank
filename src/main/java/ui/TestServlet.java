@@ -36,6 +36,7 @@ public class TestServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         doGet(req, resp);
+        resp.sendRedirect("index");
     }
 
 

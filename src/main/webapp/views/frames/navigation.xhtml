@@ -14,7 +14,7 @@
     </h:head>
 
     <f:view>
-        <b:navBar class="nav-bar" fixed="false" sticky="false" brand="PrechtlBank" brandHref="#" fluid="true">
+        <b:navBar class="nav-bar" fixed="false" sticky="false" brand="PrechtlBank" brandHref="index.xhtml" fluid="true">
             <b:navbarLinks pull="left">
                 <b:navLink value="Home" iconAwesome="home" outcome="index"/>
             </b:navbarLinks>
@@ -23,12 +23,16 @@
             </b:navbarLinks>
 
             <b:navbarLinks pull="right">
-                <b:dropMenu value="Login" iconAwesome="sign-in" rendered="#{!loginUserModel.isLoggedIn()}">
-                    <h:panelGroup rendered="#{!loginUserModel.isLoggedIn()}">
-                        <ui:include src="/views/frames/login.xhtml"/>
-                    </h:panelGroup>
-                </b:dropMenu>
-                <b:navLink value="Logout" iconAwesome="sign-out" rendered="#{loginUserModel.isLoggedIn()}" href="#{loginUserModel.doLogout()}.xhtml"/>
+                <b:form style="margin-top: 15px;">
+                    <b:dropMenu value="Login" iconAwesome="sign-in" rendered="#{!loginUserModel.isLoggedIn()}">
+                        <h:panelGroup rendered="#{!loginUserModel.isLoggedIn()}">
+                            <ui:include src="/views/frames/login.xhtml"/>
+                        </h:panelGroup>
+                    </b:dropMenu>
+                    <b:navCommandLink style="font-weight: bold; text-decoration: none" value="Logout"
+                                      outcome="logout" iconAwesome="sign-out" rendered="#{loginUserModel.isLoggedIn()}"
+                                      action="#{loginUserModel.doLogout()}"/>
+                </b:form>
             </b:navbarLinks>
         </b:navBar>
     </f:view>
