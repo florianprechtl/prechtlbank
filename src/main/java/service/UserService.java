@@ -1,6 +1,7 @@
 package service;
 
 import entity.User;
+import entity.dto.LoginDTO;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 
@@ -53,7 +54,7 @@ public class UserService {
     }
 
     @Transactional(Transactional.TxType.REQUIRED)
-    public User registerUser(User user) throws InvalidInputException, DuplicateUserException{
+    public User registerUser(User user) throws InvalidInputException, DuplicateUserException {
         logger.info("registerUser :: Validate user input");
         validateUserInput(user);
 
@@ -63,6 +64,23 @@ public class UserService {
         em.persist(user);
         logger.info("registerUser :: User with loginId: " + user.getLoginId() + " successfully registered");
 
+        return user;
+    }
+
+    @Transactional(Transactional.TxType.REQUIRED)
+    public User loginUser(LoginDTO loginData) throws InvalidCredentialsException {
+        logger.info("loginUser :: Check Login DTO data");
+        if(loginData == null || loginData.getLoginId() == null || loginData.getPassword() == null)
+            throw new InvalidCredentialsException("Entered data seems to be incomplete or invalid.", null);
+
+        logger.info("loginUser :: Check credentials");
+        User user = getUserByLoginId(loginData.getLoginId());
+        if (user == null) {
+            throw new InvalidCredentialsException("User '" + loginData.getLoginId() + "' does not exist.", null);
+        }
+        if (!user.checkPassword(loginData.getPassword())) {
+            throw new InvalidCredentialsException("The entered password is wrong.", null);
+        }
         return user;
     }
 
@@ -87,6 +105,12 @@ public class UserService {
 
     public static class DuplicateUserException extends Exception {
         public DuplicateUserException(String message, Throwable cause) {
+            super(message, cause);
+        }
+    }
+
+    public static class InvalidCredentialsException extends Exception {
+        public InvalidCredentialsException(String message, Throwable cause) {
             super(message, cause);
         }
     }

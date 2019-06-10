@@ -1,8 +1,12 @@
 package ui.models;
 
 import entity.User;
+import entity.dto.LoginDTO;
+import org.apache.log4j.Logger;
+import service.UserService;
 
 import javax.enterprise.context.SessionScoped;
+import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
 
@@ -10,18 +14,37 @@ import java.io.Serializable;
 @SessionScoped
 public class LoginUserModel implements Serializable {
 
+    @Inject
+    private UserService userService;
+
+    @Inject
+    private transient Logger logger;
+
     private String error;
-    private String username;
+    private String loginId;
     private String password;
     private User user;
-    private String sessionId;
 
 
     public String doLogin() {
+        error = null;
+
+        try {
+            user = userService.loginUser(new LoginDTO(loginId, password));
+            loginId = "";
+            password = "";
+
+        } catch(UserService.InvalidCredentialsException e) {
+            error = e.getMessage();
+            logger.info(e.getMessage());
+        }
         return "index";
     }
 
     public String doLogout() {
+        user = null;
+        loginId = "";
+        password = "";
         return "index";
     }
 
@@ -37,14 +60,6 @@ public class LoginUserModel implements Serializable {
         return error != null;
     }
 
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
     public String getPassword() {
         return password;
     }
@@ -53,23 +68,23 @@ public class LoginUserModel implements Serializable {
         this.password = password;
     }
 
-    public void setUser(User user) {
-        this.user = user;
-    }
-
     public Boolean isLoggedIn() {
         return user != null;
     }
 
-    public Boolean isAdmin() {
-        return true;
+    public String getLoginId() {
+        return loginId;
     }
 
-    public Boolean isEmployee() {
-        return false;
+    public void setLoginId(String loginId) {
+        this.loginId = loginId;
     }
 
-    public String getSessionId() {
-        return sessionId;
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

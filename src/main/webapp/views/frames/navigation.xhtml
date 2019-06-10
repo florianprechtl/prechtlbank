@@ -28,7 +28,7 @@
                         <ui:include src="/views/frames/login.xhtml"/>
                     </h:panelGroup>
                 </b:dropMenu>
-                <b:navLink value="Logout" iconAwesome="sign-out" outcome="index" rendered="#{loginUserModel.isLoggedIn()}"/>
+                <b:navLink value="Logout" iconAwesome="sign-out" rendered="#{loginUserModel.isLoggedIn()}" href="#{loginUserModel.doLogout()}.xhtml"/>
             </b:navbarLinks>
         </b:navBar>
     </f:view>
