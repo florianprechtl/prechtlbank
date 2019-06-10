@@ -10,23 +10,23 @@
     <f:view>
         <h:form>
             <!-- Show error if one occured -->
-            <h:panelGroup rendered="#{loginAccountModel.hasError()}">
+            <h:panelGroup rendered="#{loginUserModel.hasError()}">
                 <div class="boxed margin2px" style="max-width: 650px;">
                     <div class="notify-error">
-                        <h:outputText value="#{loginAccountModel.error}"/>
+                        <h:outputText value="#{loginUserModel.error}"/>
                     </div>
                 </div>
             </h:panelGroup>
 
 
             <div class="boxed margin2px full-width">
-                <h:inputText class="margin2px" pt:placeholder="Username" value="#{loginAccountModel.username}"/>
+                <h:inputText class="margin2px" pt:placeholder="Username" value="#{loginUserModel.username}"/>
                 <br/>
-                <h:inputSecret class="margin2px" pt:placeholder="Password" value="#{loginAccountModel.password}"/>
+                <h:inputSecret class="margin2px" pt:placeholder="Password" value="#{loginUserModel.password}"/>
             </div>
 
             <div class="boxed padding6px full-width">
-                <b:commandButton look="info" visible="md..." value="Login" action="#{loginAccountModel.doLogin()}"/>
+                <b:commandButton look="info" visible="md..." value="Login" action="#{loginUserModel.doLogin()}"/>
                 <br/>
                 <h:link class="marginAuto" value="Register" outcome="signup"/>
             </div>

@@ -1,7 +1,6 @@
 package ui;
 
 import org.apache.log4j.Logger;
-import service.TestService;
 
 import javax.inject.Inject;
 import javax.servlet.ServletException;

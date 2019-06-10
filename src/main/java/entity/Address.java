@@ -1,5 +1,4 @@
 package entity;
-
 import org.apache.commons.text.StringEscapeUtils;
 
 import javax.persistence.Embeddable;
@@ -12,7 +11,7 @@ import java.util.Objects;
 @Embeddable
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-class Address implements Serializable
+public class Address implements Serializable
 {
     private String street;
     private String zip;

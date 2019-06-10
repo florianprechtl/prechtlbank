@@ -1,6 +1,6 @@
 package ui.models;
 
-import entity.LoginAccount;
+import entity.User;
 
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
@@ -8,12 +8,12 @@ import java.io.Serializable;
 
 @Named
 @SessionScoped
-public class LoginAccountModel implements Serializable {
+public class LoginUserModel implements Serializable {
 
     private String error;
     private String username;
     private String password;
-    private LoginAccount loginAccount;
+    private User user;
     private String sessionId;
 
 
@@ -53,16 +53,12 @@ public class LoginAccountModel implements Serializable {
         this.password = password;
     }
 
-    public LoginAccount getLoginAccount() {
-        return loginAccount;
-    }
-
-    public void setUser(LoginAccount user) {
-        this.loginAccount = user;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public Boolean isLoggedIn() {
-        return loginAccount != null;
+        return user != null;
     }
 
     public Boolean isAdmin() {
