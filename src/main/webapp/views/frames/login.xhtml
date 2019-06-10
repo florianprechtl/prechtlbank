@@ -8,27 +8,14 @@
       xmlns:b="http://bootsfaces.net/ui">
 
     <f:view>
-        <h:form>
-            <!-- Show error if one occured -->
-            <h:panelGroup rendered="#{loginUserModel.hasError()}">
-                <div class="boxed margin2px" style="max-width: 650px;">
-                    <div class="notify-error">
-                        <h:outputText value="#{loginUserModel.error}"/>
-                    </div>
-                </div>
-            </h:panelGroup>
+        <h:form horizontal="true">
+            <b:inputText class="margin2px" pt:placeholder="Username" colMd="12" value="#{loginUserModel.loginId}"/>
+            <b:inputSecret class="margin2px" pt:placeholder="Password" colMd="12" value="#{loginUserModel.password}"/>
 
-
-            <div class="boxed margin2px full-width">
-                <h:inputText class="margin2px" pt:placeholder="Username" value="#{loginUserModel.loginId}"/>
+            <b:commandButton look="success" colMd="12" value="Login" action="#{loginUserModel.doLogin()}"/>
+            <div style="width: 250px; text-align: center">
                 <br/>
-                <h:inputSecret class="margin2px" pt:placeholder="Password" value="#{loginUserModel.password}"/>
-            </div>
-
-            <div class="boxed padding6px full-width">
-                <b:commandButton look="success" visible="md..." value="Login" action="#{loginUserModel.doLogin()}"/>
-                <br/>
-                <h:commandButton look="info" value="Signup" action="signup"/><br/>
+                <b:link value="Noch keinen Account?" outcome="signup"/>
             </div>
         </h:form>
     </f:view>

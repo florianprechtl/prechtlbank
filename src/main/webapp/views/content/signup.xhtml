@@ -5,22 +5,42 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:b="http://bootsfaces.net/ui">
 
 
 <ui:composition template="../../WEB-INF/templates/basicTemplate.xhtml">
     <ui:define name="content">
         <f:view>
-            <h:form>
+            <h1>Registrierung</h1>
+            <b:form horizontal="true">
+                <b:inputText placeholder="Vorname" label="Vorname" colMd="10" labelColMd="2">
+                    <f:facet name="prepend">
+                        <b:icon name="user" />
+                    </f:facet>
+                </b:inputText>
 
-                <h1>Registrierung</h1>
-                <div class="boxed margin2px">
-                    <h:inputText  pt:placeholder="Vorname" ></h:inputText>
-                    <br/>
-                    <h:inputSecret pt:placeholder="Nachname"></h:inputSecret>
-                </div>
-                <h:commandButton value="Registrieren" action="#{testModel.init()}"/>
-            </h:form>
+                <b:inputText placeholder="Nachname" label="Nachname" colMd="10" labelColMd="2">
+                    <f:facet name="prepend">
+                        <b:icon name="user" />
+                    </f:facet>
+                </b:inputText>
+
+                <b:inputText placeholder="Passwort" label="Passwort" colMd="10" labelColMd="2">
+                    <f:facet name="prepend">
+                        <b:iconAwesome name="key" />
+                    </f:facet>
+                </b:inputText>
+                <b:inputText placeholder="Straße und HausNr" label="Adresse" colMd="10" labelColMd="2">
+                </b:inputText>
+                <b:inputText placeholder="Postleitzahl" label="" colMd="10" labelColMd="2">
+                </b:inputText>
+                <b:inputText placeholder="Stadt" label="" colMd="10" labelColMd="2">
+                </b:inputText>
+                <b:inputText placeholder="Land" label="" colMd="10" labelColMd="2">
+                </b:inputText>
+                <b:commandButton offset="2" look="success" colMd="10" value="Login" action="#{loginUserModel.doLogout()}"/>
+            </b:form>
         </f:view>
     </ui:define>
 </ui:composition>

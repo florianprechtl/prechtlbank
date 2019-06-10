@@ -37,6 +37,10 @@ a:link:hover, a:visited:hover  {
     overflow: hidden;
 }
 
+.float-right {
+    float: right;
+}
+
 .boxed {
     overflow: hidden;
     display: inline-block;

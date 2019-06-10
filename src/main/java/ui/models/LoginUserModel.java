@@ -5,6 +5,7 @@ import entity.dto.LoginDTO;
 import service.UserService;
 
 import javax.enterprise.context.SessionScoped;
+import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -35,8 +36,10 @@ public class LoginUserModel implements Serializable {
 
         } catch(UserService.InvalidCredentialsException e) {
             error = e.getMessage();
+            FacesContext context = FacesContext.getCurrentInstance();
+            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, error, error));
         }
-        return "signup";
+        return "index";
     }
 
     public String doLogout() {
