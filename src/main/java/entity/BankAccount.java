@@ -5,7 +5,9 @@ import entity.util.GeneratedIdEntity;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import java.io.Serializable;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -22,6 +24,9 @@ public class BankAccount extends GeneratedIdEntity implements Serializable {
 
     @ManyToOne(fetch = FetchType.EAGER)
     private BankingInstitute bankingInstitute;
+
+    @OneToMany(fetch = FetchType.LAZY)
+    private List<Transaction> trasactions;
 
 
     public BankAccount() {
