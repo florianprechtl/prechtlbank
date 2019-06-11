@@ -27,8 +27,6 @@ public class LoginUserModel implements Serializable {
 
 
     public String doLogin() {
-        error = null;
-
         try {
             user = userService.loginUser(new LoginDTO(loginId, password));
             loginId = "";

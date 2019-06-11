@@ -14,32 +14,37 @@
         <f:view>
             <h1>Registrierung</h1>
             <b:form horizontal="true">
-                <b:inputText placeholder="Vorname" label="Vorname" colMd="10" labelColMd="2">
+                <b:inputText placeholder="Vorname" label="Vorname" colMd="10" labelColMd="2" value="#{registerUserModel.firstname}">
                     <f:facet name="prepend">
                         <b:icon name="user" />
                     </f:facet>
                 </b:inputText>
 
-                <b:inputText placeholder="Nachname" label="Nachname" colMd="10" labelColMd="2">
+                <b:inputText placeholder="Nachname" label="Nachname" colMd="10" labelColMd="2" value="#{registerUserModel.lastname}">
                     <f:facet name="prepend">
                         <b:icon name="user" />
                     </f:facet>
                 </b:inputText>
 
-                <b:inputText placeholder="Passwort" label="Passwort" colMd="10" labelColMd="2">
+                <b:inputSecret placeholder="Passwort" label="Passwort" colMd="10" labelColMd="2" value="#{registerUserModel.password}">
                     <f:facet name="prepend">
                         <b:iconAwesome name="key" />
                     </f:facet>
+                </b:inputSecret>
+                <b:inputSecret placeholder="Passwort wiederholen" label="Passwort wiederholen" colMd="10" labelColMd="2" value="#{registerUserModel.passwordRepeat}">
+                    <f:facet name="prepend">
+                        <b:iconAwesome name="key" />
+                    </f:facet>
+                </b:inputSecret>
+                <b:inputText placeholder="Straße und HausNr" label="Adresse" colMd="10" labelColMd="2" value="#{registerUserModel.street}">
                 </b:inputText>
-                <b:inputText placeholder="Straße und HausNr" label="Adresse" colMd="10" labelColMd="2">
+                <b:inputText placeholder="Postleitzahl" label="" colMd="10" labelColMd="2" value="#{registerUserModel.zip}">
                 </b:inputText>
-                <b:inputText placeholder="Postleitzahl" label="" colMd="10" labelColMd="2">
+                <b:inputText placeholder="Stadt" label="" colMd="10" labelColMd="2" value="#{registerUserModel.city}">
                 </b:inputText>
-                <b:inputText placeholder="Stadt" label="" colMd="10" labelColMd="2">
+                <b:inputText placeholder="Land" label="" colMd="10" labelColMd="2" value="#{registerUserModel.country}">
                 </b:inputText>
-                <b:inputText placeholder="Land" label="" colMd="10" labelColMd="2">
-                </b:inputText>
-                <b:commandButton offset="2" look="success" colMd="10" value="Login" action="#{loginUserModel.doLogout()}"/>
+                <b:commandButton offset="2" look="success" colMd="10" value="Login" action="#{registerUserModel.doRegister()}"/>
             </b:form>
         </f:view>
     </ui:define>
