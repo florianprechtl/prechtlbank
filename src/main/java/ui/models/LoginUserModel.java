@@ -31,7 +31,6 @@ public class LoginUserModel implements Serializable {
             user = userService.loginUser(new LoginDTO(loginId, password));
             loginId = "";
             password = "";
-
         } catch(UserService.InvalidCredentialsException e) {
             error = e.getMessage();
             FacesContext context = FacesContext.getCurrentInstance();

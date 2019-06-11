@@ -11,6 +11,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.transaction.Transactional;
+import java.util.Iterator;
+import java.util.List;
 
 @ApplicationScoped
 public class UserService {
@@ -96,6 +98,20 @@ public class UserService {
         return null;
     }
 
+    @Transactional(Transactional.TxType.SUPPORTS)
+    public List<User> getAllUsers() {
+        List<User> users =  em.createQuery("SELECT u FROM User AS u", User.class).getResultList();
+        return users;
+    }
+
+    public void logAllUsers() {
+        List<User> users = getAllUsers();
+        Iterator<User> iterator = users.iterator();
+        while(iterator.hasNext()) {
+            User user = iterator.next();
+            logger.info("getAllUsers :: " + user.getPassword() + "   " + user.getLoginId());
+        }
+    }
 
     public static class InvalidInputException extends Exception {
         public InvalidInputException(String message, Throwable cause) {

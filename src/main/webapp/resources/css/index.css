@@ -1,0 +1,24 @@
+#left1, #left2 {
+    grid-area: left;
+    margin-left: -315px;
+    margin-top: -80px;
+}
+
+#middle1, #middle2 {
+    grid-area: middle;
+}
+
+#right1, #right2 {
+    grid-area: right;
+    margin-right: -315px;
+    margin-top: -80px;
+}
+
+.grid-container-carousel {
+    grid-template-columns: 240px auto 240px;
+    grid-template-rows: auto;
+    grid-template-areas: 'left middle right';
+    grid-row-gap: 0;
+    height: 100%;
+    width: 100%;
+}
