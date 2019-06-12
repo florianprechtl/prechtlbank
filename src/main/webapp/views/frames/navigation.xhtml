@@ -18,9 +18,13 @@
             <b:navbarLinks pull="left">
                 <b:navLink value="Home" iconAwesome="home" outcome="index"/>
             </b:navbarLinks>
-
-            <b:navbarLinks pull="right">
+            <b:navbarLinks pull="left">
+                <b:navLink value="Accounts" iconAwesome="bank" outcome="accounts"/>
             </b:navbarLinks>
+            <b:navbarLinks pull="left">
+                <b:navLink value="Transaction" iconAwesome="exchange" outcome="transaction"/>
+            </b:navbarLinks>
+
 
             <b:navbarLinks pull="right">
                 <b:form style="margin-top: 10px;">
@@ -33,6 +37,9 @@
                                       outcome="logout" iconAwesome="sign-out" rendered="#{loginUserModel.isLoggedIn()}"
                                       action="#{loginUserModel.doLogout()}"/>
                 </b:form>
+            </b:navbarLinks>
+            <b:navbarLinks pull="right">
+                <b:navLink value="Profil" iconAwesome="user" outcome="profil"/>
             </b:navbarLinks>
         </b:navBar>
     </f:view>
