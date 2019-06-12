@@ -15,10 +15,81 @@
 }
 
 .grid-container-carousel {
-    grid-template-columns: 240px auto 240px;
+    grid-template-columns: auto 700px auto;
     grid-template-rows: auto;
     grid-template-areas: 'left middle right';
     grid-row-gap: 0;
     height: 100%;
     width: 100%;
+}
+
+#bottom-left-icon {
+    grid-area: bottom-left-icon;
+    margin: auto;
+}
+
+#bottom-center-icon {
+    grid-area: bottom-center-icon;
+    margin: auto;
+}
+
+#bottom-right-icon {
+    grid-area: bottom-right-icon;
+    margin: auto;
+}
+
+.grid-container-bottom-icons {
+    grid-template-columns: auto auto auto;
+    grid-template-rows: auto;
+    grid-template-areas: 'bottom-left-icon bottom-center-icon bottom-right-icon';
+    width: 100%;
+    color: #0074D9;
+    text-shadow: 0px 2px 3px black;
+}
+
+.new-account-button {
+    margin-top: 70px;
+    height: 80px;
+    font-size: 30px !important;
+    color: white !important;
+    background-color: transparent !important;
+    border: 4px solid white !important;
+    border-radius: 5px !important;
+    width: 300px;
+    transition: width 0.2s;
+    box-shadow: black 0 0 10px -2px;
+}
+
+.new-account-button:hover {
+    width: 500px !important;
+    box-shadow: inset black 0 0 10px -2px;
+}
+
+.new-account-button:hover:after {
+    content: '$';
+    margin-left: 5px;
+}
+
+.new-account-button:hover:before {
+    content: '$';
+    margin-right: 5px;
+}
+
+#content-top {
+    grid-area: conten-top;
+    width: calc(100% + 30px);
+    margin: 0 -15px;
+}
+
+#icons-bottom {
+    grid-area: icons-bottom;
+    align-content: center;
+}
+
+.grid-container-view1 {
+    grid-template-columns: auto;
+    grid-template-rows:  600px auto;
+    grid-template-areas: 'conten-top' 'icons-bottom';
+    height: 100%;
+    row-gap: 0;
 }

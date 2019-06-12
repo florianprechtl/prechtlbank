@@ -9,6 +9,7 @@
 body {
     font-family: "Roboto-Regular", sans-serif !important;
     font-size: 12px;
+    background-color: rgb(224, 226, 229);
 }
 
 a:link, a:visited {
