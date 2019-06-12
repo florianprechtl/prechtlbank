@@ -10,12 +10,12 @@
     <ui:composition template="../../WEB-INF/templates/basicTemplate.xhtml">
         <ui:define name="content">
             <f:view>
-                <h:panelGroup rendered="#{!loginUserModel.isLoggedIn()}"  class="grid-container grid-container-view1">
+                <h:panelGroup class="grid-container grid-container-view1">
                     <b:carousel id="content-top" >
                         <b:carouselCaption style="top: 120px">
                             <h1 style="font-size: 90px;">PrechtBank</h1>
                             <h:form>
-                                <b:commandButton styleClass="new-account-button" action="#{createAccountModel.createFirstbankAccount()}">Jetzt Konto eröffnen</b:commandButton>
+                                <b:commandButton styleClass="new-account-button" action="#{createAccountModel.createFirstBankAccount}">Jetzt Konto eröffnen</b:commandButton>
                             </h:form>
                         </b:carouselCaption>
                         <b:carouselItem>
@@ -65,9 +65,6 @@
                             <b:iconAwesome value="fa-university" style="font-size: 230px"/>
                         </h:panelGroup>
                     </h:panelGroup>
-                </h:panelGroup>
-                <h:panelGroup rendered="#{loginUserModel.isLoggedIn()}">
-                    <h:outputText value="#{loginUserModel.getUser().firstname}"/>
                 </h:panelGroup>
             </f:view>
         </ui:define>

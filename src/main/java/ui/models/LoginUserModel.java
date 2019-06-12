@@ -70,6 +70,27 @@ public class LoginUserModel implements Serializable {
         return user != null;
     }
 
+    public Boolean isConsultant() {
+        if (this.user == null || this.user.getUserType() == null) {
+            return false;
+        }
+        return this.user.getUserType().equals(User.UserType.CONSULTANT);
+    }
+
+    public Boolean isAdmin() {
+        if (this.user == null || this.user.getUserType() == null) {
+            return false;
+        }
+        return this.user.getUserType().equals(User.UserType.ADMIN);
+    }
+
+    public Boolean isCustomer() {
+        if (this.user == null || this.user.getUserType() == null) {
+            return false;
+        }
+        return this.user.getUserType().equals(User.UserType.CUSTOMER);
+    }
+
     public String getLoginId() {
         return loginId;
     }

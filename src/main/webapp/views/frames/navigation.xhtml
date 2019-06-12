@@ -18,12 +18,19 @@
             <b:navbarLinks pull="left">
                 <b:navLink value="Home" iconAwesome="home" outcome="index"/>
             </b:navbarLinks>
-            <b:navbarLinks pull="left">
+            <b:navbarLinks pull="left" rendered="#{loginUserModel.isCustomer()}">
                 <b:navLink value="Accounts" iconAwesome="bank" outcome="accounts"/>
             </b:navbarLinks>
-            <b:navbarLinks pull="left">
-                <b:navLink value="Transaction" iconAwesome="exchange" outcome="transaction"/>
+            <b:navbarLinks pull="left" rendered="#{loginUserModel.isCustomer()}">
+                <b:navLink value="Transaktion" iconAwesome="exchange" outcome="transaction"/>
             </b:navbarLinks>
+            <b:navbarLinks pull="left" rendered="#{loginUserModel.isConsultant()}">
+                <b:navLink value="Kundenverwaltung" iconAwesome="exchange" outcome="index"/>
+            </b:navbarLinks>
+            <b:navbarLinks pull="left" rendered="#{loginUserModel.isAdmin()}">
+                <b:navLink value="Admin" iconAwesome="exchange" outcome="index"/>
+            </b:navbarLinks>
+
 
 
             <b:navbarLinks pull="right">
@@ -38,7 +45,7 @@
                                       action="#{loginUserModel.doLogout()}"/>
                 </b:form>
             </b:navbarLinks>
-            <b:navbarLinks pull="right">
+            <b:navbarLinks pull="right" rendered="#{loginUserModel.isLoggedIn()}">
                 <b:navLink value="Profil" iconAwesome="user" outcome="profil"/>
             </b:navbarLinks>
         </b:navBar>
