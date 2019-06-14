@@ -1,0 +1,15 @@
+.create-account-button {
+    margin: 15px auto auto auto;
+    border: #CFB53B solid 4px !important;
+    font-size: 40px !important;
+    background-color: white !important;
+    color: #CFB53B !important;
+    border-radius: 5px !important;
+    display: block;
+}
+
+.create-account-button:hover {
+    background-color: #CFB53B !important;
+    color: white !important;
+    border: white solid 4px !important;
+}

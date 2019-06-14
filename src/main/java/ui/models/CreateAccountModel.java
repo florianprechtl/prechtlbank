@@ -14,6 +14,8 @@ public class CreateAccountModel  implements Serializable {
     @Inject
     private LoginUserModel loginUserModel;
 
+    private String selectedSteamonKey;
+
 
     public String createBankAccount() {
         return "index";
@@ -27,5 +29,13 @@ public class CreateAccountModel  implements Serializable {
             return "signup";
         }
         return "create-account";
+    }
+
+    public String getSelectedSteamonKey() {
+        return selectedSteamonKey;
+    }
+
+    public void setSelectedSteamonKey(String selectedSteamonKey) {
+        this.selectedSteamonKey = selectedSteamonKey;
     }
 }

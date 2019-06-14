@@ -8,47 +8,25 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:b="http://bootsfaces.net/ui">
 
-
-<ui:composition template="../../WEB-INF/templates/basicTemplate.xhtml">
-    <ui:define name="content">
-        <f:view>
-            <h1>Create Account</h1>
-            <b:form horizontal="true">
-                <b:inputText placeholder="Vorname" label="Vorname" colMd="10" labelColMd="2" value="#{registerUserModel.firstname}">
-                    <f:facet name="prepend">
-                        <b:icon name="user" />
-                    </f:facet>
-                </b:inputText>
-
-                <b:inputText placeholder="Nachname" label="Nachname" colMd="10" labelColMd="2" value="#{registerUserModel.lastname}">
-                    <f:facet name="prepend">
-                        <b:icon name="user" />
-                    </f:facet>
-                </b:inputText>
-
-                <b:inputSecret placeholder="Passwort" label="Passwort" colMd="10" labelColMd="2" value="#{registerUserModel.password}">
-                    <f:facet name="prepend">
-                        <b:iconAwesome name="key" />
-                    </f:facet>
-                </b:inputSecret>
-                <b:inputSecret placeholder="Passwort wiederholen" label="Passwort wiederholen" colMd="10" labelColMd="2" value="#{registerUserModel.passwordRepeat}">
-                    <f:facet name="prepend">
-                        <b:iconAwesome name="key" />
-                    </f:facet>
-                </b:inputSecret>
-                <b:inputText placeholder="Straße und HausNr" label="Adresse" colMd="10" labelColMd="2" value="#{registerUserModel.street}">
-                </b:inputText>
-                <b:inputText placeholder="Postleitzahl" label="" colMd="10" labelColMd="2" value="#{registerUserModel.zip}">
-                </b:inputText>
-                <b:inputText placeholder="Stadt" label="" colMd="10" labelColMd="2" value="#{registerUserModel.city}">
-                </b:inputText>
-                <b:inputText placeholder="Land" label="" colMd="10" labelColMd="2" value="#{registerUserModel.country}">
-                </b:inputText>
-                <b:commandButton offset="2" look="success" colMd="10" value="Login" action="#{registerUserModel.doRegister()}"/>
-            </b:form>
-        </f:view>
-    </ui:define>
-</ui:composition>
+<body>
+    <ui:composition template="../../WEB-INF/templates/basicTemplate.xhtml">
+        <ui:define name="content">
+            <f:view>
+                <h1>Create Account</h1>
+                <h:form horizontal="true" style="width: 700px; margin: auto; margin-top: 60px;">
+                    <h2>Das ist dein erstes Konto?</h2>
+                    <p>Du hast Glück! Wähle eines von 3 Spielen. Dein SteamonKey wird dir vllt per Email versandt oder du holst ihn bei uns in der Filiale ab.</p>
+                    <b:radiobutton value="#{createAccountModel.selectedSteamonKey}" style="width: 400px; margin: auto;">
+                        <f:selectItem itemValue="key_mims_4" itemLabel="Die MIMS 4: Zerstöre virtuelle Leben" />
+                        <f:selectItem itemValue="key_mims_4" itemLabel="Rätselfield 4: Die Wunder der Levolution" />
+                        <f:selectItem itemValue="key_mims_4" itemLabel="FIFA 75" />
+                    </b:radiobutton>
+                    <h:commandButton class="create-account-button" offset="1" look="success" colMd="10" value="Neues Bankkonto eröffnen" action="#{registerUserModel.doRegister()}"/>
+                </h:form>
+            </f:view>
+        </ui:define>
+    </ui:composition>
+</body>
 
 
 
