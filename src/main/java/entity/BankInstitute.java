@@ -7,15 +7,15 @@ import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
-public class BankingInstitute extends GeneratedIdEntity implements Serializable {
+public class BankInstitute extends GeneratedIdEntity implements Serializable {
     private String name;
     private String bic;
 
-    public BankingInstitute() {
+    public BankInstitute() {
 
     }
 
-    public BankingInstitute(String name, String iban) {
+    public BankInstitute(String name, String iban) {
         this.name = name;
         this.bic = bic;
     }
@@ -41,7 +41,7 @@ public class BankingInstitute extends GeneratedIdEntity implements Serializable 
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
-        BankingInstitute that = (BankingInstitute) o;
+        BankInstitute that = (BankInstitute) o;
         return Objects.equals(getName(), that.getName()) &&
                 Objects.equals(getBic(), that.getBic());
     }
@@ -53,7 +53,7 @@ public class BankingInstitute extends GeneratedIdEntity implements Serializable 
 
     @Override
     public String toString() {
-        return "BankingInstitute{" +
+        return "BankInstitute{" +
                 "name='" + name + '\'' +
                 ", bic='" + bic + '\'' +
                 ", id=" + id +

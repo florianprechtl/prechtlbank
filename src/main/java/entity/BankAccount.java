@@ -23,7 +23,7 @@ public class BankAccount extends GeneratedIdEntity implements Serializable {
     private String iban;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    private BankingInstitute bankingInstitute;
+    private BankInstitute bankInstitute;
 
     @OneToMany(fetch = FetchType.LAZY)
     private List<Transaction> trasactions;
@@ -33,10 +33,10 @@ public class BankAccount extends GeneratedIdEntity implements Serializable {
 
     }
 
-    public BankAccount(String iban, AccountStatus accountStatus, BankingInstitute bankingInstitute) {
+    public BankAccount(String iban, AccountStatus accountStatus, BankInstitute bankInstitute) {
         this.iban = iban;
         this.accountStatus = accountStatus;
-        this.bankingInstitute = bankingInstitute;
+        this.bankInstitute = bankInstitute;
     }
 
     public AccountStatus getAccountStatus() {
@@ -55,12 +55,12 @@ public class BankAccount extends GeneratedIdEntity implements Serializable {
         this.iban = iban;
     }
 
-    public BankingInstitute getBankingInstitute() {
-        return bankingInstitute;
+    public BankInstitute getBankInstitute() {
+        return bankInstitute;
     }
 
-    public void setBankingInstitute(BankingInstitute bankingInstitute) {
-        this.bankingInstitute = bankingInstitute;
+    public void setBankInstitute(BankInstitute bankInstitute) {
+        this.bankInstitute = bankInstitute;
     }
 
     @Override
@@ -71,12 +71,12 @@ public class BankAccount extends GeneratedIdEntity implements Serializable {
         BankAccount that = (BankAccount) o;
         return getAccountStatus() == that.getAccountStatus() &&
                 Objects.equals(getIban(), that.getIban()) &&
-                Objects.equals(getBankingInstitute(), that.getBankingInstitute());
+                Objects.equals(getBankInstitute(), that.getBankInstitute());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), getAccountStatus(), getIban(), getBankingInstitute());
+        return Objects.hash(super.hashCode(), getAccountStatus(), getIban(), getBankInstitute());
     }
 
     @Override
@@ -84,7 +84,7 @@ public class BankAccount extends GeneratedIdEntity implements Serializable {
         return "BankAccount{" +
                 "accountStatus=" + accountStatus +
                 ", iban='" + iban + '\'' +
-                ", bankingInstitute=" + bankingInstitute +
+                ", bankInstitute=" + bankInstitute +
                 ", id=" + id +
                 '}';
     }

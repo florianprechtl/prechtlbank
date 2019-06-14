@@ -1,7 +1,7 @@
 package ui.models;
 
 import entity.BankAccount;
-import entity.BankingInstitute;
+import entity.BankInstitute;
 import service.BankAccountService;
 import service.BankInstituteService;
 
@@ -33,9 +33,9 @@ public class CreateAccountModel  implements Serializable {
     public String createBankAccount() {
         try {
             // TODO: Bankinstitut setzen
-            BankingInstitute bankingInstitute = new BankingInstitute("Regensburg PB", "GEN0DEFISZ");
-            bankInstituteService.createBankInstitute(bankingInstitute);
-            BankAccount bankAccount = new BankAccount("DE1234123412349", BankAccount.AccountStatus.NEW, bankingInstitute);
+            BankInstitute bankInstitute = new BankInstitute("Regensburg PB", "GEN0DEFISZ");
+            bankInstituteService.createBankInstitute(bankInstitute);
+            BankAccount bankAccount = new BankAccount("DE1234123412349", BankAccount.AccountStatus.NEW, bankInstitute);
             bankAccountService.createBankAccount(bankAccount);
         } catch(Exception e) {
 
@@ -59,6 +59,11 @@ public class CreateAccountModel  implements Serializable {
         createBankAccount();
 
         return "create-account";
+    }
+
+    public void test() {
+        bankInstituteService.logAllBankInstituates();
+        bankAccountService.logAllBankAccounts();
     }
 
     public String getSelectedSteamonKey() {

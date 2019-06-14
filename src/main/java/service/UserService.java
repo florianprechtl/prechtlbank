@@ -109,7 +109,7 @@ public class UserService {
         Iterator<User> iterator = users.iterator();
         while(iterator.hasNext()) {
             User user = iterator.next();
-            logger.info("getAllUsers :: " + user.getPassword() + "   " + user.getLoginId());
+            logger.info("logAllUsers :: " + user.getPassword() + "   " + user.getLoginId());
         }
     }
 
