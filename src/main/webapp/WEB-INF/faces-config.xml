@@ -4,5 +4,38 @@
               xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
               xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_2.xsd">
 
+    <navigation-rule>
+        <description>Navigation rules for PrechtlBank</description>
+        <from-view-id>/views/*</from-view-id>
 
+        <navigation-case>
+            <from-outcome>index</from-outcome>
+            <to-view-id>/views/content/index.xhtml</to-view-id>
+        </navigation-case>
+
+        <navigation-case>
+            <from-outcome>create-account</from-outcome>
+            <to-view-id>/views/content/create-account.xhtml</to-view-id>
+        </navigation-case>
+
+        <navigation-case>
+            <from-outcome>accounts</from-outcome>
+            <to-view-id>/views/content/accounts.xhtml</to-view-id>
+        </navigation-case>
+
+        <navigation-case>
+            <from-outcome>profile</from-outcome>
+            <to-view-id>/views/content/profile.xhtml</to-view-id>
+        </navigation-case>
+
+        <navigation-case>
+            <from-outcome>signup</from-outcome>
+            <to-view-id>/views/content/signup.xhtml</to-view-id>
+        </navigation-case>
+
+        <navigation-case>
+            <from-outcome>transaction</from-outcome>
+            <to-view-id>/views/content/transaction.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
 </faces-config>

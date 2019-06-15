@@ -8,11 +8,21 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:b="http://bootsfaces.net/ui">
 
+<f:metadata>
+    <f:event type="preRenderView" listener="#{accountModel.onLoad}" />
+</f:metadata>
+
 
 <ui:composition template="../../WEB-INF/templates/basicTemplate.xhtml">
     <ui:define name="content">
         <f:view>
             <h1>Accounts</h1>
+            <b:formGroup>
+                <b:selectOneMenu value="#{accountModel.selectedBankAccount}" offset="2" colMd="8">
+                    <f:selectItem itemLabel="(Please select bank account)" itemValue="#{null}" />
+                    <f:selectItems value="#{accountModel.allBankAccounts}" var="c" itemValue="#{c}" itemLabel="#{c.iban}"/>
+                </b:selectOneMenu>
+            </b:formGroup>
         </f:view>
     </ui:define>
 </ui:composition>
