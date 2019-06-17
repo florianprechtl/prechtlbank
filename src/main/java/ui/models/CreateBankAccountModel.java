@@ -33,9 +33,10 @@ public class CreateBankAccountModel implements Serializable {
     public String createBankAccount() {
         try {
             // TODO: Bankinstitut setzen
-            BankInstitute bankInstitute = new BankInstitute("Regensburg PB", "GEN0DEFISZ");
+            BankInstitute bankInstitute = new BankInstitute("Regensburg PB", "RGB1FSZ7");
             bankInstituteService.createBankInstitute(bankInstitute);
-            BankAccount bankAccount = new BankAccount("DE1234123412350", BankAccount.AccountStatus.NEW, bankInstitute, loginUserModel.getUser());
+            String iban = generateIBAN();
+            BankAccount bankAccount = new BankAccount(iban, BankAccount.AccountStatus.NEW, bankInstitute, loginUserModel.getUser());
             bankAccountService.createBankAccount(bankAccount);
         } catch(Exception e) {
             String error = "Fehler beim Erstellen des Bankaccounts:" + e.getMessage() + "";
@@ -77,5 +78,13 @@ public class CreateBankAccountModel implements Serializable {
 
     public void setSelectedSteamonKey(String selectedSteamonKey) {
         this.selectedSteamonKey = selectedSteamonKey;
+    }
+
+    public String generateIBAN() {
+        String iban = "DE";
+        for(int i = 0; i < 20; i++) {
+            iban += (int)(Math.random() * 10);
+        }
+        return iban;
     }
 }
