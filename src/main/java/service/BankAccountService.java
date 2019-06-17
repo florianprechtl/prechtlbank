@@ -57,6 +57,14 @@ public class BankAccountService {
     }
 
     @Transactional(Transactional.TxType.SUPPORTS)
+    public List<BankAccount> getBankAccountsOfUser(long userId) {
+        List<BankAccount> bankAccounts =  em.createQuery("SELECT b FROM BankAccount AS b WHERE b.user.id = ?1", BankAccount.class)
+                .setParameter(1, userId)
+                .getResultList();
+        return bankAccounts;
+    }
+
+    @Transactional(Transactional.TxType.SUPPORTS)
     public List<BankAccount> getAllBankAccounts() {
         List<BankAccount> bankAccounts =  em.createQuery("SELECT u FROM BankAccount AS u", BankAccount.class).getResultList();
         return bankAccounts;
@@ -67,7 +75,7 @@ public class BankAccountService {
         Iterator<BankAccount> iterator = users.iterator();
         while(iterator.hasNext()) {
             BankAccount bankAccount = iterator.next();
-            logger.info("logAllBankAccounts :: " + bankAccount.getIban() + "   " + bankAccount.getAccountStatus());
+            logger.info("logAllBankAccounts :: " + bankAccount);
         }
     }
 

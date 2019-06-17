@@ -15,7 +15,7 @@ public class BankInstitute extends GeneratedIdEntity implements Serializable {
 
     }
 
-    public BankInstitute(String name, String iban) {
+    public BankInstitute(String name, String bic) {
         this.name = name;
         this.bic = bic;
     }

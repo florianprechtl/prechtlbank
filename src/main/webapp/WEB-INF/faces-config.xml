@@ -14,13 +14,13 @@
         </navigation-case>
 
         <navigation-case>
-            <from-outcome>create-account</from-outcome>
-            <to-view-id>/views/content/create-account.xhtml</to-view-id>
+            <from-outcome>create-bank-account</from-outcome>
+            <to-view-id>/views/content/create-bank-account.xhtml</to-view-id>
         </navigation-case>
 
         <navigation-case>
-            <from-outcome>accounts</from-outcome>
-            <to-view-id>/views/content/accounts.xhtml</to-view-id>
+            <from-outcome>bank-accounts</from-outcome>
+            <to-view-id>/views/content/bank-accounts.xhtml</to-view-id>
         </navigation-case>
 
         <navigation-case>

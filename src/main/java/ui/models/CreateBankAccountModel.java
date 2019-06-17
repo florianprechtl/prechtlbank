@@ -15,7 +15,7 @@ import java.io.Serializable;
 
 @Named
 @RequestScoped
-public class CreateAccountModel  implements Serializable {
+public class CreateBankAccountModel implements Serializable {
 
     @Inject
     private LoginUserModel loginUserModel;
@@ -35,34 +35,39 @@ public class CreateAccountModel  implements Serializable {
             // TODO: Bankinstitut setzen
             BankInstitute bankInstitute = new BankInstitute("Regensburg PB", "GEN0DEFISZ");
             bankInstituteService.createBankInstitute(bankInstitute);
-            BankAccount bankAccount = new BankAccount("DE1234123412349", BankAccount.AccountStatus.NEW, bankInstitute);
+            BankAccount bankAccount = new BankAccount("DE1234123412350", BankAccount.AccountStatus.NEW, bankInstitute, loginUserModel.getUser());
             bankAccountService.createBankAccount(bankAccount);
         } catch(Exception e) {
-
             String error = "Fehler beim Erstellen des Bankaccounts:" + e.getMessage() + "";
             FacesContext context = FacesContext.getCurrentInstance();
             context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, error, error));
+            return createFirstBankAccount();
         }
-        return "accounts";
+        String error = "Neuen Bank Account erstellt.";
+        FacesContext context = FacesContext.getCurrentInstance();
+        context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, error, error));
+        return "bank-accounts";
     }
 
     @Transactional(Transactional.TxType.REQUIRED)
     public String createFirstBankAccount() {
         if (!loginUserModel.isLoggedIn()) {
-            String message = "Um ein Bankkonto zu eröffnen, musst du dich zuerst einloggen oder ein neues Profil registrier.";
+            String message = "Um ein Bankkonto zu eröffnen, musst du dich zuerst einloggen oder ein neues Profil registrieren.";
             FacesContext context = FacesContext.getCurrentInstance();
             context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, message, message));
             return "signup";
         }
         // TODO: check if first account
-        // TODO: get steamonKey
-        createBankAccount();
-
-        return "create-account";
+        if (bankAccountService.getBankAccountsOfUser(loginUserModel.getUser().getId()).size() > 0) {
+            String message = "Du hast bereits einen Bank Account. Deshalb wirst du für ein neues Konto keinen Steam Key erhalten.";
+            FacesContext context = FacesContext.getCurrentInstance();
+            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, message, message));
+            return "bank-accounts";
+        }
+        return "create-bank-account";
     }
 
     public void test() {
-        bankInstituteService.logAllBankInstituates();
         bankAccountService.logAllBankAccounts();
     }
 

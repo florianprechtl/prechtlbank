@@ -16,12 +16,12 @@
                 <h:form horizontal="true" style="width: 700px; margin: auto; margin-top: 60px;">
                     <h2>Das ist dein erstes Konto?</h2>
                     <p>Du hast Glück! Wähle eines von 3 Spielen. Dein SteamonKey wird dir vllt per Email versandt oder du holst ihn bei uns in der Filiale ab.</p>
-                    <b:radiobutton value="#{createAccountModel.selectedSteamonKey}" style="width: 400px; margin: auto;">
+                    <b:radiobutton value="#{createBankAccountModel.selectedSteamonKey}" style="width: 400px; margin: auto;">
                         <f:selectItem itemValue="key_mims_4" itemLabel="Die MIMS 4: Zerstöre virtuelle Leben" />
                         <f:selectItem itemValue="key_mims_4" itemLabel="Rätselfield 4: Die Wunder der Levolution" />
                         <f:selectItem itemValue="key_mims_4" itemLabel="FIFA 75" />
                     </b:radiobutton>
-                    <h:commandButton class="create-account-button" offset="1" look="success" colMd="10" value="Neues Bankkonto eröffnen" action="#{createAccountModel.createFirstBankAccount()}"/>
+                    <h:commandButton class="create-account-button" offset="1" look="success" colMd="10" value="Neues Bankkonto eröffnen" action="#{createBankAccountModel.createBankAccount}"/>
                 </h:form>
             </f:view>
         </ui:define>

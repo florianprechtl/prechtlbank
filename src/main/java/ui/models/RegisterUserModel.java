@@ -52,6 +52,7 @@ public class RegisterUserModel {
         } catch (Exception e) {
             error = e.getMessage();
             FacesContext context = FacesContext.getCurrentInstance();
+            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, error, error));
             return "signup";
         }
         return "index";
