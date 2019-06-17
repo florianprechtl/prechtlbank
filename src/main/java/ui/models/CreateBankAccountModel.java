@@ -42,16 +42,16 @@ public class CreateBankAccountModel implements Serializable {
             String error = "Fehler beim Erstellen des Bankaccounts:" + e.getMessage() + "";
             FacesContext context = FacesContext.getCurrentInstance();
             context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, error, error));
-            return createFirstBankAccount();
+            return "create-bank-account";
         }
-        String error = "Neuen Bank Account erstellt.";
+        String message = "Neuen Bank Account erstellt.";
         FacesContext context = FacesContext.getCurrentInstance();
-        context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, error, error));
+        context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, message, message));
         return "bank-accounts";
     }
 
     @Transactional(Transactional.TxType.REQUIRED)
-    public String createFirstBankAccount() {
+    public String navigateToFirstBankAccount() {
         if (!loginUserModel.isLoggedIn()) {
             String message = "Um ein Bankkonto zu eröffnen, musst du dich zuerst einloggen oder ein neues Profil registrieren.";
             FacesContext context = FacesContext.getCurrentInstance();
@@ -59,11 +59,11 @@ public class CreateBankAccountModel implements Serializable {
             return "signup";
         }
         // TODO: check if first account
-        if (bankAccountService.getBankAccountsOfUser(loginUserModel.getUser().getId()).size() > 0) {
+        if (!isFirstBankAccount()) {
             String message = "Du hast bereits einen Bank Account. Deshalb wirst du für ein neues Konto keinen Steam Key erhalten.";
             FacesContext context = FacesContext.getCurrentInstance();
             context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, message, message));
-            return "bank-accounts";
+            return "create-bank-account";
         }
         return "create-bank-account";
     }
@@ -78,6 +78,10 @@ public class CreateBankAccountModel implements Serializable {
 
     public void setSelectedSteamonKey(String selectedSteamonKey) {
         this.selectedSteamonKey = selectedSteamonKey;
+    }
+
+    public boolean isFirstBankAccount() {
+        return bankAccountService.getBankAccountsOfUser(loginUserModel.getUser().getId()).size() == 0;
     }
 
     public String generateIBAN() {
