@@ -53,11 +53,9 @@ public class TransactionModel {
             Transaction transaction = new Transaction(payeeIban, payerIban, amount, payeeBic, payerBic,
                     Transaction.TransactionStatus.NEW, Transaction.TransactionType.TRANSFER, reasonOfUsage,
                     Transaction.Duration.ONCE);
-            logger.info("Test");
             transactionService.transfer(transaction);
-            transactionService.logAllTransactions();
         } catch(Exception e) {
-            logger.info(e.getStackTrace());
+            logger.info(e.getMessage());
             String message = "Überweisung fehlgeschlagen!: " + e.getMessage();
             FacesContext context = FacesContext.getCurrentInstance();
             context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, message, message));

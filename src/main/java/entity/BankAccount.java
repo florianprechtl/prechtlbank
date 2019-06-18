@@ -1,5 +1,6 @@
 package entity;
 
+import entity.enums.BankAccountStatus;
 import entity.util.GeneratedIdEntity;
 
 import javax.persistence.*;
@@ -9,14 +10,9 @@ import java.util.Objects;
 
 @Entity
 public class BankAccount extends GeneratedIdEntity implements Serializable {
-    public enum AccountStatus {
-        NEW,
-        PENDING,
-        APPROVED,
-        DENIED
-    }
 
-    private AccountStatus accountStatus;
+
+    private BankAccountStatus accountStatus;
     private String iban;
 
     @ManyToOne(fetch = FetchType.EAGER)
@@ -33,18 +29,18 @@ public class BankAccount extends GeneratedIdEntity implements Serializable {
 
     }
 
-    public BankAccount(String iban, AccountStatus accountStatus, BankInstitute bankInstitute, User user) {
+    public BankAccount(String iban, BankAccountStatus accountStatus, BankInstitute bankInstitute, User user) {
         this.iban = iban;
         this.accountStatus = accountStatus;
         this.bankInstitute = bankInstitute;
         this.user = user;
     }
 
-    public AccountStatus getAccountStatus() {
+    public BankAccountStatus getAccountStatus() {
         return accountStatus;
     }
 
-    public void setAccountStatus(AccountStatus accountStatus) {
+    public void setAccountStatus(BankAccountStatus accountStatus) {
         this.accountStatus = accountStatus;
     }
 

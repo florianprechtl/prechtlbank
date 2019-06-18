@@ -4,6 +4,7 @@ import entity.User;
 import entity.dto.LoginDTO;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
+import service.Exceptions.LoginException;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -131,9 +132,4 @@ public class UserService {
         }
     }
 
-    public static class LoginException extends Exception {
-        public LoginException(String message, Throwable cause) {
-            super(message, cause);
-        }
-    }
 }

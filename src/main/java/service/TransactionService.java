@@ -1,10 +1,12 @@
 package service;
 
+import entity.BankAccount;
 import entity.Transaction;
-import entity.User;
 import entity.dto.LoginDTO;
 import entity.dto.TransactionDTO;
 import org.apache.log4j.Logger;
+import service.Exceptions.LoginException;
+import service.Exceptions.TransactionException;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
@@ -20,45 +22,81 @@ public class TransactionService implements TransactionServiceIF{
     @Inject
     UserService userService;
 
+    @Inject
+    BankAccountService bankAccountService;
+
     @PersistenceContext
     private EntityManager em;
 
     @Inject
     private transient Logger logger;
 
-    private void validateTransactionInput(Transaction transaction) throws InvalidInputException
-    {
-        if(transaction == null || transaction.getPayeeBic() == null)
+    private void validateTransactionInput(Transaction transaction) throws InvalidInputException {
+        if (transaction == null)
+            throw new InvalidInputException("Invalid Transaction: Transaction is null", null);
+
+        if (transaction.getPayeeBic() == null)
             throw new InvalidInputException("Invalid Payee BIC.", null);
-        if(transaction == null || transaction.getPayeeIban() == null)
+
+        if (transaction.getPayeeIban() == null)
             throw new InvalidInputException("Invalid Payee IBAN.", null);
+
+        if (checkIbanAndBic(transaction.getPayeeIban(), transaction.getPayeeBic()))
+            throw new InvalidInputException("Could not find payee account with specified iban and bic", null);
+
+        if (transaction.getPayerBic() == null)
+            throw new InvalidInputException("Invalid Payer BIC.", null);
+
+        if (transaction.getPayerIban() == null)
+            throw new InvalidInputException("Invalid Payer IBAN.", null);
+
+        if (!checkIbanAndBic(transaction.getPayerIban(), transaction.getPayerBic()))
+            throw new InvalidInputException("Could not find payer account with specified iban and bic", null);
+
+        if (transaction.getPayeeIban().equals(transaction.getPayerIban()))
+            throw new InvalidInputException("You can not transfer money to yourself", null);
+
+        if (transaction.getPayerIban() == null)
+            throw new InvalidInputException("Invalid Payer IBAN.", null);
+
+        if (transaction.getAmount() <= 0)
+            throw new InvalidInputException("Invalid amount.", null);
+
+        if (transaction.getReasonOfUsage() == null)
+            throw new InvalidInputException("Invalid reason of usage.", null);
+
+        if(transaction.getTransactionStatus() == null)
+            throw new InvalidInputException("Invalid transaction status.", null);
+
+        if (transaction.getTransactionType() == null)
+            throw new InvalidInputException("Invalid transaction type.", null);
+
+        if (transaction.getDuration() == null)
+            throw new InvalidInputException("Invalid duration.", null);
     }
 
     @Transactional(Transactional.TxType.REQUIRED)
-    public TransactionDTO transfer(LoginDTO loginDTO, TransactionDTO transactionDTO) throws UserService.LoginException, TransactionException {
+    public TransactionDTO transfer(LoginDTO loginDTO, TransactionDTO transactionDTO) throws LoginException, TransactionException {
         userService.loginUser(loginDTO);
         Transaction transaction = new Transaction(transactionDTO);
         return new TransactionDTO(transfer(transaction));
     }
 
     @Override
-    public TransactionDTO directDebit(LoginDTO loginDTO, TransactionDTO transactionDTO) throws UserService.LoginException, TransactionException {
-        return null;
+    public TransactionDTO directDebit(LoginDTO loginDTO, TransactionDTO transactionDTO) throws LoginException, TransactionException {
+        userService.loginUser(loginDTO);
+        Transaction transaction = new Transaction(transactionDTO);
+        return new TransactionDTO(transfer(transaction));
     }
 
     @Transactional(Transactional.TxType.SUPPORTS)
     public Transaction transfer(Transaction transaction) throws InvalidInputException {
-        try {
-            logger.info("transfer :: Check Transaction data");
-            validateTransactionInput(transaction);
-            logger.info("transfer :: Save transaction");
-            em.persist(transaction);
-            logger.info("transfer :: Successfully saved transaction!");
-            return transaction;
-        } catch(Exception e) {
-            logger.info(e.getMessage());
-            throw e;
-        }
+        logger.info("transfer :: Check Transaction data");
+        validateTransactionInput(transaction);
+        logger.info("transfer :: Save transaction");
+        em.persist(transaction);
+        logger.info("transfer :: Successfully saved transaction!");
+        return transaction;
     }
 
     @Transactional(Transactional.TxType.SUPPORTS)
@@ -76,16 +114,19 @@ public class TransactionService implements TransactionServiceIF{
         }
     }
 
+    public boolean checkIbanAndBic(String iban, String bic) {
+        BankAccount bankAccount = bankAccountService.getBankAccountByIban(iban);
+        if (bankAccount != null) {
+            if (bankAccount.getBankInstitute().getBic().equals(bic)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public static class InvalidInputException extends TransactionException {
         public InvalidInputException(String message, Throwable cause) {
             super(message, cause);
         }
     }
-
-    public static class TransactionException extends Exception {
-        public TransactionException(String message, Throwable cause) {
-            super(message, cause);
-        }
-    }
-
 }

@@ -9,6 +9,7 @@ import javax.inject.Inject;
 
 import entity.User;
 import entity.Address;
+import entity.enums.UserType;
 import org.apache.log4j.Logger;
 
 @Startup
@@ -27,15 +28,15 @@ public class InitService {
         logger.info("initService :: PostConstruct!");
         try {
             Address address = new Address("Marktplatz 35", "92249", "Vilseck", "Germany");
-            User newUser = new User("Florian", "Prechtl", "testID", User.UserType.CONSULTANT, "testPW", address);
+            User newUser = new User("Florian", "Prechtl", "testID", UserType.CONSULTANT, "testPW", address);
             userService.registerUser(newUser);
 
             address = new Address("Marktplatz 35", "92249", "Vilseck", "Germany");
-            newUser = new User("Florian", "Prechtl", "testID2", User.UserType.CUSTOMER, "testPW", address);
+            newUser = new User("Florian", "Prechtl", "testID2", UserType.CUSTOMER, "testPW", address);
             userService.registerUser(newUser);
 
             address = new Address("Marktplatz 35", "92249", "Vilseck", "Germany");
-            newUser = new User("Florian", "Prechtl", "testID3", User.UserType.ADMIN, "testPW", address);
+            newUser = new User("Florian", "Prechtl", "testID3", UserType.ADMIN, "testPW", address);
             userService.registerUser(newUser);
         } catch (Exception e) {
             logger.error(e.getMessage());

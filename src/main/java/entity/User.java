@@ -1,5 +1,6 @@
 package entity;
 
+import entity.enums.UserType;
 import entity.util.EntityUtils;
 import entity.util.GeneratedIdEntity;
 
@@ -9,12 +10,6 @@ import java.util.Objects;
 
 @Entity
 public class User extends GeneratedIdEntity implements Serializable {
-
-    public enum UserType {
-        ADMIN,
-        CUSTOMER,
-        CONSULTANT
-    }
 
     private String firstname;
     private String lastname;

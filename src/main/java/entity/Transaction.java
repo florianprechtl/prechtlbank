@@ -1,32 +1,18 @@
 package entity;
 
 import entity.dto.TransactionDTO;
+import entity.enums.Duration;
+import entity.enums.TransactionStatus;
+import entity.enums.TransactionType;
 import entity.util.GeneratedIdEntity;
 
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.ManyToOne;
 import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
 public class Transaction extends GeneratedIdEntity implements Serializable {
-    public enum TransactionStatus {
-        NEW,
-        PENDING,
-        DONE,
-    }
-    public enum TransactionType {
-        TRANSFER,
-        DIRECT_DEBIT
-    }
-    public enum Duration {
-        ONCE,
-        DAILY,
-        WEEKLY,
-        MONTHLY,
-        ANNUALLY,
-    }
+
     private String payeeIban;
     private String payerIban;
     private double amount;

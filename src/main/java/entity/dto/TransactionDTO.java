@@ -1,6 +1,9 @@
 package entity.dto;
 
 import entity.Transaction;
+import entity.enums.Duration;
+import entity.enums.TransactionStatus;
+import entity.enums.TransactionType;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -14,10 +17,10 @@ public class TransactionDTO {
     private double amount;
     private String payeeBic;
     private String payerBic;
-    private Transaction.TransactionStatus transactionStatus;
-    private Transaction.TransactionType transactionType;
+    private TransactionStatus transactionStatus;
+    private TransactionType transactionType;
     private String reasonOfUsage;
-    private Transaction.Duration duration;
+    private Duration duration;
 
     public TransactionDTO() {
 
@@ -30,8 +33,8 @@ public class TransactionDTO {
     }
 
     public TransactionDTO(String payeeIban, String payerIban, double amount, String payeeBic, String payerBic,
-                          Transaction.TransactionStatus transactionStatus, Transaction.TransactionType transactionType,
-                          String reasonOfUsage, Transaction.Duration duration) {
+                          TransactionStatus transactionStatus, TransactionType transactionType,
+                          String reasonOfUsage, Duration duration) {
         this.payeeIban = payeeIban;
         this.payerIban = payerIban;
         this.amount = amount;
@@ -83,19 +86,19 @@ public class TransactionDTO {
         this.payerBic = payerBic;
     }
 
-    public Transaction.TransactionStatus getTransactionStatus() {
+    public TransactionStatus getTransactionStatus() {
         return transactionStatus;
     }
 
-    public void setTransactionStatus(Transaction.TransactionStatus transactionStatus) {
+    public void setTransactionStatus(TransactionStatus transactionStatus) {
         this.transactionStatus = transactionStatus;
     }
 
-    public Transaction.TransactionType getTransactionType() {
+    public TransactionType getTransactionType() {
         return transactionType;
     }
 
-    public void setTransactionType(Transaction.TransactionType transactionType) {
+    public void setTransactionType(TransactionType transactionType) {
         this.transactionType = transactionType;
     }
 
@@ -107,11 +110,11 @@ public class TransactionDTO {
         this.reasonOfUsage = reasonOfUsage;
     }
 
-    public Transaction.Duration getDuration() {
+    public Duration getDuration() {
         return duration;
     }
 
-    public void setDuration(Transaction.Duration duration) {
+    public void setDuration(Duration duration) {
         this.duration = duration;
     }
 }
