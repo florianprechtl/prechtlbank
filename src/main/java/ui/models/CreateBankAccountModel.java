@@ -2,6 +2,7 @@ package ui.models;
 
 import entity.BankAccount;
 import entity.BankInstitute;
+import entity.enums.BankAccountStatus;
 import service.BankAccountService;
 import service.BankInstituteService;
 
@@ -36,7 +37,7 @@ public class CreateBankAccountModel implements Serializable {
             BankInstitute bankInstitute = new BankInstitute("Regensburg PB", "RGB1FSZ7");
             bankInstituteService.createBankInstitute(bankInstitute);
             String iban = generateIBAN();
-            BankAccount bankAccount = new BankAccount(iban, BankAccount.AccountStatus.NEW, bankInstitute, loginUserModel.getUser());
+            BankAccount bankAccount = new BankAccount(iban, BankAccountStatus.NEW, bankInstitute, loginUserModel.getUser());
             bankAccountService.createBankAccount(bankAccount);
         } catch(Exception e) {
             String error = "Fehler beim Erstellen des Bankaccounts:" + e.getMessage() + "";

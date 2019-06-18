@@ -2,6 +2,7 @@ package ui.models;
 
 import entity.User;
 import entity.dto.LoginDTO;
+import entity.enums.UserType;
 import service.UserService;
 
 import javax.enterprise.context.SessionScoped;
@@ -74,21 +75,21 @@ public class LoginUserModel implements Serializable {
         if (this.user == null || this.user.getUserType() == null) {
             return false;
         }
-        return this.user.getUserType().equals(User.UserType.CONSULTANT);
+        return this.user.getUserType().equals(UserType.CONSULTANT);
     }
 
     public Boolean isAdmin() {
         if (this.user == null || this.user.getUserType() == null) {
             return false;
         }
-        return this.user.getUserType().equals(User.UserType.ADMIN);
+        return this.user.getUserType().equals(UserType.ADMIN);
     }
 
     public Boolean isCustomer() {
         if (this.user == null || this.user.getUserType() == null) {
             return false;
         }
-        return this.user.getUserType().equals(User.UserType.CUSTOMER);
+        return this.user.getUserType().equals(UserType.CUSTOMER);
     }
 
     public String getLoginId() {

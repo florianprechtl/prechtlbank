@@ -2,6 +2,7 @@ package ui.models;
 
 import entity.Address;
 import entity.User;
+import entity.enums.UserType;
 import entity.util.EntityUtils;
 import service.UserService;
 
@@ -40,7 +41,7 @@ public class RegisterUserModel {
             // Create random loginId
             String loginId = firstname.substring(0,1).toUpperCase() + lastname.substring(0,2).toUpperCase() + EntityUtils.createRandomString(2);
             Address address = new Address(street, zip, city, country);
-            User user = new User(firstname, lastname, loginId, User.UserType.CUSTOMER, password, address);
+            User user = new User(firstname, lastname, loginId, UserType.CUSTOMER, password, address);
             userService.registerUser(user);
             loginUserModel.setLoginId(loginId);
             loginUserModel.setPassword(password);
