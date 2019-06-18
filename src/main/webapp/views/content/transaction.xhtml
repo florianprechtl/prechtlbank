@@ -14,16 +14,17 @@
         <f:view>
             <h1>Transaktion</h1>
             <b:form>
-                    <b:selectOneMenu update="@form" value="#{transactionModel.selectedBankAccount}" >
-                        <f:selectItem itemLabel="(Please select bank account)" itemValue="#{null}" />
-                        <f:selectItems value="#{transactionModel.allBankAccounts}" var="c" itemValue="#{c}" itemLabel="#{c.iban}"/>
-                    </b:selectOneMenu>
+                <b:selectOneMenu update="@form" value="#{transactionModel.selectedBankAccount}" >
+                    <f:selectItem itemLabel="(Please select bank account)" itemValue="#{null}" />
+                    <f:selectItems value="#{transactionModel.allBankAccounts}" var="c" itemValue="#{c}" itemLabel="#{c.iban}"/>
+                </b:selectOneMenu>
                     <b:inputText placeholder="Empfänger" label="Empfänger" value="#{transactionModel.receiver}" />
                     <b:inputText placeholder="BIC" label="BIC" value="#{transactionModel.bic}"/>
-                    <b:inputText placeholder="IBAN" label="IBAN" value="#{transactionModel.iban}"/>
+                    <b:inputText placeholder="IBAN" label="IBAN" value="#{transactionModel.iban}" id="payee_iban"/>
                     <b:inputText placeholder="Verwendungszweck" label="Verwendungszweck" value="#{transactionModel.reasonOfUsage}"/>
                     <b:inputText placeholder="Betrag" label="Betrag" value="#{transactionModel.amount}"/>
-                    <b:commandButton look="success" value="Überweisung tätigen" colMd="12" action="#{transactionModel.makeTransaction}"/>
+                    <b:commandButton look="success" value="Überweisung tätigen" colMd="12"
+                                     action="#{transactionModel.makeTransaction}"/>
             </b:form>
         </f:view>
     </ui:define>

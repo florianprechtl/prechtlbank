@@ -58,11 +58,10 @@ public class TransactionModel {
                     Duration.ONCE);
             transactionService.transfer(transaction);
         } catch(Exception e) {
-            logger.info(e.getMessage());
-            String message = "Überweisung fehlgeschlagen!: " + e.getMessage();
+            String message = "Überweisung fehlgeschlagen!: " + (e.getMessage() != null ? e.getMessage() : "Nicht alle Felder ausgefüllt!");
             FacesContext context = FacesContext.getCurrentInstance();
             context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, message, message));
-            return "bank-accounts";
+            return "transaction";
         }
         String message = "Überweisung geklappt!";
         FacesContext context = FacesContext.getCurrentInstance();
@@ -87,6 +86,14 @@ public class TransactionModel {
             allBankAccounts = bankAccountService.getBankAccountsOfUser(loginUserModel.getUser().getId());
         }
         return allBankAccounts;
+    }
+
+    public void setBicByIban() {
+        BankAccount bankAccount = bankAccountService.getBankAccountByIban(iban);
+        if (bankAccount == null) {
+            return;
+        }
+        setBic(bankAccount.getBankInstitute().getBic());
     }
 
     public void setAllBankAccounts(List<BankAccount> allBankAccounts) {

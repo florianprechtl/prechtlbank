@@ -41,7 +41,7 @@ public class TransactionService implements TransactionServiceIF{
         if (transaction.getPayeeIban() == null)
             throw new InvalidInputException("Invalid Payee IBAN.", null);
 
-        if (checkIbanAndBic(transaction.getPayeeIban(), transaction.getPayeeBic()))
+        if (!checkIbanAndBic(transaction.getPayeeIban(), transaction.getPayeeBic()))
             throw new InvalidInputException("Could not find payee account with specified iban and bic", null);
 
         if (transaction.getPayerBic() == null)
@@ -73,6 +73,7 @@ public class TransactionService implements TransactionServiceIF{
 
         if (transaction.getDuration() == null)
             throw new InvalidInputException("Invalid duration.", null);
+        logger.info("Logger :: nix");
     }
 
     @Transactional(Transactional.TxType.REQUIRED)
@@ -116,7 +117,7 @@ public class TransactionService implements TransactionServiceIF{
 
     public boolean checkIbanAndBic(String iban, String bic) {
         BankAccount bankAccount = bankAccountService.getBankAccountByIban(iban);
-        if (bankAccount != null) {
+        if (bankAccount != null && iban != null && bic!= null) {
             if (bankAccount.getBankInstitute().getBic().equals(bic)) {
                 return true;
             }
