@@ -15,7 +15,7 @@ import java.util.Iterator;
 import java.util.List;
 
 @RequestScoped
-public class TransactionService {
+public class TransactionService implements TransactionServiceIF{
 
     @Inject
     UserService userService;
@@ -35,20 +35,26 @@ public class TransactionService {
     }
 
     @Transactional(Transactional.TxType.REQUIRED)
-    public void transfer(LoginDTO loginDTO, TransactionDTO transactionDTO) throws UserService.InvalidCredentialsException, InvalidInputException {
+    public TransactionDTO transfer(LoginDTO loginDTO, TransactionDTO transactionDTO) throws UserService.LoginException, TransactionException {
         userService.loginUser(loginDTO);
         Transaction transaction = new Transaction(transactionDTO);
-        transfer(transaction);
+        return new TransactionDTO(transfer(transaction));
+    }
+
+    @Override
+    public TransactionDTO directDebit(LoginDTO loginDTO, TransactionDTO transactionDTO) throws UserService.LoginException, TransactionException {
+        return null;
     }
 
     @Transactional(Transactional.TxType.SUPPORTS)
-    public void transfer(Transaction transaction) throws InvalidInputException {
+    public Transaction transfer(Transaction transaction) throws InvalidInputException {
         try {
             logger.info("transfer :: Check Transaction data");
             validateTransactionInput(transaction);
             logger.info("transfer :: Save transaction");
             em.persist(transaction);
             logger.info("transfer :: Successfully saved transaction!");
+            return transaction;
         } catch(Exception e) {
             logger.info(e.getMessage());
             throw e;
@@ -70,8 +76,14 @@ public class TransactionService {
         }
     }
 
-    public static class InvalidInputException extends Exception {
+    public static class InvalidInputException extends TransactionException {
         public InvalidInputException(String message, Throwable cause) {
+            super(message, cause);
+        }
+    }
+
+    public static class TransactionException extends Exception {
+        public TransactionException(String message, Throwable cause) {
             super(message, cause);
         }
     }

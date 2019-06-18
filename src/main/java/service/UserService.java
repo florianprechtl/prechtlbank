@@ -113,20 +113,26 @@ public class UserService {
         }
     }
 
-    public static class InvalidInputException extends Exception {
+    public static class InvalidInputException extends LoginException {
         public InvalidInputException(String message, Throwable cause) {
             super(message, cause);
         }
     }
 
-    public static class DuplicateUserException extends Exception {
+    public static class DuplicateUserException extends LoginException {
         public DuplicateUserException(String message, Throwable cause) {
             super(message, cause);
         }
     }
 
-    public static class InvalidCredentialsException extends Exception {
+    public static class InvalidCredentialsException extends LoginException {
         public InvalidCredentialsException(String message, Throwable cause) {
+            super(message, cause);
+        }
+    }
+
+    public static class LoginException extends Exception {
+        public LoginException(String message, Throwable cause) {
             super(message, cause);
         }
     }
