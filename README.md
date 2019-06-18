@@ -1,3 +1,3 @@
 # prechtlbank
 
-# test intelliJ VCS
+SW Project with JavaEE, Maven, JSF
