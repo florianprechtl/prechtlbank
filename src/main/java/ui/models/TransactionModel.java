@@ -2,6 +2,9 @@ package ui.models;
 
 import entity.BankAccount;
 import entity.Transaction;
+import entity.enums.Duration;
+import entity.enums.TransactionStatus;
+import entity.enums.TransactionType;
 import org.apache.log4j.Logger;
 import service.BankAccountService;
 import service.TransactionService;
@@ -51,8 +54,8 @@ public class TransactionModel {
             String payeeBic = bic;
             String payerBic = selectedBankAccount.getBankInstitute().getBic();
             Transaction transaction = new Transaction(payeeIban, payerIban, amount, payeeBic, payerBic,
-                    Transaction.TransactionStatus.NEW, Transaction.TransactionType.TRANSFER, reasonOfUsage,
-                    Transaction.Duration.ONCE);
+                    TransactionStatus.NEW, TransactionType.TRANSFER, reasonOfUsage,
+                    Duration.ONCE);
             transactionService.transfer(transaction);
         } catch(Exception e) {
             logger.info(e.getMessage());
