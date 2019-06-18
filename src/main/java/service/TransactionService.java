@@ -4,6 +4,9 @@ import entity.BankAccount;
 import entity.Transaction;
 import entity.dto.LoginDTO;
 import entity.dto.TransactionDTO;
+import entity.enums.Duration;
+import entity.enums.TransactionStatus;
+import entity.enums.TransactionType;
 import org.apache.log4j.Logger;
 import service.Exceptions.LoginException;
 import service.Exceptions.TransactionException;
@@ -80,6 +83,23 @@ public class TransactionService implements TransactionServiceIF{
     public TransactionDTO transfer(LoginDTO loginDTO, TransactionDTO transactionDTO) throws LoginException, TransactionException {
         userService.loginUser(loginDTO);
         Transaction transaction = new Transaction(transactionDTO);
+        return new TransactionDTO(transfer(transaction));
+    }
+
+    @Transactional(Transactional.TxType.REQUIRED)
+    public TransactionDTO giveMoneyToIban(Double amount, String iban) throws LoginException, TransactionException {
+        BankAccount bankAccount = bankAccountService.getBankAccountByIban(iban);
+        Transaction transaction = new Transaction();
+        transaction.setAmount(amount);
+        transaction.setPayerBic("BANK");
+        transaction.setPayerIban("BANK");
+        transaction.setPayeeBic(bankAccount.getBankInstitute().getBic());
+        transaction.setPayeeIban(bankAccount.getIban());
+        transaction.setTransactionStatus(TransactionStatus.DONE);
+        transaction.setTransactionType(TransactionType.TRANSFER);
+        transaction.setDuration((Duration.ONCE));
+        transaction.setReasonOfUsage("BANK");
+        em.persist(transaction);
         return new TransactionDTO(transfer(transaction));
     }
 
