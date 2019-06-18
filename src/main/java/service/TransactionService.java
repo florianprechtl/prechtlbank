@@ -126,6 +126,11 @@ public class TransactionService implements TransactionServiceIF{
         return transactions;
     }
 
+    @Transactional(Transactional.TxType.SUPPORTS)
+    public List<Transaction> getAllTransactionsByIban(String iban) {
+        List<Transaction> transactions =  em.createQuery("SELECT u FROM Transaction AS u WHERE payeeIban = ?1 OR payerIban = ?1", Transaction.class).setParameter(1, iban).getResultList();
+        return transactions;
+    }
     public void logAllTransactions() {
         List<Transaction> transactions = getAllTransactions();
         Iterator<Transaction> iterator = transactions.iterator();

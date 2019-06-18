@@ -17,25 +17,25 @@
     <ui:define name="content">
         <f:view>
             <h1>Accounts</h1>
-            <b:formGroup>
-                <b:selectOneMenu value="#{bankAccountsModel.selectedBankAccount}" offset="2" colMd="8">
+            <b:form id="form">
+                <b:selectOneMenu update="table"
+                                 value="#{bankAccountsModel.selectedBankAccount}" offset="2" colMd="8">
                     <f:selectItem itemLabel="(Please select bank account)" itemValue="#{null}" />
                     <f:selectItems value="#{bankAccountsModel.allBankAccounts}" var="c" itemValue="#{c}" itemLabel="#{c.iban}"/>
                 </b:selectOneMenu>
-                <h:form>
-                    <h:panelGroup>
-                        <b:dataTable
-                                value="#{bankAccountsModel.getTransactions()}"
-                                var="transaction" row-style-class="#{transaction.getTransactionAmount(transaction)?'payee-column':'payer-column'}"
-                                searching="false"
-                                paginated="false">
-                            <b:dataTableColumn value="#{transaction.date}" label="Datum" />
-                            <b:dataTableColumn value="#{bankAccountsModel.getTransactionPartner(transaction)}" label="Transaktionsparner"/>
-                            <b:dataTableColumn value="#{bankAccountsModel.getTransactionAmount(transaction)}" label="Betrag"/>
-                        </b:dataTable>
-                    </h:panelGroup>
-                    </h:form>
-            </b:formGroup>
+
+                <b:dataTable
+                        value="#{bankAccountsModel.transactions}"
+                        var="transaction"
+                        id="table"
+                        searching="false"
+                        paginated="false">
+                    <b:dataTableColumn value="#{transaction.id}" label="Datum" />
+                    <b:dataTableColumn value="#{transaction.id}" label="Transaktionsparner"/>
+                    <b:dataTableColumn value="#{transaction.id}" label="Betrag"/>
+                </b:dataTable>
+            </b:form>
+
         </f:view>
     </ui:define>
 </ui:composition>

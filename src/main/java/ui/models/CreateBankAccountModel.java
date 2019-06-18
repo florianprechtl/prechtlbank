@@ -5,6 +5,7 @@ import entity.BankInstitute;
 import entity.enums.BankAccountStatus;
 import service.BankAccountService;
 import service.BankInstituteService;
+import service.TransactionService;
 
 import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
@@ -25,6 +26,9 @@ public class CreateBankAccountModel implements Serializable {
     private BankAccountService bankAccountService;
 
     @Inject
+    private TransactionService transactionService;
+
+    @Inject
     private BankInstituteService bankInstituteService;
 
     private String selectedSteamonKey;
@@ -39,6 +43,8 @@ public class CreateBankAccountModel implements Serializable {
             String iban = generateIBAN();
             BankAccount bankAccount = new BankAccount(iban, BankAccountStatus.NEW, bankInstitute, loginUserModel.getUser());
             bankAccountService.createBankAccount(bankAccount);
+            // Give initial money
+            transactionService.giveMoneyToIban(1000.00, bankAccount.getIban());
         } catch(Exception e) {
             String error = "Fehler beim Erstellen des Bankaccounts:" + e.getMessage() + "";
             FacesContext context = FacesContext.getCurrentInstance();

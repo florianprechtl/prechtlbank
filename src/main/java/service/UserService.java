@@ -71,6 +71,31 @@ public class UserService {
     }
 
     @Transactional(Transactional.TxType.REQUIRED)
+    public User updateUser(User user) throws InvalidInputException {
+        logger.info("updateUser :: Validate user input");
+        validateUserInput(user);
+
+        em.merge(user);
+        logger.info("updateUser :: User successfully updated");
+
+        return user;
+    }
+
+    @Transactional(Transactional.TxType.REQUIRED)
+    public void deleteUser(String loginId) {
+        logger.info("deleteUser :: check loginId");
+        User user = getUserByLoginId(loginId);
+
+        logger.info("deleteUser :: delete dependencies");
+        // TODO: Delete Dependencies
+
+        logger.info("deleteUser :: delete user");
+        em.remove(user);
+
+        logger.info("deleteUser :: user successfully deleted");
+    }
+
+    @Transactional(Transactional.TxType.REQUIRED)
     public User loginUser(LoginDTO loginData) throws InvalidCredentialsException {
         logger.info("loginUser :: Check Login DTO data");
         if(loginData == null || loginData.getLoginId() == null || loginData.getPassword() == null)
