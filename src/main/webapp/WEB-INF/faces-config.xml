@@ -6,7 +6,7 @@
 
     <navigation-rule>
         <description>Navigation rules for PrechtlBank</description>
-        <from-view-id>/views/*</from-view-id>
+        <from-view-id>/views/content/*</from-view-id>
 
         <navigation-case>
             <from-outcome>index</from-outcome>
