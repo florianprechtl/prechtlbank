@@ -27,9 +27,6 @@ public class TransactionService implements TransactionServiceIF{
     UserService userService;
 
     @Inject
-    LoginUserModel loginUserModel;
-
-    @Inject
     BankAccountService bankAccountService;
 
     @PersistenceContext

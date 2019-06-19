@@ -23,10 +23,13 @@ public class BankInstituteService {
     private transient Logger logger;
 
     private void validateBankInstitutionInput(BankInstitute bankInstitute) throws InvalidInputException {
-        if(bankInstitute == null || bankInstitute.getBic() == null)
+        if (bankInstitute == null)
+            throw new InvalidInputException("BankInstitute is null.", null);
+
+        if (bankInstitute.getBic() == null)
             throw new InvalidInputException("The bic is invalid.", null);
 
-        if(bankInstitute == null || bankInstitute.getName() == null)
+        if (bankInstitute.getName() == null)
             throw new InvalidInputException("The name is invalid.", null);
     }
 

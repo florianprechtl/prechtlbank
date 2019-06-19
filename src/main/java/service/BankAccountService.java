@@ -24,10 +24,13 @@ public class BankAccountService {
 
 
     private void validateBankAccountInput(BankAccount bankAccount) throws InvalidInputException {
-        if(bankAccount == null || bankAccount.getAccountStatus() == null)
+        if (bankAccount == null)
+            throw new InvalidInputException("BankAccount is null.", null);
+
+        if (bankAccount.getAccountStatus() == null)
             throw new InvalidInputException("The Account status is invalid.", null);
 
-        if(bankAccount == null || bankAccount.getBankInstitute() == null)
+        if (bankAccount.getBankInstitute() == null)
             throw new InvalidInputException("The Banking institute is invalid.", null);
     }
 
