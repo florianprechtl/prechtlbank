@@ -43,8 +43,7 @@ public class BankAccountsModel implements Serializable {
             navigationHandler.handleNavigation(context, null, "index.html?faces-redirect=true");
         } else {
             allBankAccounts = bankAccountService.getBankAccountsOfUser(loginUserModel.getUser().getId());
-            selectedBankAccount = allBankAccounts.get(0);
-            initiateTransactions();
+            selectedBankAccount = null;
         }
     }
 
@@ -58,13 +57,11 @@ public class BankAccountsModel implements Serializable {
     }
 
     public int getTransactionAmount(Transaction transaction) {
-        // TODO:
         return 0;
     }
 
     public void setSelectedBankAccount(BankAccount selectedBankAccount) {
         this.selectedBankAccount = selectedBankAccount;
-        initiateTransactions();
     }
 
     public BankAccount getSelectedBankAccount() {
@@ -87,14 +84,10 @@ public class BankAccountsModel implements Serializable {
     }
 
     public List<Transaction> getTransactions(List<Transaction> transactions) {
-        return transactions;
-    }
-
-    public void initiateTransactions() {
         if (selectedBankAccount != null) {
-            setTransactions(transactionService.getAllTransactionsByIban(selectedBankAccount.getIban()));
-//            logger.info(transactions);
+            return transactionService.getAllTransactionsByIban(selectedBankAccount.getIban());
         }
+        return null;
     }
 
     public void onBankAccountChange() {

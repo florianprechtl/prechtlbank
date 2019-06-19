@@ -18,7 +18,7 @@ public class User extends GeneratedIdEntity implements Serializable {
     private String loginId;
     private String password;
 
-    private Address address;
+    private Address address = new Address();
 
     public User() {
     }

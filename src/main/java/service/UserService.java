@@ -82,13 +82,12 @@ public class UserService {
     }
 
     @Transactional(Transactional.TxType.REQUIRED)
-    public void deleteUser(String loginId) {
+    public void deleteUserById(Long id) {
         logger.info("deleteUser :: check loginId");
-        User user = getUserByLoginId(loginId);
+        User user = getUserById(id);
 
         logger.info("deleteUser :: delete dependencies");
         // TODO: Delete Dependencies
-
         logger.info("deleteUser :: delete user");
         em.remove(user);
 
@@ -116,6 +115,18 @@ public class UserService {
     public User getUserByLoginId(String loginId) {
         Query query = em.createQuery("SELECT u FROM User AS u WHERE u.loginId = ?1", User.class);
         query.setParameter(1, loginId);
+        try {
+            return (User)query.getSingleResult();
+        }
+        catch(Exception e) {
+        }
+        return null;
+    }
+
+    @Transactional(Transactional.TxType.SUPPORTS)
+    public User getUserById(Long id) {
+        Query query = em.createQuery("SELECT u FROM User AS u WHERE u.id = ?1", User.class);
+        query.setParameter(1, id);
         try {
             return (User)query.getSingleResult();
         }
