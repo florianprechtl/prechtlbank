@@ -10,6 +10,7 @@ import entity.enums.TransactionType;
 import org.apache.log4j.Logger;
 import service.Exceptions.LoginException;
 import service.Exceptions.TransactionException;
+import ui.models.LoginUserModel;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
@@ -24,6 +25,9 @@ public class TransactionService implements TransactionServiceIF{
 
     @Inject
     UserService userService;
+
+    @Inject
+    LoginUserModel loginUserModel;
 
     @Inject
     BankAccountService bankAccountService;
@@ -100,7 +104,7 @@ public class TransactionService implements TransactionServiceIF{
         transaction.setDuration((Duration.ONCE));
         transaction.setReasonOfUsage("BANK");
         em.persist(transaction);
-        return new TransactionDTO(transfer(transaction));
+        return new TransactionDTO(transaction);
     }
 
     @Override

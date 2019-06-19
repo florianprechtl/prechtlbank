@@ -1,6 +1,7 @@
 package service;
 
 import entity.BankInstitute;
+import entity.Transaction;
 import org.apache.log4j.Logger;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -21,32 +22,54 @@ public class BankInstituteService {
     @Inject
     private transient Logger logger;
 
-    @Transactional(Transactional.TxType.REQUIRED)
-    public void createBankInstitute(BankInstitute bankInstitute) {
-        em.persist(bankInstitute);
+    private void validateBankInstitutionInput(BankInstitute bankInstitute) throws InvalidInputException {
+        if(bankInstitute == null || bankInstitute.getBic() == null)
+            throw new InvalidInputException("The bic is invalid.", null);
+
+        if(bankInstitute == null || bankInstitute.getName() == null)
+            throw new InvalidInputException("The name is invalid.", null);
     }
 
     @Transactional(Transactional.TxType.REQUIRED)
-    public void deleteBankInstituteByBic(String bic) {
-        BankInstitute bankInstitute = getBankInstituteByBic(bic);
-        em.remove(bankInstitute);
+    public BankInstitute createBankInstitute(BankInstitute bankInstitute)  throws InvalidInputException {
+        logger.info("createBankInstitute :: Check bankInstitute data");
+        validateBankInstitutionInput(bankInstitute);
+        logger.info("createBankInstitute :: Create bankInstitute");
+        em.persist(bankInstitute);
+        logger.info("createBankInstitute :: Successfully created bankInstitute!");
+        return bankInstitute;
     }
 
     @Transactional(Transactional.TxType.SUPPORTS)
-    public BankInstitute getBankInstituteByBic(String bic) {
-        Query query = em.createQuery("SELECT u FROM BankInstitute AS u WHERE u.bic = ?1", BankInstitute.class);
-        query.setParameter(1, bic);
-        try {
-            return (BankInstitute) query.getSingleResult();
-        }
-        catch(Exception e) {
-        }
-        return null;
+    public BankInstitute updateBankInstitute(BankInstitute bankInstitute) throws InvalidInputException {
+        logger.info("updateBankInstitute :: Check bankInstitute data");
+        validateBankInstitutionInput(bankInstitute);
+        logger.info("updateBankInstitute :: Update bankInstitute");
+        em.merge(bankInstitute);
+        logger.info("updateBankInstitute :: Successfully updated bankInstitute!");
+        return bankInstitute;
+    }
+
+    @Transactional(Transactional.TxType.SUPPORTS)
+    public void deleteBankInstituteById(Long id) {
+        BankInstitute bankInstitute = getBankInstituteById(id);
+        logger.info("deleteBankInstitute :: Delete bankInstitute");
+        em.remove(bankInstitute);
+        logger.info("deleteBankInstitute :: BankInstitute successfully deleted");
+    }
+
+    @Transactional(Transactional.TxType.SUPPORTS)
+    public BankInstitute getBankInstituteById(Long id) {
+        BankInstitute bankInstitute =  em.createQuery("SELECT u FROM BankInstitute AS u WHERE id = ?1 OR id = ?1", BankInstitute.class)
+                .setParameter(1, id)
+                .getSingleResult();
+        return bankInstitute;
     }
 
     @Transactional(Transactional.TxType.SUPPORTS)
     public List<BankInstitute> getAllBankInstitutes() {
-        List<BankInstitute> bankInstitutes =  em.createQuery("SELECT u FROM BankInstitute AS u", BankInstitute.class).getResultList();
+        List<BankInstitute> bankInstitutes =  em.createQuery("SELECT u FROM BankInstitute AS u", BankInstitute.class)
+                .getResultList();
         return bankInstitutes;
     }
 
@@ -56,6 +79,12 @@ public class BankInstituteService {
         while(iterator.hasNext()) {
             BankInstitute bankInstitute = iterator.next();
             logger.info("logAllBankInstitutes :: " + bankInstitute.getName() + "   " + bankInstitute.getBic());
+        }
+    }
+
+    public static class InvalidInputException extends Exception {
+        public InvalidInputException(String message, Throwable cause) {
+            super(message, cause);
         }
     }
 }

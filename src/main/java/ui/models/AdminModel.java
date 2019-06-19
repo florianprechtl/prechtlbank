@@ -1,9 +1,7 @@
 package ui.models;
 
 import entity.*;
-import entity.enums.Duration;
-import entity.enums.TransactionStatus;
-import entity.enums.TransactionType;
+import entity.enums.*;
 import org.apache.log4j.Logger;
 import service.BankAccountService;
 import service.BankInstituteService;
@@ -137,14 +135,90 @@ public class AdminModel implements Serializable {
         }
     }
 
-    public List<User> getAllUsers() {
-        return userService.getAllUsers();
+    @Transactional(Transactional.TxType.REQUIRES_NEW)
+    public void doUpsertBankAccount() {
+        tabViewIndex = 2;
+        BankAccount bankAccount = bankAccountService.getBankAccountById(tmpBankAccount.getId());
+        try {
+            if (bankAccount != null) {
+                bankAccountService.updateBankAccount(tmpBankAccount);
+            } else {
+                bankAccountService.createBankAccount(tmpBankAccount);
+            }
+        } catch (Exception e) {
+            String error = "Failed to update/insert bankAccount: " + e.getMessage();
+            FacesContext context = FacesContext.getCurrentInstance();
+            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, error, error));
+        }
+
+        tmpUser = new User();
+    }
+
+    @Transactional(Transactional.TxType.REQUIRES_NEW)
+    public void doDeleteBankAccount(BankAccount bankAccount) {
+        tabViewIndex = 2;
+
+        try {
+            bankAccountService.deleteBankAccountById(bankAccount.getId());
+        } catch(Exception e) {
+            String error = "Failed to delete bankAccount" + e.getMessage();
+            FacesContext context = FacesContext.getCurrentInstance();
+            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, error, error));
+        }
+    }
+
+    @Transactional(Transactional.TxType.REQUIRES_NEW)
+    public void doUpsertBankInstitute() {
+        tabViewIndex = 3;
+        BankInstitute c = bankInstituteService.getBankInstituteById(tmpBankInstitute.getId());
+        try {
+            if (tmpBankInstitute != null) {
+                bankInstituteService.updateBankInstitute(tmpBankInstitute);
+            } else {
+                bankInstituteService.createBankInstitute(tmpBankInstitute);
+            }
+        } catch (Exception e) {
+            String error = "Failed to update/insert bankInstitute: " + e.getMessage();
+            FacesContext context = FacesContext.getCurrentInstance();
+            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, error, error));
+        }
+
+        tmpUser = new User();
+    }
+
+    @Transactional(Transactional.TxType.REQUIRES_NEW)
+    public void doDeleteBankInstitute(BankInstitute bankInstitute) {
+        tabViewIndex = 3;
+
+        try {
+            bankInstituteService.deleteBankInstituteById(bankInstitute.getId());
+        } catch(Exception e) {
+            String error = "Failed to delete bankAccount" + e.getMessage();
+            FacesContext context = FacesContext.getCurrentInstance();
+            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, error, error));
+        }
     }
 
     //////////////////////////////////////////////// GETTER & SETTER ///////////////////////////////////////////////////
 
+    public List<User> getAllUsers() {
+        return userService.getAllUsers();
+    }
+
     public List<Transaction> getAllTransactions() {
         return transactionService.getAllTransactions();
+    }
+
+    public List<BankAccount> getAllBankAccounts() {
+        return bankAccountService.getAllBankAccounts();
+    }
+
+    public List<BankInstitute> getAllBankInstitutes() {
+        return bankInstituteService.getAllBankInstitutes();
+    }
+
+    public BankAccountStatus[] getAllBankAccountStatuses() {
+        return BankAccountStatus.values();
     }
 
     public TransactionStatus[] getAllTransactionStatuses() {
@@ -157,6 +231,10 @@ public class AdminModel implements Serializable {
 
     public Duration[] getAllDurations() {
         return Duration.values();
+    }
+
+    public UserType[] getAllUserTypes() {
+        return UserType.values();
     }
 
     public int getTabViewIndex() {

@@ -23,25 +23,44 @@ public class BankAccountService {
     private transient Logger logger;
 
 
-    private void validateBankAccountInput(BankAccount bankAccount) throws InvalidBankAccountInputException {
+    private void validateBankAccountInput(BankAccount bankAccount) throws InvalidInputException {
         if(bankAccount == null || bankAccount.getAccountStatus() == null)
-            throw new BankAccountService.InvalidBankAccountInputException("The Account status is invalid.", null);
+            throw new InvalidInputException("The Account status is invalid.", null);
 
         if(bankAccount == null || bankAccount.getBankInstitute() == null)
-            throw new BankAccountService.InvalidBankAccountInputException("The Banking institute is invalid.", null);
+            throw new InvalidInputException("The Banking institute is invalid.", null);
     }
 
     @Transactional(Transactional.TxType.REQUIRED)
-    public void createBankAccount(BankAccount bankAccount) throws InvalidBankAccountInputException {
+    public void createBankAccount(BankAccount bankAccount) throws InvalidInputException {
         validateBankAccountInput(bankAccount);
         em.persist(bankAccount);
-        logger.info("jaj :: jaj");
     }
 
-    @Transactional(Transactional.TxType.REQUIRED)
-    public void deleteBankAccountByIban(String iban) {
-        BankAccount bankAccount = getBankAccountByIban(iban);
+    @Transactional(Transactional.TxType.SUPPORTS)
+    public BankAccount updateBankAccount(BankAccount bankAccount) throws InvalidInputException {
+        logger.info("updateBankAccount :: Check bankAccount data");
+        validateBankAccountInput(bankAccount);
+        logger.info("updateBankAccount :: Update bankAccount");
+        em.merge(bankAccount);
+        logger.info("updateBankAccount :: Successfully updated bankAccount!");
+        return bankAccount;
+    }
+
+    @Transactional(Transactional.TxType.SUPPORTS)
+    public void deleteBankAccountById(Long id) {
+        BankAccount bankAccount = getBankAccountById(id);
+        logger.info("deleteBankAccount :: Delete bankAccount");
         em.remove(bankAccount);
+        logger.info("deleteBankAccount :: BankAccount successfully deleted");
+    }
+
+    @Transactional(Transactional.TxType.SUPPORTS)
+    public BankAccount getBankAccountById(long id) {
+        BankAccount bankAccount =  em.createQuery("SELECT b FROM BankAccount AS b WHERE b.id = ?1", BankAccount.class)
+                .setParameter(1, id)
+                .getSingleResult();
+        return bankAccount;
     }
 
     @Transactional(Transactional.TxType.SUPPORTS)
@@ -79,8 +98,8 @@ public class BankAccountService {
         }
     }
 
-    public static class InvalidBankAccountInputException extends Exception {
-        public InvalidBankAccountInputException(String message, Throwable cause) {
+    public static class InvalidInputException extends Exception {
+        public InvalidInputException(String message, Throwable cause) {
             super(message, cause);
         }
     }

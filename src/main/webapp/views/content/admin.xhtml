@@ -114,16 +114,19 @@
 
                                     <h:outputText value="Transaction status: " class="padding2px margin2px"/>
                                     <b:selectOneMenu value="#{adminModel.tmpTransaction.transactionStatus}" class="margin2px">
+                                        <f:selectItem itemLabel="(No transaction status selected)" itemValue="#{null}" />
                                         <f:selectItems value="#{adminModel.allTransactionStatuses}"/>
                                     </b:selectOneMenu>
 
                                     <h:outputText value="Transaction type: " class="padding2px margin2px"/>
                                     <b:selectOneMenu value="#{adminModel.tmpTransaction.transactionType}" class="margin2px">
+                                        <f:selectItem itemLabel="(No transaction type selected)" itemValue="#{null}" />
                                         <f:selectItems value="#{adminModel.allTransactionTypes}"/>
                                     </b:selectOneMenu>
 
                                     <h:outputText value="Duration: " class="padding2px margin2px"/>
                                     <b:selectOneMenu value="#{adminModel.tmpTransaction.duration}" class="margin2px">
+                                        <f:selectItem itemLabel="(No duration selected)" itemValue="#{null}" />
                                         <f:selectItems value="#{adminModel.allDurations}"/>
                                     </b:selectOneMenu>
                                 </h:panelGrid>
@@ -134,6 +137,84 @@
                             </h:form>
                         </b:well>
                     </b:tab>
+
+                    // ----------------------------------------------------------------------------------------------------------------------------
+
+                    <b:tab title="Bank Account Management">
+                        <f:facet name="anchor"><b:iconAwesome value="bank"/></f:facet>
+                        <br/>
+
+                        <b:dataTable value="#{adminModel.allBankAccounts}" var="bankAccount" mark-search-results="true">
+
+                            <b:dataTableColumn value="#{bankAccount.id}" label="Id" order="asc" data-order="#{bankAccount.id}"/>
+                            <b:dataTableColumn value="#{bankAccount.user.loginId}" label="User"/>
+                            <b:dataTableColumn value="#{bankAccount.iban}" label="IBAN"/>
+                            <b:dataTableColumn value="#{bankAccount.bankInstitute.name}" label="Bank institute"/>
+                            <b:dataTableColumn value="#{bankAccount.accountStatus}" label="Account status"/>
+
+                            <b:dataTableColumn label="Action">
+                                <h:form>
+                                    <b:commandButton class="margin2px" value=" " icon="edit" ajax="true" update="@(.message-well)" onclick="ajax:adminModel.onBankAccountSelect(bankAccount)"/>
+                                    <b:commandButton class="margin2px" look="danger" value=" " icon="trash" action="#{adminModel.doDeleteBankAccount(bankAccount)}"/>
+                                </h:form>
+                            </b:dataTableColumn>
+                        </b:dataTable>
+                        <b:well styleClass="message-well" style="margin-top:10px">
+                            <h:form>
+                                <h:panelGrid columns="2" class="block top">
+                                    <h:outputText value="IBAN: " class="padding2px margin2px"/>
+                                    <b:inputText value="#{adminModel.tmpBankAccount.iban}" class="margin2px" style="width: 250px;"/>
+
+                                    <h:outputText value="Account status: " class="padding2px margin2px"/>
+                                    <b:selectOneMenu value="#{adminModel.tmpBankAccount.accountStatus}" class="margin2px">
+                                        <f:selectItem itemLabel="(No account status selected)" itemValue="#{null}" />
+                                        <f:selectItems value="#{adminModel.allBankAccountStatuses}"/>
+                                    </b:selectOneMenu>
+                                </h:panelGrid>
+
+                                <br/><br/>
+
+                                <b:commandButton class="margin2px" look="success" value="Create or update User" action="#{adminModel.doUpsertBankAccount()}"/>
+                            </h:form>
+                        </b:well>
+                    </b:tab>
+
+                    // ----------------------------------------------------------------------------------------------------------------------------
+
+                    <b:tab title="Bank Institution Management">
+                        <f:facet name="anchor"><b:iconAwesome value="bank"/></f:facet>
+                        <br/>
+
+                        <b:dataTable value="#{adminModel.allBankInstitutes}" var="bankInstitute" mark-search-results="true">
+
+                            <b:dataTableColumn value="#{bankInstitute.id}" label="Id" order="asc" data-order="#{bankInstitute.id}"/>
+                            <b:dataTableColumn value="#{bankInstitute.name}" label="Name"/>
+                            <b:dataTableColumn value="#{bankInstitute.bic}" label="BIC"/>
+
+                            <b:dataTableColumn label="Action">
+                                <h:form>
+                                    <b:commandButton class="margin2px" value=" " icon="edit" ajax="true" update="@(.message-well)" onclick="ajax:adminModel.onBankInstituteSelect(bankInstitute)"/>
+                                    <b:commandButton class="margin2px" look="danger" value=" " icon="trash" action="#{adminModel.doDeleteBankInstitute(bankInstitute)}"/>
+                                </h:form>
+                            </b:dataTableColumn>
+                        </b:dataTable>
+                        <b:well styleClass="message-well" style="margin-top:10px">
+                            <h:form>
+                                <h:panelGrid columns="2" class="block top">
+                                    <h:outputText value="BIC: " class="padding2px margin2px"/>
+                                    <b:inputText value="#{adminModel.tmpBankInstitute.bic}" class="margin2px" style="width: 250px;"/>
+
+                                    <h:outputText value="Name: " class="padding2px margin2px"/>
+                                    <b:inputText value="#{adminModel.tmpBankInstitute.name}" class="margin2px" style="width: 250px;"/>
+                                </h:panelGrid>
+
+                                <br/><br/>
+
+                                <b:commandButton class="margin2px" look="success" value="Create or update User" action="#{adminModel.doUpsertBankInstitute()}"/>
+                            </h:form>
+                        </b:well>
+                    </b:tab>
+
                 </b:tabView>
             </h:panelGroup>
         </f:view>
