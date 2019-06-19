@@ -2,6 +2,8 @@ package ui.models;
 
 import entity.*;
 import entity.enums.Duration;
+import entity.enums.TransactionStatus;
+import entity.enums.TransactionType;
 import org.apache.log4j.Logger;
 import service.BankAccountService;
 import service.BankInstituteService;
@@ -143,6 +145,18 @@ public class AdminModel implements Serializable {
 
     public List<Transaction> getAllTransactions() {
         return transactionService.getAllTransactions();
+    }
+
+    public TransactionStatus[] getAllTransactionStatuses() {
+        return TransactionStatus.values();
+    }
+
+    public TransactionType[] getAllTransactionTypes() {
+        return TransactionType.values();
+    }
+
+    public Duration[] getAllDurations() {
+        return Duration.values();
     }
 
     public int getTabViewIndex() {

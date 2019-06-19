@@ -111,6 +111,21 @@
 
                                     <h:outputText value="Reason of usage: " class="padding2px margin2px"/>
                                     <b:inputText value="#{adminModel.tmpTransaction.reasonOfUsage}" class="margin2px" style="width: 250px;"/>
+
+                                    <h:outputText value="Transaction status: " class="padding2px margin2px"/>
+                                    <b:selectOneMenu value="#{adminModel.tmpTransaction.transactionStatus}" class="margin2px">
+                                        <f:selectItems value="#{adminModel.allTransactionStatuses}"/>
+                                    </b:selectOneMenu>
+
+                                    <h:outputText value="Transaction type: " class="padding2px margin2px"/>
+                                    <b:selectOneMenu value="#{adminModel.tmpTransaction.transactionType}" class="margin2px">
+                                        <f:selectItems value="#{adminModel.allTransactionTypes}"/>
+                                    </b:selectOneMenu>
+
+                                    <h:outputText value="Duration: " class="padding2px margin2px"/>
+                                    <b:selectOneMenu value="#{adminModel.tmpTransaction.duration}" class="margin2px">
+                                        <f:selectItems value="#{adminModel.allDurations}"/>
+                                    </b:selectOneMenu>
                                 </h:panelGrid>
 
                                 <br/><br/>
