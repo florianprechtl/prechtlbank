@@ -131,6 +131,31 @@ public class TransactionService implements TransactionServiceIF{
         List<Transaction> transactions =  em.createQuery("SELECT u FROM Transaction AS u WHERE payeeIban = ?1 OR payerIban = ?1", Transaction.class).setParameter(1, iban).getResultList();
         return transactions;
     }
+
+    @Transactional(Transactional.TxType.SUPPORTS)
+    public Transaction getTransactionById(Long id) {
+        Transaction transaction =  em.createQuery("SELECT u FROM Transaction AS u WHERE id = ?1 OR id = ?1", Transaction.class).setParameter(1, id).getSingleResult();
+        return transaction;
+    }
+
+    @Transactional(Transactional.TxType.SUPPORTS)
+    public Transaction updateTransaction(Transaction transaction) throws InvalidInputException {
+        logger.info("updateTransaction :: Check Transaction data");
+        validateTransactionInput(transaction);
+        logger.info("updateTransaction :: Update transaction");
+        em.merge(transaction);
+        logger.info("updateTransaction :: Successfully updated transaction!");
+        return transaction;
+    }
+
+    @Transactional(Transactional.TxType.SUPPORTS)
+    public void deleteTransactionById(Long id) {
+        Transaction transaction = getTransactionById(id);
+        logger.info("deleteTransaction :: delete transaction");
+        em.remove(transaction);
+        logger.info("deleteTransaction :: transaction successfully deleted");
+    }
+
     public void logAllTransactions() {
         List<Transaction> transactions = getAllTransactions();
         Iterator<Transaction> iterator = transactions.iterator();

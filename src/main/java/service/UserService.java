@@ -83,9 +83,7 @@ public class UserService {
 
     @Transactional(Transactional.TxType.REQUIRED)
     public void deleteUserById(Long id) {
-        logger.info("deleteUser :: check loginId");
         User user = getUserById(id);
-
         logger.info("deleteUser :: delete dependencies");
         // TODO: Delete Dependencies
         logger.info("deleteUser :: delete user");

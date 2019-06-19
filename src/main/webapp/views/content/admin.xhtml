@@ -15,7 +15,7 @@
             <h:panelGroup>
                 <b:tabView activeIndex="#{adminModel.tabViewIndex}">
                     // ----------------------------------------------------------------------------------------------------------------------------
-                    <b:tab title="User management">
+                    <b:tab title="User Management">
                         <f:facet name="anchor"><b:iconAwesome value="users"/></f:facet>
                         <br/>
 
@@ -23,8 +23,8 @@
 
                             <b:dataTableColumn value="#{user.id}" label="Id" order="asc" data-order="#{user.id}"/>
                             <b:dataTableColumn value="#{user.loginId}" label="LoginId" order="asc" data-order="#{user.id}"/>
-                            <b:dataTableColumn value="#{user.firstname}" label="First Name"/>
-                            <b:dataTableColumn value="#{user.lastname}" label="Last Name"/>
+                            <b:dataTableColumn value="#{user.firstname}" label="Firstname"/>
+                            <b:dataTableColumn value="#{user.lastname}" label="Lastname"/>
                             <b:dataTableColumn value="#{user.password}" label="E-Mail"/>
 
                             <b:dataTableColumn label="Action">
@@ -37,10 +37,10 @@
                         <b:well styleClass="message-well" style="margin-top:10px">
                             <h:form>
                                 <h:panelGrid columns="2" class="block top">
-                                    <h:outputText value="First Name: " class="padding2px margin2px"/>
+                                    <h:outputText value="Firstname: " class="padding2px margin2px"/>
                                     <b:inputText value="#{adminModel.tmpUser.firstname}" class="margin2px" style="width: 250px;"/>
 
-                                    <h:outputText value="Last Name: " class="padding2px margin2px"/>
+                                    <h:outputText value="Lastname: " class="padding2px margin2px"/>
                                     <b:inputText value="#{adminModel.tmpUser.lastname}" class="margin2px" style="width: 250px;"/>
 
                                     <h:outputText value="Country: " class="padding2px margin2px"/>
@@ -71,8 +71,53 @@
 
                     // ----------------------------------------------------------------------------------------------------------------------------
 
-                    <b:tab title="Model management">
+                    <b:tab title="Transaction Management">
+                        <f:facet name="anchor"><b:iconAwesome value="exchange"/></f:facet>
+                        <br/>
 
+                        <b:dataTable value="#{adminModel.allTransactions}" var="transaction" mark-search-results="true">
+
+                            <b:dataTableColumn value="#{transaction.id}" label="Id" order="asc" data-order="#{transaction.id}"/>
+                            <b:dataTableColumn value="#{transaction.payeeIban}" label="Payee IBAN"/>
+                            <b:dataTableColumn value="#{transaction.payeeBic}" label="Payee BIC"/>
+                            <b:dataTableColumn value="#{transaction.payerIban}" label="Payer IBAN"/>
+                            <b:dataTableColumn value="#{transaction.payerBic}" label="Payer BIC"/>
+                            <b:dataTableColumn value="#{transaction.amount}" label="Amount"/>
+
+                            <b:dataTableColumn label="Action">
+                                <h:form>
+                                    <b:commandButton class="margin2px" value=" " icon="edit" ajax="true" update="@(.message-well)" onclick="ajax:adminModel.onTransactionSelect(transaction)"/>
+                                    <b:commandButton class="margin2px" look="danger" value=" " icon="trash" action="#{adminModel.doDeleteTransaction(transaction)}"/>
+                                </h:form>
+                            </b:dataTableColumn>
+                        </b:dataTable>
+                        <b:well styleClass="message-well" style="margin-top:10px">
+                            <h:form>
+                                <h:panelGrid columns="2" class="block top">
+                                    <h:outputText value="Payee IBAN: " class="padding2px margin2px"/>
+                                    <b:inputText value="#{adminModel.tmpTransaction.payeeIban}" class="margin2px" style="width: 250px;"/>
+
+                                    <h:outputText value="Payee BIC: " class="padding2px margin2px"/>
+                                    <b:inputText value="#{adminModel.tmpTransaction.payeeBic}" class="margin2px" style="width: 250px;"/>
+
+                                    <h:outputText value="Payer IBAN: " class="padding2px margin2px"/>
+                                    <b:inputText value="#{adminModel.tmpTransaction.payerIban}" class="margin2px" style="width: 250px;"/>
+
+                                    <h:outputText value="Payer BIC: " class="padding2px margin2px"/>
+                                    <b:inputText value="#{adminModel.tmpTransaction.payerBic}" class="margin2px" style="width: 250px;"/>
+
+                                    <h:outputText value="Amount: " class="padding2px margin2px"/>
+                                    <b:inputText value="#{adminModel.tmpTransaction.amount}" class="margin2px" style="width: 250px;"/>
+
+                                    <h:outputText value="Reason of usage: " class="padding2px margin2px"/>
+                                    <b:inputText value="#{adminModel.tmpTransaction.reasonOfUsage}" class="margin2px" style="width: 250px;"/>
+                                </h:panelGrid>
+
+                                <br/><br/>
+
+                                <b:commandButton class="margin2px" look="success" value="Create or update User" action="#{adminModel.doUpsertTransaction()}"/>
+                            </h:form>
+                        </b:well>
                     </b:tab>
                 </b:tabView>
             </h:panelGroup>
