@@ -16,6 +16,7 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.transaction.Transactional;
+import java.util.Date;
 import java.util.List;
 
 @Named
@@ -55,7 +56,7 @@ public class TransactionModel {
             String payerBic = selectedBankAccount.getBankInstitute().getBic();
             Transaction transaction = new Transaction(payeeIban, payerIban, amount, payeeBic, payerBic,
                     TransactionStatus.NEW, TransactionType.TRANSFER, reasonOfUsage,
-                    Duration.ONCE);
+                    Duration.ONCE, new Date());
             transactionService.transfer(transaction);
         } catch(Exception e) {
             String message = "Überweisung fehlgeschlagen!: " + (e.getMessage() != null ? e.getMessage() : "Nicht alle Felder ausgefüllt!");

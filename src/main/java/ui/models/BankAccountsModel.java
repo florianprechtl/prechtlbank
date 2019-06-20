@@ -18,11 +18,9 @@ import java.io.Serializable;
 import java.util.List;
 
 @Named
-@RequestScoped
+@SessionScoped
 public class BankAccountsModel implements Serializable {
 
-//    @Inject
-//    private Logger logger;
     @Inject
     private LoginUserModel loginUserModel;
 
@@ -45,19 +43,6 @@ public class BankAccountsModel implements Serializable {
             allBankAccounts = bankAccountService.getBankAccountsOfUser(loginUserModel.getUser().getId());
             selectedBankAccount = null;
         }
-    }
-
-    public String getTransactionPartner(Transaction transaction) {
-        // TODO: Always return name/iban of partner of the transaction
-        return "hans";
-    }
-
-    public List<Transaction> getTransactions() {
-        return null;
-    }
-
-    public int getTransactionAmount(Transaction transaction) {
-        return 0;
     }
 
     public void setSelectedBankAccount(BankAccount selectedBankAccount) {
@@ -83,13 +68,62 @@ public class BankAccountsModel implements Serializable {
         this.transactions = transactions;
     }
 
-    public List<Transaction> getTransactions(List<Transaction> transactions) {
+    public List<Transaction> getTransactions() {
         if (selectedBankAccount != null) {
-            return transactionService.getAllTransactionsByIban(selectedBankAccount.getIban());
+            List<Transaction> transactions = transactionService.getAllTransactionsByIban(selectedBankAccount.getIban());
+            Transaction transaction = new Transaction();
+            transaction.setAmount(20000);
+            transactions.add(transaction);
+            return transactions;
         }
         return null;
+
     }
 
-    public void onBankAccountChange() {
+    public String getTransactionPartner(Transaction transaction) {
+        if (selectedBankAccount != null && transaction != null) {
+            if (transaction.getPayeeIban() != null) {
+                if (transaction.getPayeeIban().equals(selectedBankAccount.getIban())) {
+                    return transaction.getPayerIban();
+                } else {
+                    return transaction.getPayeeIban();
+                }
+            }
+        }
+        return "Kontostand:";
+    }
+
+    public String getTransactionAmount(Transaction transaction) {
+        if (selectedBankAccount != null && transaction != null) {
+            if (transaction.getPayeeIban() != null) {
+                if (transaction.getPayeeIban().equals(selectedBankAccount.getIban())) {
+                    return "+ " + transaction.getAmount();
+                } else {
+                    return "- " + transaction.getAmount();
+                }
+            } else {
+                return getSumOfAllTransactions(getTransactions());
+            }
+        }
+        return "No money!";
+    }
+
+    public String onBankAccountChange() {
+        return "bank-accounts";
+    }
+
+    public String getSumOfAllTransactions(List<Transaction> transactions) {
+        double sum = 0;
+        for (int i = 0; i < transactions.size() - 1; i++) {
+            Transaction transaction = transactions.get(i);
+            if (transaction.getPayeeIban().equals(selectedBankAccount.getIban())) {
+                sum += transaction.getAmount();
+            } else {
+                sum -= transaction.getAmount();
+            }
+        }
+        return sum < 0
+                ? "- " + sum
+                : "+ " + sum;
     }
 }

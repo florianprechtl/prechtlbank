@@ -17,6 +17,7 @@ import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
@@ -77,7 +78,9 @@ public class TransactionService implements TransactionServiceIF{
 
         if (transaction.getDuration() == null)
             throw new InvalidInputException("Invalid duration.", null);
-        logger.info("Logger :: nix");
+
+        if (transaction.getDate() == null)
+            throw new InvalidInputException("Invalid date.", null);
     }
 
     @Transactional(Transactional.TxType.REQUIRED)
@@ -100,6 +103,7 @@ public class TransactionService implements TransactionServiceIF{
         transaction.setTransactionType(TransactionType.TRANSFER);
         transaction.setDuration((Duration.ONCE));
         transaction.setReasonOfUsage("BANK");
+        transaction.setDate(new Date());
         em.persist(transaction);
         return new TransactionDTO(transaction);
     }

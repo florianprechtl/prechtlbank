@@ -8,6 +8,7 @@ import entity.util.GeneratedIdEntity;
 
 import javax.persistence.Entity;
 import java.io.Serializable;
+import java.util.Date;
 import java.util.Objects;
 
 @Entity
@@ -22,12 +23,13 @@ public class Transaction extends GeneratedIdEntity implements Serializable {
     private TransactionType transactionType;
     private String reasonOfUsage;
     private Duration duration;
+    private Date date;
 
     public Transaction() {
 
     }
 
-    public Transaction(String payeeIban, String payerIban, double amount, String payeeBic, String payerBic, TransactionStatus transactionStatus, TransactionType transactionType, String reasonOfUsage, Duration duration) {
+    public Transaction(String payeeIban, String payerIban, double amount, String payeeBic, String payerBic, TransactionStatus transactionStatus, TransactionType transactionType, String reasonOfUsage, Duration duration, Date date) {
         this.payeeIban = payeeIban;
         this.payerIban = payerIban;
         this.amount = amount;
@@ -37,6 +39,7 @@ public class Transaction extends GeneratedIdEntity implements Serializable {
         this.transactionType = transactionType;
         this.reasonOfUsage = reasonOfUsage;
         this.duration = duration;
+        this.date = date;
     }
 
     public Transaction(TransactionDTO transactionDTO) {
@@ -49,6 +52,7 @@ public class Transaction extends GeneratedIdEntity implements Serializable {
         this.transactionType = transactionDTO.getTransactionType();
         this.reasonOfUsage = transactionDTO.getReasonOfUsage();
         this.duration = transactionDTO.getDuration();
+        this.date = transactionDTO.getDate();
     }
 
     public String getPayeeIban() {
@@ -121,6 +125,14 @@ public class Transaction extends GeneratedIdEntity implements Serializable {
 
     public void setDuration(Duration duration) {
         this.duration = duration;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
     }
 
     @Override

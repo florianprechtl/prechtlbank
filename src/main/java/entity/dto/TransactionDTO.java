@@ -8,6 +8,7 @@ import entity.enums.TransactionType;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
+import java.util.Date;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -21,6 +22,7 @@ public class TransactionDTO {
     private TransactionType transactionType;
     private String reasonOfUsage;
     private Duration duration;
+    private Date date;
 
     public TransactionDTO() {
 
@@ -29,12 +31,12 @@ public class TransactionDTO {
     public TransactionDTO(Transaction transaction) {
         this(transaction.getPayeeIban(), transaction.getPayerIban(), transaction.getAmount(), transaction.getPayeeBic(),
                 transaction.getPayerBic(), transaction.getTransactionStatus(), transaction.getTransactionType(),
-                transaction.getReasonOfUsage(), transaction.getDuration());
+                transaction.getReasonOfUsage(), transaction.getDuration(), transaction.getDate());
     }
 
     public TransactionDTO(String payeeIban, String payerIban, double amount, String payeeBic, String payerBic,
                           TransactionStatus transactionStatus, TransactionType transactionType,
-                          String reasonOfUsage, Duration duration) {
+                          String reasonOfUsage, Duration duration, Date date) {
         this.payeeIban = payeeIban;
         this.payerIban = payerIban;
         this.amount = amount;
@@ -44,6 +46,7 @@ public class TransactionDTO {
         this.transactionType = transactionType;
         this.reasonOfUsage = reasonOfUsage;
         this.duration = duration;
+        this.date = date;
     }
 
     public String getPayeeIban() {
@@ -116,5 +119,13 @@ public class TransactionDTO {
 
     public void setDuration(Duration duration) {
         this.duration = duration;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
     }
 }
