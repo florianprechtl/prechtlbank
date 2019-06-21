@@ -108,7 +108,7 @@ public class TransactionService implements TransactionServiceIF{
         return new TransactionDTO(transaction);
     }
 
-    @Override
+    @Transactional(Transactional.TxType.SUPPORTS)
     public TransactionDTO directDebit(LoginDTO loginDTO, TransactionDTO transactionDTO) throws LoginException, TransactionException {
         userService.loginUser(loginDTO);
         Transaction transaction = new Transaction(transactionDTO);
@@ -116,12 +116,22 @@ public class TransactionService implements TransactionServiceIF{
     }
 
     @Transactional(Transactional.TxType.SUPPORTS)
-    public Transaction transfer(Transaction transaction) throws InvalidInputException {
-        logger.info("transfer :: Check Transaction data");
+    public Transaction directDebit(Transaction transaction) throws TransactionException {
+        logger.info("directDebit :: Check directDebit data");
         validateTransactionInput(transaction);
-        logger.info("transfer :: Save transaction");
+        logger.info("directDebit :: Save directDebit");
         em.persist(transaction);
-        logger.info("transfer :: Successfully saved transaction!");
+        logger.info("directDebit :: Successfully saved transaction as directDebit!");
+        return transaction;
+    }
+
+    @Transactional(Transactional.TxType.SUPPORTS)
+    public Transaction transfer(Transaction transaction) throws InvalidInputException {
+        logger.info("transfer :: Check transfer data");
+        validateTransactionInput(transaction);
+        logger.info("transfer :: Save transfer");
+        em.persist(transaction);
+        logger.info("transfer :: Successfully saved transaction as Transfer!");
         return transaction;
     }
 

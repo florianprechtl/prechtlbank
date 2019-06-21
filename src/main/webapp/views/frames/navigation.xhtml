@@ -10,14 +10,17 @@
 
     <f:view>
         <b:navBar class="nav-bar" fixed="false" sticky="false" brand="PrechtlBank" brandHref="index.xhtml" fluid="true">
-            <b:navbarLinks pull="left">
+            <b:navbarLinks pull="left" >
                 <b:navLink value="Home" iconAwesome="home" outcome="index"/>
             </b:navbarLinks>
             <b:navbarLinks pull="left" rendered="#{loginUserModel.isCustomer()}">
                 <b:navLink value="Accounts" iconAwesome="bank" outcome="bank-accounts"/>
             </b:navbarLinks>
             <b:navbarLinks pull="left" rendered="#{loginUserModel.isCustomer()}">
-                <b:navLink value="Transaktion" iconAwesome="exchange" outcome="transaction"/>
+                <b:dropMenu value="Transaktion" iconAwesome="exchange">
+                    <b:navLink value="Überweisung" outcome="transfer"/>
+                    <b:navLink value="Lastschrift" outcome="direct-debit"/>
+                </b:dropMenu>
             </b:navbarLinks>
             <b:navbarLinks pull="left" rendered="#{loginUserModel.isConsultant()}">
                 <b:navLink value="Kundenverwaltung" iconAwesome="exchange" outcome="index"/>

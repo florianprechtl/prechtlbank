@@ -17,9 +17,9 @@
                 <h:panelGroup class="grid-container grid-container-view1">
                     <b:carousel id="content-top" >
                         <b:carouselCaption style="top: 120px">
-                            <h1 style="font-size: 90px;">PrechtBank123</h1>
+                            <h1 style="font-size: 90px;">PrechtBank</h1>
                             <h:form>
-                                <b:commandButton styleClass="new-account-button" action="#{createBankAccountModel.navigateToFirstBankAccount}">Jetzt Konto eröffnen</b:commandButton>
+                                <b:commandButton styleClass="new-account-button" rendered="#{loginUserModel.isCustomer() or !loginUserModel.isLoggedIn()}" action="#{createBankAccountModel.navigateToFirstBankAccount}">Jetzt Konto eröffnen</b:commandButton>
                             </h:form>
                         </b:carouselCaption>
                         <b:carouselItem>
@@ -30,9 +30,14 @@
                                         <b:iconAwesome value="fa-money" style="font-size: 270px"/>
                                     </h:panelGroup>
                                     <h:panelGroup id="middle1">
-                                        <h3>Prächtiger kann man sein geld nicht verwalten</h3>
-                                        <h3 style="margin-top: 155px">Freue dich bei Eröffnung deines Neukontos über ein tolles Geschenk</h3>
-                                        <h1>Ein SteamonKey deiner Wahl</h1>
+                                        <h3>Prächtiger kann man sein Geld nicht verwalten</h3>
+                                        <h:panelGroup  rendered="#{!loginUserModel.isLoggedIn() or loginUserModel.isCustomer()}">
+                                            <h3 style="margin-top: 155px">Freue dich bei Eröffnung deines Neukontos über ein tolles Geschenk</h3>
+                                            <h1>Ein SteamonKey deiner Wahl</h1>
+                                        </h:panelGroup>
+                                        <h:panelGroup  rendered="#{loginUserModel.isConsultant() or loginUserModel.isAdmin()}">
+                                            <h1 style="margin-top: 155px">Hier arbeite ich gerne!</h1>
+                                        </h:panelGroup>
                                     </h:panelGroup>
                                     <h:panelGroup id="right1">
                                         <b:iconAwesome value="fa-money" style="font-size: 270px"/>

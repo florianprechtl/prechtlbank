@@ -21,22 +21,16 @@ import java.util.List;
 
 @Named
 @RequestScoped
-public class TransactionModel {
+public class TransferModel {
 
     @Inject
     private LoginUserModel loginUserModel;
-
-    @Inject
-    private UserService userService;
 
     @Inject
     private BankAccountService bankAccountService;
 
     @Inject
     TransactionService transactionService;
-
-    @Inject
-    private Logger logger;
 
     private BankAccount selectedBankAccount;
     private List<BankAccount> allBankAccounts;
@@ -70,10 +64,6 @@ public class TransactionModel {
         return "bank-accounts";
     }
 
-    public boolean isBankAccountSelected() {
-        return this.selectedBankAccount != null;
-    }
-
     public BankAccount getSelectedBankAccount() {
         return selectedBankAccount;
     }
@@ -87,14 +77,6 @@ public class TransactionModel {
             allBankAccounts = bankAccountService.getBankAccountsOfUser(loginUserModel.getUser().getId());
         }
         return allBankAccounts;
-    }
-
-    public void setBicByIban() {
-        BankAccount bankAccount = bankAccountService.getBankAccountByIban(iban);
-        if (bankAccount == null) {
-            return;
-        }
-        setBic(bankAccount.getBankInstitute().getBic());
     }
 
     public void setAllBankAccounts(List<BankAccount> allBankAccounts) {

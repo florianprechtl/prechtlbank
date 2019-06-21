@@ -34,8 +34,13 @@
         </navigation-case>
 
         <navigation-case>
-            <from-outcome>transaction</from-outcome>
-            <to-view-id>/views/content/transaction.xhtml</to-view-id>
+            <from-outcome>direct-debit</from-outcome>
+            <to-view-id>/views/content/direct-debit.xhtml</to-view-id>
+        </navigation-case>
+
+        <navigation-case>
+            <from-outcome>transfer</from-outcome>
+            <to-view-id>/views/content/transfer.xhtml</to-view-id>
         </navigation-case>
 
         <navigation-case>
