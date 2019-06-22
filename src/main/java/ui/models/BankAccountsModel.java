@@ -54,10 +54,7 @@ public class BankAccountsModel implements Serializable {
     }
 
     public List<BankAccount> getAllBankAccounts() {
-        if (allBankAccounts == null) {
-            allBankAccounts = bankAccountService.getBankAccountsOfUser(loginUserModel.getUser().getId());
-        }
-        return allBankAccounts;
+        return bankAccountService.getBankAccountsOfUser(loginUserModel.getUser().getId());
     }
 
     public void setAllBankAccounts(List<BankAccount> allBankAccounts) {

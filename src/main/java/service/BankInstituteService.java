@@ -57,16 +57,22 @@ public class BankInstituteService {
     public void deleteBankInstituteById(Long id) {
         BankInstitute bankInstitute = getBankInstituteById(id);
         logger.info("deleteBankInstitute :: Delete bankInstitute");
+        // TODO: Remove dependent bankAccounts
         em.remove(bankInstitute);
         logger.info("deleteBankInstitute :: BankInstitute successfully deleted");
     }
 
     @Transactional(Transactional.TxType.SUPPORTS)
     public BankInstitute getBankInstituteById(Long id) {
-        BankInstitute bankInstitute =  em.createQuery("SELECT u FROM BankInstitute AS u WHERE id = ?1 OR id = ?1", BankInstitute.class)
-                .setParameter(1, id)
-                .getSingleResult();
-        return bankInstitute;
+        Query query = em.createQuery("SELECT u FROM BankInstitute AS u WHERE id = ?1", BankInstitute.class);
+        query.setParameter(1, id);
+        try {
+            return (BankInstitute) query.getSingleResult();
+        }
+        catch(Exception e) {
+            logger.info("getBankInstituteById: No element found!");
+            return null;
+        }
     }
 
     @Transactional(Transactional.TxType.SUPPORTS)
@@ -74,6 +80,7 @@ public class BankInstituteService {
         List<BankInstitute> bankInstitutes =  em.createQuery("SELECT u FROM BankInstitute AS u", BankInstitute.class)
                 .getResultList();
         return bankInstitutes;
+
     }
 
     public void logAllBankInstituates() {

@@ -24,28 +24,26 @@ public class UserService {
     @Inject
     private transient Logger logger;
 
-    private void validateUserInput(User user) throws InvalidInputException
-    {
-        //
-        if(user == null || user.getLoginId() == null || user.getLoginId().length() < 4)
+    private void validateUserInput(User user) throws InvalidInputException {
+        if (user == null || user.getLoginId() == null || user.getLoginId().length() < 4)
             throw new InvalidInputException("The generated Login Id is not valid.", null);
 
-        if(user.getFirstname() == null || user.getFirstname().length() < 1)
+        if (user.getFirstname() == null || user.getFirstname().length() < 1)
             throw new InvalidInputException("The entered First Name is too short.", null);
 
-        if(user.getLastname() == null || user.getLastname().length() < 1)
+        if (user.getLastname() == null || user.getLastname().length() < 1)
             throw new InvalidInputException("The entered Last Name is too short.", null);
 
-        if(user.getAddress().getStreet() == null || user.getAddress().getStreet().length() < 2)
+        if (user.getAddress().getStreet() == null || user.getAddress().getStreet().length() < 2)
             throw new InvalidInputException("The entered Street is too short.", null);
 
-        if(user.getAddress().getCity() == null || user.getAddress().getCity().length() < 2)
+        if (user.getAddress().getCity() == null || user.getAddress().getCity().length() < 2)
             throw new InvalidInputException("The entered City is too short.", null);
 
-        if(!StringUtils.isNumeric(user.getAddress().getZip()))
+        if (!StringUtils.isNumeric(user.getAddress().getZip()))
             throw new InvalidInputException("The entered ZIP Code is not valid.", null);
 
-        if(user.getAddress().getCountry() == null || user.getAddress().getCountry().length() < 2)
+        if (user.getAddress().getCountry() == null || user.getAddress().getCountry().length() < 2)
             throw new InvalidInputException("The entered Country is too short.", null);
     }
 

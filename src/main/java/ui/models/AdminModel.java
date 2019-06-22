@@ -16,6 +16,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.transaction.Transactional;
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 
 @Named
@@ -107,6 +108,7 @@ public class AdminModel implements Serializable {
     public void doUpsertTransaction() {
         tabViewIndex = 1;
         Transaction transaction = transactionService.getTransactionById(tmpTransaction.getId());
+        tmpTransaction.setDate(new Date());
         try {
             if (transaction != null) {
                 transactionService.updateTransaction(tmpTransaction);
@@ -170,9 +172,9 @@ public class AdminModel implements Serializable {
     @Transactional(Transactional.TxType.REQUIRES_NEW)
     public void doUpsertBankInstitute() {
         tabViewIndex = 3;
-        BankInstitute c = bankInstituteService.getBankInstituteById(tmpBankInstitute.getId());
+        BankInstitute bankInstitute = bankInstituteService.getBankInstituteById(tmpBankInstitute.getId());
         try {
-            if (tmpBankInstitute != null) {
+            if (bankInstitute != null) {
                 bankInstituteService.updateBankInstitute(tmpBankInstitute);
             } else {
                 bankInstituteService.createBankInstitute(tmpBankInstitute);

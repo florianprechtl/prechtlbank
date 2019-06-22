@@ -16,6 +16,7 @@ import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.transaction.Transactional;
 import java.util.Date;
 import java.util.Iterator;
@@ -149,8 +150,15 @@ public class TransactionService implements TransactionServiceIF{
 
     @Transactional(Transactional.TxType.SUPPORTS)
     public Transaction getTransactionById(Long id) {
-        Transaction transaction =  em.createQuery("SELECT u FROM Transaction AS u WHERE id = ?1 OR id = ?1", Transaction.class).setParameter(1, id).getSingleResult();
-        return transaction;
+        Query query = em.createQuery("SELECT u FROM Transaction AS u WHERE id = ?1 OR id = ?1", Transaction.class);
+        query.setParameter(1, id);
+        try {
+            return (Transaction) query.getSingleResult();
+        }
+        catch(Exception e) {
+            logger.info("getTransactionById: No element found!");
+            return null;
+        }
     }
 
     @Transactional(Transactional.TxType.SUPPORTS)

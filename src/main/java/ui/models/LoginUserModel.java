@@ -44,6 +44,7 @@ public class LoginUserModel implements Serializable {
         user = null;
         loginId = "";
         password = "";
+        FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
         return "index";
     }
 
