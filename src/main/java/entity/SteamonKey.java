@@ -2,9 +2,7 @@ package entity;
 
 import entity.util.GeneratedIdEntity;
 
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -13,9 +11,17 @@ public class SteamonKey extends GeneratedIdEntity implements Serializable {
 
     private String keyCode;
 
-    @OneToOne(fetch = FetchType.EAGER)
+    @OneToOne(orphanRemoval = true, mappedBy = "steamonKey")
     private User keyReceiver;
 
+    public SteamonKey() {
+        keyReceiver = new User();
+    }
+
+    public SteamonKey(String keyCode, User keyReceiver) {
+        this.keyCode = keyCode;
+        this.keyReceiver = keyReceiver;
+    }
 
     public String getKeyCode() {
         return keyCode;

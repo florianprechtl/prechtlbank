@@ -5,7 +5,11 @@ import entity.util.EntityUtils;
 import entity.util.GeneratedIdEntity;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import java.io.Serializable;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -19,6 +23,9 @@ public class User extends GeneratedIdEntity implements Serializable {
     private String password;
 
     private Address address = new Address();
+
+    @OneToOne(fetch = FetchType.EAGER)
+    private SteamonKey steamonKey;
 
     public User() {
     }
@@ -80,6 +87,14 @@ public class User extends GeneratedIdEntity implements Serializable {
         this.password = password;
     }
 
+    public SteamonKey getSteamonKey() {
+        return steamonKey;
+    }
+
+    public void setSteamonKey(SteamonKey steamonKey) {
+        this.steamonKey = steamonKey;
+    }
+
     public boolean checkPassword(String password) {
         return this.password.equals(password);
     }
@@ -87,7 +102,7 @@ public class User extends GeneratedIdEntity implements Serializable {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (!(o instanceof User)) return false;
         if (!super.equals(o)) return false;
         User user = (User) o;
         return Objects.equals(getFirstname(), user.getFirstname()) &&
@@ -100,6 +115,7 @@ public class User extends GeneratedIdEntity implements Serializable {
 
     @Override
     public int hashCode() {
+
         return Objects.hash(super.hashCode(), getFirstname(), getLastname(), getUserType(), getLoginId(), getPassword(), getAddress());
     }
 
@@ -112,7 +128,6 @@ public class User extends GeneratedIdEntity implements Serializable {
                 ", loginId='" + loginId + '\'' +
                 ", password='" + password + '\'' +
                 ", address=" + address +
-                ", id=" + id +
                 '}';
     }
 }

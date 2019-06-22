@@ -2,7 +2,9 @@ package service;
 
 import entity.BankAccount;
 import entity.BankInstitute;
+import entity.SteamonKey;
 import org.apache.log4j.Logger;
+import ui.models.LoginUserModel;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -22,6 +24,9 @@ public class BankAccountService {
     @Inject
     private transient Logger logger;
 
+    @Inject
+    private LoginUserModel loginUserModel;
+
 
     private void validateBankAccountInput(BankAccount bankAccount) throws InvalidInputException {
         if (bankAccount == null)
@@ -34,10 +39,20 @@ public class BankAccountService {
             throw new InvalidInputException("The Banking institute is invalid.", null);
     }
 
-    @Transactional(Transactional.TxType.REQUIRED)
+    @Transactional(Transactional.TxType.SUPPORTS)
     public void createBankAccount(BankAccount bankAccount) throws InvalidInputException {
         validateBankAccountInput(bankAccount);
         em.persist(bankAccount);
+    }
+
+    @Transactional(Transactional.TxType.REQUIRED)
+    public void createFirstBankAccount(BankAccount bankAccount) throws InvalidInputException {
+        validateBankAccountInput(bankAccount);
+        SteamonKey steamonKey = new SteamonKey("123456", loginUserModel.getUser());
+        em.persist(steamonKey);
+        loginUserModel.getUser().setSteamonKey(steamonKey);
+        em.merge(loginUserModel.getUser());
+        createBankAccount(bankAccount);
     }
 
     @Transactional(Transactional.TxType.SUPPORTS)

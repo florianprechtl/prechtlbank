@@ -12,7 +12,7 @@ public class BankInstitute extends GeneratedIdEntity implements Serializable {
     private String name;
     private String bic;
 
-    @OneToMany(mappedBy = "bankInstitute", cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "bankInstitute", cascade = CascadeType.ALL)
     private List<BankAccount> bankAccounts;
 
     public BankInstitute() {
@@ -40,10 +40,18 @@ public class BankInstitute extends GeneratedIdEntity implements Serializable {
         this.bic = bic;
     }
 
+    public List<BankAccount> getBankAccounts() {
+        return bankAccounts;
+    }
+
+    public void setBankAccounts(List<BankAccount> bankAccounts) {
+        this.bankAccounts = bankAccounts;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (!(o instanceof BankInstitute)) return false;
         if (!super.equals(o)) return false;
         BankInstitute that = (BankInstitute) o;
         return Objects.equals(getName(), that.getName()) &&

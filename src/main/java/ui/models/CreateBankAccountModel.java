@@ -40,7 +40,12 @@ public class CreateBankAccountModel implements Serializable {
         try {
             String iban = generateIBAN();
             BankAccount bankAccount = new BankAccount(iban, BankAccountStatus.NEW, selectedBankInstitute, loginUserModel.getUser());
-            bankAccountService.createBankAccount(bankAccount);
+
+            if (isFirstBankAccount()) {
+                bankAccountService.createFirstBankAccount(bankAccount);
+            } else {
+                bankAccountService.createBankAccount(bankAccount);
+            }
             // Give initial money
             transactionService.giveMoneyToIban(1000.00, bankAccount.getIban());
         } catch(Exception e) {
