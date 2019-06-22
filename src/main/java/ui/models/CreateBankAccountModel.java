@@ -98,11 +98,11 @@ public class CreateBankAccountModel implements Serializable {
     }
 
     private String generateIBAN() {
-        String iban = "DE";
+        StringBuffer iban = new StringBuffer("DE");
         for(int i = 0; i < 20; i++) {
-            iban += (int)(Math.random() * 10);
+            iban.append((int)(Math.random() * 10));
         }
-        return iban;
+        return iban.toString();
     }
 
     public List<BankInstitute> getAllBankInstitutes() {
