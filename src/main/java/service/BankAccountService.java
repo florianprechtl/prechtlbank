@@ -59,7 +59,7 @@ public class BankAccountService {
     }
 
     @Transactional(Transactional.TxType.SUPPORTS)
-    public BankAccount getBankAccountById(long id) {
+    public BankAccount getBankAccountById(Long id) {
         Query query = em.createQuery("SELECT b FROM BankAccount AS b WHERE b.id = ?1", BankAccount.class);
         query.setParameter(1, id);
         try {
@@ -104,7 +104,7 @@ public class BankAccountService {
     }
 
     @Transactional(Transactional.TxType.SUPPORTS)
-    public List<BankAccount> getBankAccountsOfUser(long userId) {
+    public List<BankAccount> getBankAccountsOfUser(Long userId) {
         List<BankAccount> bankAccounts =  em.createQuery("SELECT b FROM BankAccount AS b WHERE b.user.id = ?1", BankAccount.class)
                 .setParameter(1, userId)
                 .getResultList();

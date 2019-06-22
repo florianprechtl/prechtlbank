@@ -37,6 +37,9 @@
                         <b:well styleClass="message-well" style="margin-top:10px">
                             <h:form>
                                 <h:panelGrid columns="2" class="block top">
+                                    <h:outputText value="ID: " class="padding2px margin2px"/>
+                                    <b:inputText value="#{adminModel.tmpUser.id}" disabled="true" class="margin2px" style="width: 250px;"/>
+
                                     <h:outputText value="Firstname: " class="padding2px margin2px"/>
                                     <b:inputText value="#{adminModel.tmpUser.firstname}" class="margin2px" style="width: 250px;"/>
 
@@ -64,7 +67,9 @@
 
                                 <br/><br/>
 
-                                <b:commandButton class="margin2px" look="success" value="Create or update User" action="#{adminModel.doUpsertUser()}"/>
+                                <b:commandButton class="margin2px" look="success" value="Create or update user" action="#{adminModel.doUpsertUser()}"/>
+                                <b:commandButton class="margin2px" look="info" value="Clear Form" ajax="true" update="@(.message-well)" action="#{adminModel.clearUserForm()}"/>
+
                             </h:form>
                         </b:well>
                     </b:tab>
@@ -136,7 +141,7 @@
 
                                 <br/><br/>
 
-                                <b:commandButton class="margin2px" look="success" value="Create or update User" action="#{adminModel.doUpsertTransaction()}"/>
+                                <b:commandButton class="margin2px" look="success" value="Create or update transaction" action="#{adminModel.doUpsertTransaction()}"/>
                                 <b:commandButton class="margin2px" look="info" value="Clear Form" ajax="true" update="@(.message-well)" action="#{adminModel.clearTransactionForm()}"/>
 
                             </h:form>
@@ -167,26 +172,41 @@
                         <b:well styleClass="message-well" style="margin-top:10px">
                             <h:form>
                                 <h:panelGrid columns="2" class="block top">
+                                    <h:outputText value="ID: " class="padding2px margin2px"/>
+                                    <b:inputText value="#{adminModel.tmpBankAccount.id}" disabled="true" class="margin2px" style="width: 250px;"/>
+
+
                                     <h:outputText value="IBAN: " class="padding2px margin2px"/>
                                     <b:inputText value="#{adminModel.tmpBankAccount.iban}" class="margin2px" style="width: 250px;"/>
+
+                                    <h:outputText value="LoginId: " class="padding2px margin2px"/>
+                                    <b:inputText value="#{adminModel.tmpBankAccount.user.loginId}" class="margin2px" style="width: 250px;"/>
 
                                     <h:outputText value="Account status: " class="padding2px margin2px"/>
                                     <b:selectOneMenu value="#{adminModel.tmpBankAccount.accountStatus}" class="margin2px">
                                         <f:selectItem itemLabel="(No account status selected)" itemValue="#{null}" />
                                         <f:selectItems value="#{adminModel.allBankAccountStatuses}"/>
                                     </b:selectOneMenu>
+
+                                    <h:outputText value="Bank institute: " class="padding2px margin2px"/>
+                                    <b:selectOneMenu value="#{adminModel.tmpBankAccount.bankInstitute}" class="margin2px">
+                                        <f:selectItem itemLabel="(No bank institute selected)" itemValue="#{null}" />
+                                        <f:selectItems value="#{adminModel.allBankInstitutes}" var="c" itemValue="#{c}" itemLabel="#{c.name}"/>
+                                    </b:selectOneMenu>
                                 </h:panelGrid>
 
                                 <br/><br/>
 
-                                <b:commandButton class="margin2px" look="success" value="Create or update User" action="#{adminModel.doUpsertBankAccount()}"/>
+                                <b:commandButton class="margin2px" look="success" value="Create or update bank account" action="#{adminModel.doUpsertBankAccount()}"/>
+                                <b:commandButton class="margin2px" look="info" value="Clear Form" ajax="true" update="@(.message-well)" action="#{adminModel.clearBankAccountForm()}"/>
+
                             </h:form>
                         </b:well>
                     </b:tab>
 
                     // ----------------------------------------------------------------------------------------------------------------------------
 
-                    <b:tab title="Bank Institution Management">
+                    <b:tab title="Bank Institute Management">
                         <f:facet name="anchor"><b:iconAwesome value="bank"/></f:facet>
                         <br/>
 
@@ -206,6 +226,9 @@
                         <b:well styleClass="message-well" style="margin-top:10px">
                             <h:form>
                                 <h:panelGrid columns="2" class="block top">
+                                    <h:outputText value="ID: " class="padding2px margin2px"/>
+                                    <b:inputText value="#{adminModel.tmpBankInstitute.id}" disabled="true" class="margin2px" style="width: 250px;"/>
+
                                     <h:outputText value="BIC: " class="padding2px margin2px"/>
                                     <b:inputText value="#{adminModel.tmpBankInstitute.bic}" class="margin2px" style="width: 250px;"/>
 
@@ -215,7 +238,8 @@
 
                                 <br/><br/>
 
-                                <b:commandButton class="margin2px" look="success" value="Create or update User" action="#{adminModel.doUpsertBankInstitute()}"/>
+                                <b:commandButton class="margin2px" look="success" value="Create or update bank institute" action="#{adminModel.doUpsertBankInstitute()}"/>
+                                <b:commandButton class="margin2px" look="info" value="Clear Form" ajax="true" update="@(.message-well)" action="#{adminModel.clearBankInstituteForm()}"/>
                             </h:form>
                         </b:well>
                     </b:tab>

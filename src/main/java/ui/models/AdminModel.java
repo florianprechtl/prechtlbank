@@ -128,10 +128,6 @@ public class AdminModel implements Serializable {
         tmpUser = new User();
     }
 
-    public void clearTransactionForm() {
-        tmpTransaction = new Transaction();
-    }
-
     @Transactional(Transactional.TxType.REQUIRES_NEW)
     public void doDeleteTransaction(Transaction transaction) {
         tabViewIndex = 1;
@@ -149,6 +145,8 @@ public class AdminModel implements Serializable {
     public void doUpsertBankAccount() {
         tabViewIndex = 2;
         BankAccount bankAccount = bankAccountService.getBankAccountById(tmpBankAccount.getId());
+        User user = userService.getUserByLoginId(tmpBankAccount.getUser().getLoginId());
+        tmpBankAccount.setUser(user);
         try {
             if (bankAccount != null) {
                 bankAccountService.updateBankAccount(tmpBankAccount);
@@ -207,6 +205,22 @@ public class AdminModel implements Serializable {
             FacesContext context = FacesContext.getCurrentInstance();
             context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, error, error));
         }
+    }
+
+    public void clearUserForm() {
+        tmpUser = new User();
+    }
+
+    public void clearTransactionForm() {
+        tmpTransaction = new Transaction();
+    }
+
+    public void clearBankAccountForm() {
+        tmpBankAccount = new BankAccount();
+    }
+
+    public void clearBankInstituteForm() {
+        tmpBankInstitute = new BankInstitute();
     }
 
     //////////////////////////////////////////////// GETTER & SETTER ///////////////////////////////////////////////////

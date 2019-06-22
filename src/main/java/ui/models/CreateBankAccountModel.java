@@ -14,6 +14,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.transaction.Transactional;
 import java.io.Serializable;
+import java.util.List;
 
 @Named
 @RequestScoped
@@ -32,16 +33,13 @@ public class CreateBankAccountModel implements Serializable {
     private BankInstituteService bankInstituteService;
 
     private String selectedSteamonKey;
-
+    private BankInstitute selectedBankInstitute;
 
     @Transactional(Transactional.TxType.REQUIRED)
     public String createBankAccount() {
         try {
-            // TODO: Bankinstitut setzen
-            BankInstitute bankInstitute = new BankInstitute("Regensburg PB", "RGB1FSZ7");
-            bankInstituteService.createBankInstitute(bankInstitute);
             String iban = generateIBAN();
-            BankAccount bankAccount = new BankAccount(iban, BankAccountStatus.NEW, bankInstitute, loginUserModel.getUser());
+            BankAccount bankAccount = new BankAccount(iban, BankAccountStatus.NEW, selectedBankInstitute, loginUserModel.getUser());
             bankAccountService.createBankAccount(bankAccount);
             // Give initial money
             transactionService.giveMoneyToIban(1000.00, bankAccount.getIban());
@@ -57,8 +55,7 @@ public class CreateBankAccountModel implements Serializable {
         return "bank-accounts";
     }
 
-    @Transactional(Transactional.TxType.REQUIRED)
-    public String navigateToFirstBankAccount() {
+    public String navigateToCreateFirstBankAccount() {
         if (!loginUserModel.isLoggedIn()) {
             String message = "Um ein Bankkonto zu eröffnen, musst du dich zuerst einloggen oder ein neues Profil registrieren.";
             FacesContext context = FacesContext.getCurrentInstance();
@@ -75,10 +72,6 @@ public class CreateBankAccountModel implements Serializable {
         return "create-bank-account";
     }
 
-    public void test() {
-        bankAccountService.logAllBankAccounts();
-    }
-
     public String getSelectedSteamonKey() {
         return selectedSteamonKey;
     }
@@ -87,15 +80,27 @@ public class CreateBankAccountModel implements Serializable {
         this.selectedSteamonKey = selectedSteamonKey;
     }
 
+    public BankInstitute getSelectedBankInstitute() {
+        return selectedBankInstitute;
+    }
+
+    public void setSelectedBankInstitute(BankInstitute selectedBankInstitute) {
+        this.selectedBankInstitute = selectedBankInstitute;
+    }
+
     public boolean isFirstBankAccount() {
         return bankAccountService.getBankAccountsOfUser(loginUserModel.getUser().getId()).size() == 0;
     }
 
-    public String generateIBAN() {
+    private String generateIBAN() {
         String iban = "DE";
         for(int i = 0; i < 20; i++) {
             iban += (int)(Math.random() * 10);
         }
         return iban;
+    }
+
+    public List<BankInstitute> getAllBankInstitutes() {
+        return bankInstituteService.getAllBankInstitutes();
     }
 }

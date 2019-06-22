@@ -27,6 +27,7 @@ public class BankAccount extends GeneratedIdEntity implements Serializable {
 
     public BankAccount() {
         bankInstitute = new BankInstitute();
+        user = new User();
     }
 
     public BankAccount(String iban, BankAccountStatus accountStatus, BankInstitute bankInstitute, User user) {

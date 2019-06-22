@@ -19,7 +19,7 @@
                         <b:carouselCaption style="top: 120px">
                             <h1 style="font-size: 90px;">PrechtBank</h1>
                             <h:form>
-                                <b:commandButton styleClass="new-account-button" rendered="#{loginUserModel.isCustomer() or !loginUserModel.isLoggedIn()}" action="#{createBankAccountModel.navigateToFirstBankAccount}">Jetzt Konto eröffnen</b:commandButton>
+                                <b:commandButton styleClass="new-account-button" rendered="#{loginUserModel.isCustomer() or !loginUserModel.isLoggedIn()}" action="#{createBankAccountModel.navigateToCreateFirstBankAccount}">Jetzt Konto eröffnen</b:commandButton>
                             </h:form>
                         </b:carouselCaption>
                         <b:carouselItem>
