@@ -2,14 +2,18 @@ package entity;
 
 import entity.util.GeneratedIdEntity;
 
-import javax.persistence.Entity;
+import javax.persistence.*;
 import java.io.Serializable;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
 public class BankInstitute extends GeneratedIdEntity implements Serializable {
     private String name;
     private String bic;
+
+    @OneToMany(mappedBy = "bankInstitute", cascade = CascadeType.ALL)
+    private List<BankAccount> bankAccounts;
 
     public BankInstitute() {
 
