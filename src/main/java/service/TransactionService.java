@@ -1,6 +1,7 @@
 package service;
 
 import entity.BankAccount;
+import entity.BankInstitute;
 import entity.Transaction;
 import entity.dto.LoginDTO;
 import entity.dto.TransactionDTO;
@@ -26,10 +27,13 @@ import java.util.List;
 public class TransactionService implements TransactionServiceIF{
 
     @Inject
-    UserService userService;
+    private UserService userService;
 
     @Inject
-    BankAccountService bankAccountService;
+    private BankAccountService bankAccountService;
+
+    @Inject
+    private BankInstituteService bankInstituteService;
 
     @PersistenceContext
     private EntityManager em;
@@ -41,29 +45,35 @@ public class TransactionService implements TransactionServiceIF{
         if (transaction == null)
             throw new InvalidInputException("Invalid Transaction: Transaction is null", null);
 
-        if (transaction.getPayeeBic() == null)
+        if (transaction.getPayee() == null)
+            throw new InvalidInputException("Invalid Payee.", null);
+
+        if (transaction.getPayee().getBankInstitute() == null)
+            throw new InvalidInputException("Invalid Payee bankInstitute.", null);
+
+        if (transaction.getPayee().getBankInstitute().getBic() == null)
             throw new InvalidInputException("Invalid Payee BIC.", null);
 
-        if (transaction.getPayeeIban() == null)
+        if (transaction.getPayee().getIban() == null)
             throw new InvalidInputException("Invalid Payee IBAN.", null);
 
-        if (!checkIbanAndBic(transaction.getPayeeIban(), transaction.getPayeeBic()))
-            throw new InvalidInputException("Could not find payee account with specified iban and bic", null);
+        if (transaction.getPayer() == null)
+            throw new InvalidInputException("Invalid Payer.", null);
 
-        if (transaction.getPayerBic() == null)
+        if (transaction.getPayer().getBankInstitute() == null)
+            throw new InvalidInputException("Invalid Payer bankInstitute.", null);
+
+        if (transaction.getPayer().getBankInstitute().getBic() == null)
             throw new InvalidInputException("Invalid Payer BIC.", null);
 
-        if (transaction.getPayerIban() == null)
+        if (transaction.getPayer().getIban() == null)
             throw new InvalidInputException("Invalid Payer IBAN.", null);
 
-        if (!checkIbanAndBic(transaction.getPayerIban(), transaction.getPayerBic()))
+        if (!checkIbanAndBic(transaction.getPayee().getIban(), transaction.getPayee().getBankInstitute().getBic()))
+            throw new InvalidInputException("Could not find payee account with specified iban and bic", null);
+
+        if (!checkIbanAndBic(transaction.getPayer().getIban(), transaction.getPayer().getBankInstitute().getBic()))
             throw new InvalidInputException("Could not find payer account with specified iban and bic", null);
-
-        if (transaction.getPayeeIban().equals(transaction.getPayerIban()))
-            throw new InvalidInputException("You can not transfer money to yourself", null);
-
-        if (transaction.getPayerIban() == null)
-            throw new InvalidInputException("Invalid Payer IBAN.", null);
 
         if (transaction.getAmount() <= 0)
             throw new InvalidInputException("Invalid amount.", null);
@@ -93,17 +103,16 @@ public class TransactionService implements TransactionServiceIF{
 
     @Transactional(Transactional.TxType.REQUIRED)
     public TransactionDTO giveMoneyToIban(Double amount, String iban) throws LoginException, TransactionException {
-        BankAccount bankAccount = bankAccountService.getBankAccountByIban(iban);
+        BankAccount payee = bankAccountService.getBankAccountByIban(iban);
+        BankAccount payer = bankAccountService.getBank();
         Transaction transaction = new Transaction();
         transaction.setAmount(amount);
-        transaction.setPayerBic("BANK");
-        transaction.setPayerIban("BANK");
-        transaction.setPayeeBic(bankAccount.getBankInstitute().getBic());
-        transaction.setPayeeIban(bankAccount.getIban());
+        transaction.setPayee(payee);
+        transaction.setPayer(payer);
         transaction.setTransactionStatus(TransactionStatus.DONE);
         transaction.setTransactionType(TransactionType.TRANSFER);
         transaction.setDuration((Duration.ONCE));
-        transaction.setReasonOfUsage("BANK");
+        transaction.setReasonOfUsage("BANK gibt dir Geld");
         transaction.setDate(new Date());
         em.persist(transaction);
         return new TransactionDTO(transaction);
@@ -144,13 +153,13 @@ public class TransactionService implements TransactionServiceIF{
 
     @Transactional(Transactional.TxType.SUPPORTS)
     public List<Transaction> getAllTransactionsByIban(String iban) {
-        List<Transaction> transactions =  em.createQuery("SELECT u FROM Transaction AS u WHERE payeeIban = ?1 OR payerIban = ?1", Transaction.class).setParameter(1, iban).getResultList();
+        List<Transaction> transactions =  em.createQuery("SELECT u FROM Transaction AS u WHERE payee.iban = ?1 OR payer.iban = ?1", Transaction.class).setParameter(1, iban).getResultList();
         return transactions;
     }
 
     @Transactional(Transactional.TxType.SUPPORTS)
     public Transaction getTransactionById(Long id) {
-        Query query = em.createQuery("SELECT u FROM Transaction AS u WHERE id = ?1 OR id = ?1", Transaction.class);
+        Query query = em.createQuery("SELECT u FROM Transaction AS u WHERE id = ?1", Transaction.class);
         query.setParameter(1, id);
         try {
             return (Transaction) query.getSingleResult();

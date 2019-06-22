@@ -107,12 +107,16 @@ public class AdminModel implements Serializable {
     @Transactional(Transactional.TxType.REQUIRES_NEW)
     public void doUpsertTransaction() {
         tabViewIndex = 1;
-        Transaction transaction = transactionService.getTransactionById(tmpTransaction.getId());
-        tmpTransaction.setDate(new Date());
         try {
+            Transaction transaction = transactionService.getTransactionById(tmpTransaction.getId());
+            BankAccount payee = bankAccountService.getBankAccountByIban(tmpTransaction.getPayee().getIban());
+            BankAccount payer = bankAccountService.getBankAccountByIban(tmpTransaction.getPayer().getIban());
+            tmpTransaction.setPayee(payee);
+            tmpTransaction.setPayer(payer);
             if (transaction != null) {
                 transactionService.updateTransaction(tmpTransaction);
             } else {
+                tmpTransaction.setDate(new Date());
                 transactionService.transfer(tmpTransaction);
             }
         } catch (Exception e) {
@@ -122,6 +126,10 @@ public class AdminModel implements Serializable {
         }
 
         tmpUser = new User();
+    }
+
+    public void clearTransactionForm() {
+        tmpTransaction = new Transaction();
     }
 
     @Transactional(Transactional.TxType.REQUIRES_NEW)

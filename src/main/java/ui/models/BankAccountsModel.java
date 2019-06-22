@@ -79,11 +79,11 @@ public class BankAccountsModel implements Serializable {
 
     public String getTransactionPartner(Transaction transaction) {
         if (selectedBankAccount != null && transaction != null) {
-            if (transaction.getPayeeIban() != null) {
-                if (transaction.getPayeeIban().equals(selectedBankAccount.getIban())) {
-                    return transaction.getPayerIban();
+            if (transaction.getPayee() != null && transaction.getPayee().getIban() != null) {
+                if (transaction.getPayee().getIban().equals(selectedBankAccount.getIban())) {
+                    return transaction.getPayer().getIban();
                 } else {
-                    return transaction.getPayeeIban();
+                    return transaction.getPayee().getIban();
                 }
             }
         }
@@ -92,8 +92,8 @@ public class BankAccountsModel implements Serializable {
 
     public String getTransactionAmount(Transaction transaction) {
         if (selectedBankAccount != null && transaction != null) {
-            if (transaction.getPayeeIban() != null) {
-                if (transaction.getPayeeIban().equals(selectedBankAccount.getIban())) {
+            if (transaction.getPayee() != null && transaction.getPayee().getIban() != null) {
+                if (transaction.getPayee().getIban().equals(selectedBankAccount.getIban())) {
                     return "+ " + transaction.getAmount();
                 } else {
                     return "- " + transaction.getAmount();
@@ -113,7 +113,7 @@ public class BankAccountsModel implements Serializable {
         double sum = 0;
         for (int i = 0; i < transactions.size() - 1; i++) {
             Transaction transaction = transactions.get(i);
-            if (transaction.getPayeeIban().equals(selectedBankAccount.getIban())) {
+            if (transaction.getPayee().getIban().equals(selectedBankAccount.getIban())) {
                 sum += transaction.getAmount();
             } else {
                 sum -= transaction.getAmount();

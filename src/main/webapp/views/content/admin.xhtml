@@ -78,10 +78,10 @@
                         <b:dataTable value="#{adminModel.allTransactions}" var="transaction" mark-search-results="true">
 
                             <b:dataTableColumn value="#{transaction.id}" label="Id" order="asc" data-order="#{transaction.id}"/>
-                            <b:dataTableColumn value="#{transaction.payeeIban}" label="Payee IBAN"/>
-                            <b:dataTableColumn value="#{transaction.payeeBic}" label="Payee BIC"/>
-                            <b:dataTableColumn value="#{transaction.payerIban}" label="Payer IBAN"/>
-                            <b:dataTableColumn value="#{transaction.payerBic}" label="Payer BIC"/>
+                            <b:dataTableColumn value="#{transaction.payee.iban}" label="Payee IBAN"/>
+                            <b:dataTableColumn value="#{transaction.payee.bankInstitute.bic}" label="Payee BIC"/>
+                            <b:dataTableColumn value="#{transaction.payer.iban}" label="Payer IBAN"/>
+                            <b:dataTableColumn value="#{transaction.payer.bankInstitute.bic}" label="Payer BIC"/>
                             <b:dataTableColumn value="#{transaction.amount}" label="Amount"/>
 
                             <b:dataTableColumn label="Action">
@@ -94,17 +94,20 @@
                         <b:well styleClass="message-well" style="margin-top:10px">
                             <h:form>
                                 <h:panelGrid columns="2" class="block top">
+                                    <h:outputText value="ID:" class="padding2px margin2px"/>
+                                    <b:inputText value="#{adminModel.tmpTransaction.id}" disabled="true" class="margin2px" style="width: 250px;"/>
+
                                     <h:outputText value="Payee IBAN: " class="padding2px margin2px"/>
-                                    <b:inputText value="#{adminModel.tmpTransaction.payeeIban}" class="margin2px" style="width: 250px;"/>
+                                    <b:inputText value="#{adminModel.tmpTransaction.payee.iban}" class="margin2px" style="width: 250px;"/>
 
                                     <h:outputText value="Payee BIC: " class="padding2px margin2px"/>
-                                    <b:inputText value="#{adminModel.tmpTransaction.payeeBic}" class="margin2px" style="width: 250px;"/>
+                                    <b:inputText value="#{adminModel.tmpTransaction.payee.bankInstitute.bic}" class="margin2px" style="width: 250px;"/>
 
                                     <h:outputText value="Payer IBAN: " class="padding2px margin2px"/>
-                                    <b:inputText value="#{adminModel.tmpTransaction.payerIban}" class="margin2px" style="width: 250px;"/>
+                                    <b:inputText value="#{adminModel.tmpTransaction.payer.iban}" class="margin2px" style="width: 250px;"/>
 
                                     <h:outputText value="Payer BIC: " class="padding2px margin2px"/>
-                                    <b:inputText value="#{adminModel.tmpTransaction.payerBic}" class="margin2px" style="width: 250px;"/>
+                                    <b:inputText value="#{adminModel.tmpTransaction.payer.bankInstitute.bic}" class="margin2px" style="width: 250px;"/>
 
                                     <h:outputText value="Amount: " class="padding2px margin2px"/>
                                     <b:inputText value="#{adminModel.tmpTransaction.amount}" class="margin2px" style="width: 250px;"/>
@@ -134,6 +137,8 @@
                                 <br/><br/>
 
                                 <b:commandButton class="margin2px" look="success" value="Create or update User" action="#{adminModel.doUpsertTransaction()}"/>
+                                <b:commandButton class="margin2px" look="info" value="Clear Form" ajax="true" update="@(.message-well)" action="#{adminModel.clearTransactionForm()}"/>
+
                             </h:form>
                         </b:well>
                     </b:tab>

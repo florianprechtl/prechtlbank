@@ -44,11 +44,9 @@ public class TransferModel {
     @Transactional(Transactional.TxType.REQUIRED)
     public String makeTransaction() {
         try {
-            String payeeIban = iban;
-            String payerIban = selectedBankAccount.getIban();
-            String payeeBic = bic;
-            String payerBic = selectedBankAccount.getBankInstitute().getBic();
-            Transaction transaction = new Transaction(payeeIban, payerIban, amount, payeeBic, payerBic,
+            BankAccount payee = bankAccountService.getBankAccountByIban(selectedBankAccount.getIban());
+            BankAccount payer = bankAccountService.getBankAccountByIban(iban);
+            Transaction transaction = new Transaction(payee, payer, amount,
                     TransactionStatus.NEW, TransactionType.TRANSFER, reasonOfUsage,
                     Duration.ONCE, new Date());
             transactionService.transfer(transaction);

@@ -45,11 +45,9 @@ public class DirectDebitModel {
     @Transactional(Transactional.TxType.REQUIRED)
     public String makeDirectDebit() {
         try {
-            String payerIban = iban;
-            String payeeIban = selectedBankAccount.getIban();
-            String payerBic = bic;
-            String payeeBic = selectedBankAccount.getBankInstitute().getBic();
-            Transaction transaction = new Transaction(payeeIban, payerIban, amount, payeeBic, payerBic,
+            BankAccount payee = bankAccountService.getBankAccountByIban(selectedBankAccount.getIban());
+            BankAccount payer = bankAccountService.getBankAccountByIban(iban);
+            Transaction transaction = new Transaction(payee, payer, amount,
                     TransactionStatus.NEW, TransactionType.DIRECT_DEBIT, reasonOfUsage,
                     duration, new Date());
             transactionService.directDebit(transaction);

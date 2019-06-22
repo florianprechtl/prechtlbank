@@ -18,7 +18,7 @@ public class BankAccount extends GeneratedIdEntity implements Serializable {
     @ManyToOne(fetch = FetchType.EAGER)
     private User user;
 
-    @OneToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER)
     private BankInstitute bankInstitute;
 
     @OneToMany(fetch = FetchType.EAGER)
@@ -26,7 +26,7 @@ public class BankAccount extends GeneratedIdEntity implements Serializable {
 
 
     public BankAccount() {
-
+        bankInstitute = new BankInstitute();
     }
 
     public BankAccount(String iban, BankAccountStatus accountStatus, BankInstitute bankInstitute, User user) {

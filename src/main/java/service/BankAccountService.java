@@ -72,9 +72,29 @@ public class BankAccountService {
     }
 
     @Transactional(Transactional.TxType.SUPPORTS)
+    public List<BankAccount> getBankAccountsByBic(String bic) {
+        List<BankAccount> bankAccounts = em.createQuery("SELECT b FROM BankAccount AS b WHERE b.bankInstitute.bic = ?1", BankAccount.class)
+        .setParameter(1, bic)
+        .getResultList();
+        return bankAccounts;
+    }
+
+    @Transactional(Transactional.TxType.SUPPORTS)
     public BankAccount getBankAccountByIban(String iban) {
         Query query = em.createQuery("SELECT u FROM BankAccount AS u WHERE u.iban = ?1", BankAccount.class);
         query.setParameter(1, iban);
+        try {
+            return (BankAccount) query.getSingleResult();
+        }
+        catch(Exception e) {
+        }
+        return null;
+    }
+
+    @Transactional(Transactional.TxType.SUPPORTS)
+    public BankAccount getBank() {
+        Query query = em.createQuery("SELECT u FROM BankAccount AS u WHERE u.iban = ?1", BankAccount.class);
+        query.setParameter(1, "BANK");
         try {
             return (BankAccount) query.getSingleResult();
         }

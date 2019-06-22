@@ -1,5 +1,6 @@
 package service;
 
+import entity.BankAccount;
 import entity.BankInstitute;
 import entity.Transaction;
 import org.apache.log4j.Logger;
@@ -21,6 +22,8 @@ public class BankInstituteService {
 
     @Inject
     private transient Logger logger;
+
+    @Inject BankAccountService bankAccountService;
 
     private void validateBankInstitutionInput(BankInstitute bankInstitute) throws InvalidInputException {
         if (bankInstitute == null)
@@ -53,17 +56,35 @@ public class BankInstituteService {
         return bankInstitute;
     }
 
-    @Transactional(Transactional.TxType.SUPPORTS)
+    @Transactional(Transactional.TxType.REQUIRED)
     public void deleteBankInstituteById(Long id) {
         BankInstitute bankInstitute = getBankInstituteById(id);
         logger.info("deleteBankInstitute :: Delete bankInstitute");
         // TODO: Remove dependent bankAccounts
+        List<BankAccount> bankAccounts = bankAccountService.getBankAccountsByBic(bankInstitute.getBic());
+        Iterator iterator = bankAccounts.iterator();
+        while(iterator.hasNext()) {
+            em.remove(iterator.next());
+        }
         em.remove(bankInstitute);
         logger.info("deleteBankInstitute :: BankInstitute successfully deleted");
     }
 
     @Transactional(Transactional.TxType.SUPPORTS)
     public BankInstitute getBankInstituteById(Long id) {
+        Query query = em.createQuery("SELECT u FROM BankInstitute AS u WHERE id = ?1", BankInstitute.class);
+        query.setParameter(1, id);
+        try {
+            return (BankInstitute) query.getSingleResult();
+        }
+        catch(Exception e) {
+            logger.info("getBankInstituteById: No element found!");
+            return null;
+        }
+    }
+
+    @Transactional(Transactional.TxType.SUPPORTS)
+    public BankInstitute get(Long id) {
         Query query = em.createQuery("SELECT u FROM BankInstitute AS u WHERE id = ?1", BankInstitute.class);
         query.setParameter(1, id);
         try {

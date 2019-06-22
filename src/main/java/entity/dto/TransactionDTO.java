@@ -1,5 +1,6 @@
 package entity.dto;
 
+import entity.BankAccount;
 import entity.Transaction;
 import entity.enums.Duration;
 import entity.enums.TransactionStatus;
@@ -13,11 +14,9 @@ import java.util.Date;
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 public class TransactionDTO {
-    private String payeeIban;
-    private String payerIban;
+    private BankAccount payee;
+    private BankAccount payer;
     private double amount;
-    private String payeeBic;
-    private String payerBic;
     private TransactionStatus transactionStatus;
     private TransactionType transactionType;
     private String reasonOfUsage;
@@ -29,19 +28,17 @@ public class TransactionDTO {
     }
 
     public TransactionDTO(Transaction transaction) {
-        this(transaction.getPayeeIban(), transaction.getPayerIban(), transaction.getAmount(), transaction.getPayeeBic(),
-                transaction.getPayerBic(), transaction.getTransactionStatus(), transaction.getTransactionType(),
+        this(transaction.getPayee(), transaction.getPayer(), transaction.getAmount(),
+                transaction.getTransactionStatus(), transaction.getTransactionType(),
                 transaction.getReasonOfUsage(), transaction.getDuration(), transaction.getDate());
     }
 
-    public TransactionDTO(String payeeIban, String payerIban, double amount, String payeeBic, String payerBic,
+    public TransactionDTO(BankAccount payee, BankAccount payer, double amount,
                           TransactionStatus transactionStatus, TransactionType transactionType,
                           String reasonOfUsage, Duration duration, Date date) {
-        this.payeeIban = payeeIban;
-        this.payerIban = payerIban;
+        this.payee = payee;
+        this.payer = payer;
         this.amount = amount;
-        this.payeeBic = payeeBic;
-        this.payerBic = payerBic;
         this.transactionStatus = transactionStatus;
         this.transactionType = transactionType;
         this.reasonOfUsage = reasonOfUsage;
@@ -49,20 +46,20 @@ public class TransactionDTO {
         this.date = date;
     }
 
-    public String getPayeeIban() {
-        return payeeIban;
+    public BankAccount getPayee() {
+        return payee;
     }
 
-    public void setPayeeIban(String payeeIban) {
-        this.payeeIban = payeeIban;
+    public void setPayee(BankAccount payee) {
+        this.payee = payee;
     }
 
-    public String getPayerIban() {
-        return payerIban;
+    public BankAccount getPayer() {
+        return payer;
     }
 
-    public void setPayerIban(String payerIban) {
-        this.payerIban = payerIban;
+    public void setPayer(BankAccount payer) {
+        this.payer = payer;
     }
 
     public double getAmount() {
@@ -71,22 +68,6 @@ public class TransactionDTO {
 
     public void setAmount(double amount) {
         this.amount = amount;
-    }
-
-    public String getPayeeBic() {
-        return payeeBic;
-    }
-
-    public void setPayeeBic(String payeeBic) {
-        this.payeeBic = payeeBic;
-    }
-
-    public String getPayerBic() {
-        return payerBic;
-    }
-
-    public void setPayerBic(String payerBic) {
-        this.payerBic = payerBic;
     }
 
     public TransactionStatus getTransactionStatus() {

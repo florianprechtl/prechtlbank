@@ -7,6 +7,9 @@ import entity.enums.TransactionType;
 import entity.util.GeneratedIdEntity;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
@@ -14,11 +17,13 @@ import java.util.Objects;
 @Entity
 public class Transaction extends GeneratedIdEntity implements Serializable {
 
-    private String payeeIban;
-    private String payerIban;
+    @ManyToOne(fetch = FetchType.EAGER)
+    private BankAccount payee;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    private BankAccount payer;
+
     private double amount;
-    private String payeeBic;
-    private String payerBic;
     private TransactionStatus transactionStatus;
     private TransactionType transactionType;
     private String reasonOfUsage;
@@ -26,15 +31,14 @@ public class Transaction extends GeneratedIdEntity implements Serializable {
     private Date date;
 
     public Transaction() {
-
+        payee = new BankAccount();
+        payer = new BankAccount();
     }
 
-    public Transaction(String payeeIban, String payerIban, double amount, String payeeBic, String payerBic, TransactionStatus transactionStatus, TransactionType transactionType, String reasonOfUsage, Duration duration, Date date) {
-        this.payeeIban = payeeIban;
-        this.payerIban = payerIban;
+    public Transaction(BankAccount payee, BankAccount payer, double amount, TransactionStatus transactionStatus, TransactionType transactionType, String reasonOfUsage, Duration duration, Date date) {
+        this.payee = payee;
+        this.payer = payer;
         this.amount = amount;
-        this.payeeBic = payeeBic;
-        this.payerBic = payerBic;
         this.transactionStatus = transactionStatus;
         this.transactionType = transactionType;
         this.reasonOfUsage = reasonOfUsage;
@@ -43,11 +47,9 @@ public class Transaction extends GeneratedIdEntity implements Serializable {
     }
 
     public Transaction(TransactionDTO transactionDTO) {
-        this.payeeIban = transactionDTO.getPayeeIban();
-        this.payerIban = transactionDTO.getPayerIban();
+        this.payee = transactionDTO.getPayee();
+        this.payer = transactionDTO.getPayer();
         this.amount = transactionDTO.getAmount();
-        this.payeeBic = transactionDTO.getPayeeBic();
-        this.payerBic = transactionDTO.getPayerBic();
         this.transactionStatus = transactionDTO.getTransactionStatus();
         this.transactionType = transactionDTO.getTransactionType();
         this.reasonOfUsage = transactionDTO.getReasonOfUsage();
@@ -55,20 +57,20 @@ public class Transaction extends GeneratedIdEntity implements Serializable {
         this.date = transactionDTO.getDate();
     }
 
-    public String getPayeeIban() {
-        return payeeIban;
+    public BankAccount getPayee() {
+        return payee;
     }
 
-    public void setPayeeIban(String payeeIban) {
-        this.payeeIban = payeeIban;
+    public void setPayee(BankAccount payee) {
+        this.payee = payee;
     }
 
-    public String getPayerIban() {
-        return payerIban;
+    public BankAccount getPayer() {
+        return payer;
     }
 
-    public void setPayerIban(String payerIban) {
-        this.payerIban = payerIban;
+    public void setPayer(BankAccount payer) {
+        this.payer = payer;
     }
 
     public double getAmount() {
@@ -77,22 +79,6 @@ public class Transaction extends GeneratedIdEntity implements Serializable {
 
     public void setAmount(double amount) {
         this.amount = amount;
-    }
-
-    public String getPayeeBic() {
-        return payeeBic;
-    }
-
-    public void setPayeeBic(String payeeBic) {
-        this.payeeBic = payeeBic;
-    }
-
-    public String getPayerBic() {
-        return payerBic;
-    }
-
-    public void setPayerBic(String payerBic) {
-        this.payerBic = payerBic;
     }
 
     public TransactionStatus getTransactionStatus() {
@@ -138,37 +124,35 @@ public class Transaction extends GeneratedIdEntity implements Serializable {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (!(o instanceof Transaction)) return false;
         if (!super.equals(o)) return false;
         Transaction that = (Transaction) o;
         return Double.compare(that.getAmount(), getAmount()) == 0 &&
-                Objects.equals(getPayeeIban(), that.getPayeeIban()) &&
-                Objects.equals(getPayerIban(), that.getPayerIban()) &&
-                Objects.equals(getPayeeBic(), that.getPayeeBic()) &&
-                Objects.equals(getPayerBic(), that.getPayerBic()) &&
+                Objects.equals(getPayee(), that.getPayee()) &&
+                Objects.equals(getPayer(), that.getPayer()) &&
                 getTransactionStatus() == that.getTransactionStatus() &&
                 getTransactionType() == that.getTransactionType() &&
                 Objects.equals(getReasonOfUsage(), that.getReasonOfUsage()) &&
-                getDuration() == that.getDuration();
+                getDuration() == that.getDuration() &&
+                Objects.equals(getDate(), that.getDate());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), getPayeeIban(), getPayerIban(), getAmount(), getPayeeBic(), getPayerBic(), getTransactionStatus(), getTransactionType(), getReasonOfUsage(), getDuration());
+        return Objects.hash(super.hashCode(), getPayee(), getPayer(), getAmount(), getTransactionStatus(), getTransactionType(), getReasonOfUsage(), getDuration(), getDate());
     }
 
     @Override
     public String toString() {
         return "Transaction{" +
-                "payeeIban='" + payeeIban + '\'' +
-                ", payerIban='" + payerIban + '\'' +
+                "payee=" + payee +
+                ", payer=" + payer +
                 ", amount=" + amount +
-                ", payeeBic='" + payeeBic + '\'' +
-                ", payerBic='" + payerBic + '\'' +
                 ", transactionStatus=" + transactionStatus +
                 ", transactionType=" + transactionType +
                 ", reasonOfUsage='" + reasonOfUsage + '\'' +
                 ", duration=" + duration +
+                ", date=" + date +
                 ", id=" + id +
                 '}';
     }
