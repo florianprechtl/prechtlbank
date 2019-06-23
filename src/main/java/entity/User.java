@@ -4,10 +4,7 @@ import entity.enums.UserType;
 import entity.util.EntityUtils;
 import entity.util.GeneratedIdEntity;
 
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
@@ -24,7 +21,7 @@ public class User extends GeneratedIdEntity implements Serializable {
 
     private Address address = new Address();
 
-    @OneToOne(fetch = FetchType.EAGER)
+    @OneToOne(fetch = FetchType.EAGER, orphanRemoval = true, mappedBy = "keyReceiver")
     private SteamonKey steamonKey;
 
     public User() {

@@ -12,7 +12,7 @@ public class BankInstitute extends GeneratedIdEntity implements Serializable {
     private String name;
     private String bic;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "bankInstitute", cascade = CascadeType.REMOVE)
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "bankInstitute", cascade = {CascadeType.REMOVE, CascadeType.MERGE})
     private List<BankAccount> bankAccounts;
 
     public BankInstitute() {

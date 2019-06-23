@@ -27,6 +27,9 @@ public class BankAccountService {
     @Inject
     private LoginUserModel loginUserModel;
 
+    @Inject
+    private UserService userService;
+
 
     private void validateBankAccountInput(BankAccount bankAccount) throws InvalidInputException {
         if (bankAccount == null)
@@ -50,8 +53,7 @@ public class BankAccountService {
         validateBankAccountInput(bankAccount);
         SteamonKey steamonKey = new SteamonKey("123456", loginUserModel.getUser());
         em.persist(steamonKey);
-        loginUserModel.getUser().setSteamonKey(steamonKey);
-        em.merge(loginUserModel.getUser());
+        userService.updateSteamonKey(steamonKey);
         createBankAccount(bankAccount);
     }
 

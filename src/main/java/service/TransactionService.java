@@ -39,7 +39,7 @@ public class TransactionService implements TransactionServiceIF{
     private EntityManager em;
 
     @Inject
-    private transient Logger logger;
+    private Logger logger;
 
     private void validateTransactionInput(Transaction transaction) throws InvalidInputException {
         if (transaction == null)

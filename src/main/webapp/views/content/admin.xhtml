@@ -76,6 +76,41 @@
 
                     // ----------------------------------------------------------------------------------------------------------------------------
 
+                    <b:tab title="Steamon Key Management">
+                        <f:facet name="anchor"><b:iconAwesome value="key"/></f:facet>
+                        <br/>
+
+                        <b:dataTable value="#{adminModel.allSteamonKeys}" var="steamonKey" mark-search-results="true">
+
+                            <b:dataTableColumn value="#{steamonKey.id}" label="Id" order="asc" data-order="#{steamonKey.id}"/>
+                            <b:dataTableColumn value="#{steamonKey.keyCode}" label="Key Code"/>
+                            <b:dataTableColumn value="#{steamonKey.keyReceiver.loginId}" label="User"/>
+
+                            <b:dataTableColumn label="Action">
+                                <h:form>
+                                    <b:commandButton class="margin2px" value=" " icon="edit" ajax="true" update="@(.message-well)" onclick="ajax:adminModel.onSteamonKeySelect(steamonKey)"/>
+                                    <b:commandButton class="margin2px" look="danger" value=" " icon="trash" action="#{adminModel.doDeleteSteamonKey(steamonKey)}"/>
+                                </h:form>
+                            </b:dataTableColumn>
+                        </b:dataTable>
+                        <b:well styleClass="message-well" style="margin-top:10px">
+                            <h:form>
+                                <h:panelGrid columns="2" class="block top">
+                                    <h:outputText value="ID: " class="padding2px margin2px"/>
+                                    <b:inputText value="#{adminModel.tmpSteamonKey.id}" disabled="true" class="margin2px" style="width: 250px;"/>
+
+                                    <h:outputText value="Key Code: " class="padding2px margin2px"/>
+                                    <b:inputText value="#{adminModel.tmpSteamonKey.keyCode}" disabled="true" class="margin2px" style="width: 250px;"/>
+
+                                    <h:outputText value="LoginId: " class="padding2px margin2px"/>
+                                    <b:inputText value="#{adminModel.tmpSteamonKey.keyReceiver.loginId}" disabled="true" class="margin2px" style="width: 250px;"/>
+                                </h:panelGrid>
+                            </h:form>
+                        </b:well>
+                    </b:tab>
+
+                    // ----------------------------------------------------------------------------------------------------------------------------
+
                     <b:tab title="Transaction Management">
                         <f:facet name="anchor"><b:iconAwesome value="exchange"/></f:facet>
                         <br/>
@@ -243,7 +278,6 @@
                             </h:form>
                         </b:well>
                     </b:tab>
-
                 </b:tabView>
             </h:panelGroup>
         </f:view>

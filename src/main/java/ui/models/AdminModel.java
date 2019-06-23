@@ -3,10 +3,7 @@ package ui.models;
 import entity.*;
 import entity.enums.*;
 import org.apache.log4j.Logger;
-import service.BankAccountService;
-import service.BankInstituteService;
-import service.TransactionService;
-import service.UserService;
+import service.*;
 
 import javax.enterprise.context.RequestScoped;
 import javax.enterprise.context.SessionScoped;
@@ -37,6 +34,9 @@ public class AdminModel implements Serializable {
     @Inject
     private BankInstituteService bankInstituteService;
 
+    @Inject
+    private SteamonKeyService steamonKeyService;
+
     //////////////////////////////////////////////// VARIABLES /////////////////////////////////////////////////////////
 
     private int tabViewIndex = 0;
@@ -47,6 +47,7 @@ public class AdminModel implements Serializable {
     private Transaction tmpTransaction = new Transaction();
     private BankAccount tmpBankAccount = new BankAccount();
     private BankInstitute tmpBankInstitute = new BankInstitute();
+    private SteamonKey tmpSteamonKey = new SteamonKey();
 
     ///////////////////////////////////////////////// EVENTS ///////////////////////////////////////////////////////////
 
@@ -60,15 +61,21 @@ public class AdminModel implements Serializable {
         tmpTransaction = transaction;
     }
 
-    public void onBankAccountSelect(BankAccount bankAccount) {
+    public void onSteamonKeySelect(SteamonKey steamonKey) {
         tabViewIndex = 2;
+        tmpSteamonKey = steamonKey;
+    }
+
+    public void onBankAccountSelect(BankAccount bankAccount) {
+        tabViewIndex = 3;
         tmpBankAccount = bankAccount;
     }
 
     public void onBankInstituteSelect(BankInstitute bankInstitute) {
-        tabViewIndex = 3;
+        tabViewIndex = 4;
         tmpBankInstitute = bankInstitute;
     }
+
 
     ///////////////////////////////////////////////// ACTIONS //////////////////////////////////////////////////////////
 
@@ -78,6 +85,7 @@ public class AdminModel implements Serializable {
         User user = userService.getUserById(tmpUser.getId());
         try {
             if (user != null) {
+                tmpUser.setSteamonKey(null);
                 userService.updateUser(tmpUser);
             } else {
                 userService.registerUser(tmpUser);
@@ -97,6 +105,7 @@ public class AdminModel implements Serializable {
 
         try {
             userService.deleteUserById(user.getId());
+            clearAllForms();
         } catch(Exception e) {
             String error = "Failed to delete user!: " +  e.getMessage();
             FacesContext context = FacesContext.getCurrentInstance();
@@ -105,8 +114,21 @@ public class AdminModel implements Serializable {
     }
 
     @Transactional(Transactional.TxType.REQUIRES_NEW)
-    public void doUpsertTransaction() {
+    public void doDeleteSteamonKey(SteamonKey steamonKey) {
         tabViewIndex = 1;
+        try {
+            steamonKeyService.deleteSteamonKeyById(steamonKey.getId());
+            clearAllForms();
+        } catch(Exception e) {
+            String error = "Failed to delete steamonKey" + e.getMessage();
+            FacesContext context = FacesContext.getCurrentInstance();
+            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, error, error));
+        }
+    }
+
+    @Transactional(Transactional.TxType.REQUIRES_NEW)
+    public void doUpsertTransaction() {
+        tabViewIndex = 2;
         try {
             Transaction transaction = transactionService.getTransactionById(tmpTransaction.getId());
             BankAccount payee = bankAccountService.getBankAccountByIban(tmpTransaction.getPayee().getIban());
@@ -130,10 +152,11 @@ public class AdminModel implements Serializable {
 
     @Transactional(Transactional.TxType.REQUIRES_NEW)
     public void doDeleteTransaction(Transaction transaction) {
-        tabViewIndex = 1;
+        tabViewIndex = 2;
 
         try {
             transactionService.deleteTransactionById(transaction.getId());
+            clearAllForms();
         } catch(Exception e) {
             String error = "Failed to delete transaction!: " +  e.getMessage();
             FacesContext context = FacesContext.getCurrentInstance();
@@ -143,7 +166,7 @@ public class AdminModel implements Serializable {
 
     @Transactional(Transactional.TxType.REQUIRES_NEW)
     public void doUpsertBankAccount() {
-        tabViewIndex = 2;
+        tabViewIndex = 3;
         BankAccount bankAccount = bankAccountService.getBankAccountById(tmpBankAccount.getId());
         User user = userService.getUserByLoginId(tmpBankAccount.getUser().getLoginId());
         tmpBankAccount.setUser(user);
@@ -164,10 +187,11 @@ public class AdminModel implements Serializable {
 
     @Transactional(Transactional.TxType.REQUIRES_NEW)
     public void doDeleteBankAccount(BankAccount bankAccount) {
-        tabViewIndex = 2;
+        tabViewIndex = 3;
 
         try {
             bankAccountService.deleteBankAccountById(bankAccount.getId());
+            clearAllForms();
         } catch(Exception e) {
             String error = "Failed to delete bankAccount" + e.getMessage();
             FacesContext context = FacesContext.getCurrentInstance();
@@ -177,7 +201,7 @@ public class AdminModel implements Serializable {
 
     @Transactional(Transactional.TxType.REQUIRES_NEW)
     public void doUpsertBankInstitute() {
-        tabViewIndex = 3;
+        tabViewIndex = 4;
         BankInstitute bankInstitute = bankInstituteService.getBankInstituteById(tmpBankInstitute.getId());
         try {
             if (bankInstitute != null) {
@@ -196,10 +220,11 @@ public class AdminModel implements Serializable {
 
     @Transactional(Transactional.TxType.REQUIRES_NEW)
     public void doDeleteBankInstitute(BankInstitute bankInstitute) {
-        tabViewIndex = 3;
+        tabViewIndex = 4;
 
         try {
             bankInstituteService.deleteBankInstituteById(bankInstitute.getId());
+            clearAllForms();
         } catch(Exception e) {
             String error = "Failed to delete bankAccount" + e.getMessage();
             FacesContext context = FacesContext.getCurrentInstance();
@@ -223,6 +248,18 @@ public class AdminModel implements Serializable {
         tmpBankInstitute = new BankInstitute();
     }
 
+    public void clearSteamonKeyForm() {
+        tmpSteamonKey = new SteamonKey();
+    }
+
+    public void clearAllForms() {
+        clearBankAccountForm();
+        clearBankInstituteForm();
+        clearUserForm();
+        clearSteamonKeyForm();
+        clearTransactionForm();
+    }
+
     //////////////////////////////////////////////// GETTER & SETTER ///////////////////////////////////////////////////
 
     public List<User> getAllUsers() {
@@ -239,6 +276,10 @@ public class AdminModel implements Serializable {
 
     public List<BankInstitute> getAllBankInstitutes() {
         return bankInstituteService.getAllBankInstitutes();
+    }
+
+    public List<SteamonKey> getAllSteamonKeys() {
+        return steamonKeyService.getAllSteamonKeys();
     }
 
     public BankAccountStatus[] getAllBankAccountStatuses() {
@@ -299,5 +340,13 @@ public class AdminModel implements Serializable {
 
     public void setTmpBankInstitute(BankInstitute tmpBankInstitute) {
         this.tmpBankInstitute = tmpBankInstitute;
+    }
+
+    public SteamonKey getTmpSteamonKey() {
+        return tmpSteamonKey;
+    }
+
+    public void setTmpSteamonKey(SteamonKey tmpSteamonKey) {
+        this.tmpSteamonKey = tmpSteamonKey;
     }
 }

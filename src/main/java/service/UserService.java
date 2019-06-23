@@ -1,10 +1,12 @@
 package service;
 
+import entity.SteamonKey;
 import entity.User;
 import entity.dto.LoginDTO;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import service.Exceptions.LoginException;
+import ui.models.LoginUserModel;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -22,7 +24,10 @@ public class UserService {
     private EntityManager em;
 
     @Inject
-    private transient Logger logger;
+    private Logger logger;
+
+    @Inject
+    private LoginUserModel loginUserModel;
 
     private void validateUserInput(User user) throws InvalidInputException {
         if (user == null || user.getLoginId() == null || user.getLoginId().length() < 4)
@@ -144,6 +149,15 @@ public class UserService {
             User user = iterator.next();
             logger.info("logAllUsers :: " + user.getPassword() + "   " + user.getLoginId());
         }
+    }
+
+    @Transactional(Transactional.TxType.REQUIRED)
+    public void updateSteamonKey(SteamonKey steamonKey) {
+        User user = getUserById(loginUserModel.getUser().getId());
+        user.setSteamonKey(null);
+        em.persist(user);
+        user.setSteamonKey(steamonKey);
+        em.persist(user);
     }
 
     public static class InvalidInputException extends LoginException {
