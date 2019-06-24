@@ -30,6 +30,9 @@ public class BankAccountService {
     @Inject
     private UserService userService;
 
+    @Inject
+    private TransactionService transactionService;
+
 
     private void validateBankAccountInput(BankAccount bankAccount) throws InvalidInputException {
         if (bankAccount == null)
@@ -71,7 +74,25 @@ public class BankAccountService {
     public void deleteBankAccountById(Long id) {
         BankAccount bankAccount = getBankAccountById(id);
         logger.info("deleteBankAccount :: Delete bankAccount");
+        logger.info("deleteBankAccount :: Delete dependencies");
+        transactionService.deleteTransactionsByIban(bankAccount.getIban());
         em.remove(bankAccount);
+        logger.info("deleteBankAccount :: BankAccount successfully deleted");
+    }
+
+    @Transactional(Transactional.TxType.SUPPORTS)
+    public void deleteBankAccountByUserId(Long userId) {
+        List<BankAccount> bankAccounts =  em.createQuery("SELECT u FROM BankAccount AS u WHERE user.id = ?1", BankAccount.class)
+                .setParameter(1, userId)
+                .getResultList();
+        logger.info("deleteBankAccount :: Delete bankAccount");
+        logger.info("deleteBankAccount :: Delete dependencies");
+        Iterator<BankAccount> bankAccountsIterator = bankAccounts.iterator();
+        while(bankAccountsIterator.hasNext()) {
+            BankAccount bankAccount = bankAccountsIterator.next();
+            transactionService.deleteTransactionsByIban(bankAccount.getIban());
+            em.remove(bankAccount);
+        }
         logger.info("deleteBankAccount :: BankAccount successfully deleted");
     }
 

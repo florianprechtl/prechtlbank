@@ -1,7 +1,6 @@
 package service;
 
 import entity.BankAccount;
-import entity.BankInstitute;
 import entity.Transaction;
 import entity.dto.LoginDTO;
 import entity.dto.TransactionDTO;
@@ -11,10 +10,11 @@ import entity.enums.TransactionType;
 import org.apache.log4j.Logger;
 import service.Exceptions.LoginException;
 import service.Exceptions.TransactionException;
-import ui.models.LoginUserModel;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
+import javax.jws.WebMethod;
+import javax.jws.WebService;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
@@ -23,6 +23,7 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
+@WebService
 @RequestScoped
 public class TransactionService implements TransactionServiceIF{
 
@@ -31,9 +32,6 @@ public class TransactionService implements TransactionServiceIF{
 
     @Inject
     private BankAccountService bankAccountService;
-
-    @Inject
-    private BankInstituteService bankInstituteService;
 
     @PersistenceContext
     private EntityManager em;
@@ -94,6 +92,7 @@ public class TransactionService implements TransactionServiceIF{
             throw new InvalidInputException("Invalid date.", null);
     }
 
+    @WebMethod
     @Transactional(Transactional.TxType.REQUIRED)
     public TransactionDTO transfer(LoginDTO loginDTO, TransactionDTO transactionDTO) throws LoginException, TransactionException {
         userService.loginUser(loginDTO);
@@ -101,8 +100,9 @@ public class TransactionService implements TransactionServiceIF{
         return new TransactionDTO(transfer(transaction));
     }
 
+    @WebMethod(exclude = true)
     @Transactional(Transactional.TxType.REQUIRED)
-    public TransactionDTO giveMoneyToIban(Double amount, String iban) throws LoginException, TransactionException {
+    public TransactionDTO giveMoneyToIban(Double amount, String iban) {
         BankAccount payee = bankAccountService.getBankAccountByIban(iban);
         BankAccount payer = bankAccountService.getBank();
         Transaction transaction = new Transaction();
@@ -118,6 +118,7 @@ public class TransactionService implements TransactionServiceIF{
         return new TransactionDTO(transaction);
     }
 
+    @WebMethod
     @Transactional(Transactional.TxType.SUPPORTS)
     public TransactionDTO directDebit(LoginDTO loginDTO, TransactionDTO transactionDTO) throws LoginException, TransactionException {
         userService.loginUser(loginDTO);
@@ -125,6 +126,7 @@ public class TransactionService implements TransactionServiceIF{
         return new TransactionDTO(transfer(transaction));
     }
 
+    @WebMethod(exclude = true)
     @Transactional(Transactional.TxType.SUPPORTS)
     public Transaction directDebit(Transaction transaction) throws TransactionException {
         logger.info("directDebit :: Check directDebit data");
@@ -135,6 +137,7 @@ public class TransactionService implements TransactionServiceIF{
         return transaction;
     }
 
+    @WebMethod(exclude = true)
     @Transactional(Transactional.TxType.SUPPORTS)
     public Transaction transfer(Transaction transaction) throws InvalidInputException {
         logger.info("transfer :: Check transfer data");
@@ -145,18 +148,23 @@ public class TransactionService implements TransactionServiceIF{
         return transaction;
     }
 
+    @WebMethod(exclude = true)
     @Transactional(Transactional.TxType.SUPPORTS)
     public List<Transaction> getAllTransactions() {
         List<Transaction> transactions =  em.createQuery("SELECT u FROM Transaction AS u", Transaction.class).getResultList();
         return transactions;
     }
 
+    @WebMethod(exclude = true)
     @Transactional(Transactional.TxType.SUPPORTS)
     public List<Transaction> getAllTransactionsByIban(String iban) {
-        List<Transaction> transactions =  em.createQuery("SELECT u FROM Transaction AS u WHERE payee.iban = ?1 OR payer.iban = ?1", Transaction.class).setParameter(1, iban).getResultList();
+        List<Transaction> transactions =  em.createQuery("SELECT u FROM Transaction AS u WHERE payee.iban = ?1 OR payer.iban = ?1", Transaction.class)
+                .setParameter(1, iban)
+                .getResultList();
         return transactions;
     }
 
+    @WebMethod(exclude = true)
     @Transactional(Transactional.TxType.SUPPORTS)
     public Transaction getTransactionById(Long id) {
         Query query = em.createQuery("SELECT u FROM Transaction AS u WHERE id = ?1", Transaction.class);
@@ -170,6 +178,7 @@ public class TransactionService implements TransactionServiceIF{
         }
     }
 
+    @WebMethod(exclude = true)
     @Transactional(Transactional.TxType.SUPPORTS)
     public Transaction updateTransaction(Transaction transaction) throws InvalidInputException {
         logger.info("updateTransaction :: Check Transaction data");
@@ -180,14 +189,53 @@ public class TransactionService implements TransactionServiceIF{
         return transaction;
     }
 
+    @WebMethod(exclude = true)
     @Transactional(Transactional.TxType.SUPPORTS)
     public void deleteTransactionById(Long id) {
         Transaction transaction = getTransactionById(id);
-        logger.info("deleteTransaction :: delete transaction");
+        logger.info("deleteTransaction :: Delete transaction");
         em.remove(transaction);
-        logger.info("deleteTransaction :: transaction successfully deleted");
+        logger.info("deleteTransaction :: Transaction successfully deleted");
     }
 
+    @WebMethod(exclude = true)
+    @Transactional(Transactional.TxType.SUPPORTS)
+    public void deleteTransactionByUserId(Long userId) {
+        List<Transaction> transactions =  em.createQuery("SELECT u FROM Transaction AS u WHERE payee.user.id = ?1 OR payer.user.id = ?1", Transaction.class)
+                .setParameter(1, userId)
+                .getResultList();
+        logger.info("deleteTransaction :: Delete transactions");
+        Iterator<Transaction> transactionIterator = transactions.iterator();
+        while(transactionIterator.hasNext()) {
+            em.remove(transactionIterator.next());
+        }
+        logger.info("deleteTransaction :: Transactions successfully deleted");
+    }
+
+    @WebMethod(exclude = true)
+    @Transactional(Transactional.TxType.SUPPORTS)
+    public void deleteTransactionsByIban(String iban) {
+        List<Transaction> transactions =  em.createQuery("SELECT u FROM Transaction AS u WHERE payee.iban = ?1 OR payer.iban = ?1", Transaction.class)
+                .setParameter(1, iban)
+                .getResultList();
+        logger.info("deleteTransaction :: Delete transactions");
+        Iterator<Transaction> transactionIterator = transactions.iterator();
+        while(transactionIterator.hasNext()) {
+            em.remove(transactionIterator.next());
+        }
+        logger.info("deleteTransaction :: Transactions successfully deleted");
+    }
+
+    @WebMethod(exclude = true)
+    @Transactional(Transactional.TxType.SUPPORTS)
+    public List<Transaction> getAllPlannedTransactions() {
+        List<Transaction> transactions =  em.createQuery("SELECT u FROM Transaction AS u WHERE duration != ?1", Transaction.class)
+                .setParameter(1, Duration.ONCE)
+                .getResultList();
+        return transactions;
+    }
+
+    @WebMethod(exclude = true)
     public void logAllTransactions() {
         List<Transaction> transactions = getAllTransactions();
         Iterator<Transaction> iterator = transactions.iterator();
@@ -197,6 +245,7 @@ public class TransactionService implements TransactionServiceIF{
         }
     }
 
+    @WebMethod(exclude = true)
     public boolean checkIbanAndBic(String iban, String bic) {
         BankAccount bankAccount = bankAccountService.getBankAccountByIban(iban);
         if (bankAccount != null && iban != null && bic!= null) {

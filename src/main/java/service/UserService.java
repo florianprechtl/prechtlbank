@@ -29,6 +29,12 @@ public class UserService {
     @Inject
     private LoginUserModel loginUserModel;
 
+    @Inject
+    private TransactionService transactionService;
+
+    @Inject
+    private BankAccountService bankAccountService;
+
     private void validateUserInput(User user) throws InvalidInputException {
         if (user == null || user.getLoginId() == null || user.getLoginId().length() < 4)
             throw new InvalidInputException("The generated Login Id is not valid.", null);
@@ -88,7 +94,8 @@ public class UserService {
     public void deleteUserById(Long id) {
         User user = getUserById(id);
         logger.info("deleteUser :: delete dependencies");
-        // TODO: Delete Dependencies
+        transactionService.deleteTransactionByUserId(id);
+        bankAccountService.deleteBankAccountByUserId(id);
         logger.info("deleteUser :: delete user");
         em.remove(user);
 
