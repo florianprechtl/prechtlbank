@@ -63,6 +63,12 @@
 
                                     <h:outputText value="LoginId: " class="padding2px margin2px"/>
                                     <b:inputText value="#{adminModel.tmpUser.loginId}" class="margin2px" style="width: 250px;"/>
+
+                                    <h:outputText value="User Type: " class="padding2px margin2px"/>
+                                    <b:selectOneMenu value="#{adminModel.tmpUser.userType}" class="margin2px">
+                                        <f:selectItem itemLabel="(No user type selected)" itemValue="#{null}" />
+                                        <f:selectItems value="#{adminModel.allUserTypes}"/>
+                                    </b:selectOneMenu>
                                 </h:panelGrid>
 
                                 <br/><br/>

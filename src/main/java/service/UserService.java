@@ -36,7 +36,11 @@ public class UserService {
     private BankAccountService bankAccountService;
 
     private void validateUserInput(User user) throws InvalidInputException {
-        if (user == null || user.getLoginId() == null || user.getLoginId().length() < 4)
+
+        if (user == null)
+            throw new InvalidInputException("User is null.", null);
+
+        if (user.getLoginId() == null || user.getLoginId().length() < 4)
             throw new InvalidInputException("The generated Login Id is not valid.", null);
 
         if (user.getFirstname() == null || user.getFirstname().length() < 1)
@@ -56,6 +60,9 @@ public class UserService {
 
         if (user.getAddress().getCountry() == null || user.getAddress().getCountry().length() < 2)
             throw new InvalidInputException("The entered Country is too short.", null);
+
+        if (user.getUserType() == null)
+            throw new InvalidInputException("userType is not set.", null);
     }
 
     private void checkForExistingUser(User user) throws DuplicateUserException {
