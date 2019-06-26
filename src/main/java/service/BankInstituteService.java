@@ -4,6 +4,7 @@ import entity.BankAccount;
 import entity.BankInstitute;
 import entity.Transaction;
 import org.apache.log4j.Logger;
+import service.Exceptions.ValidationException;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -25,19 +26,19 @@ public class BankInstituteService {
 
     @Inject BankAccountService bankAccountService;
 
-    private void validateBankInstitutionInput(BankInstitute bankInstitute) throws InvalidInputException {
+    private void validateBankInstitutionInput(BankInstitute bankInstitute) throws ValidationException {
         if (bankInstitute == null)
-            throw new InvalidInputException("BankInstitute is null.", null);
+            throw new ValidationException("BankInstitute is null.", null);
 
         if (bankInstitute.getBic() == null)
-            throw new InvalidInputException("The bic is invalid.", null);
+            throw new ValidationException("The bic is invalid.", null);
 
         if (bankInstitute.getName() == null)
-            throw new InvalidInputException("The name is invalid.", null);
+            throw new ValidationException("The name is invalid.", null);
     }
 
     @Transactional(Transactional.TxType.REQUIRED)
-    public BankInstitute createBankInstitute(BankInstitute bankInstitute)  throws InvalidInputException {
+    public BankInstitute createBankInstitute(BankInstitute bankInstitute)  throws ValidationException {
         logger.info("createBankInstitute :: Check bankInstitute data");
         validateBankInstitutionInput(bankInstitute);
         logger.info("createBankInstitute :: Create bankInstitute");
@@ -47,7 +48,7 @@ public class BankInstituteService {
     }
 
     @Transactional(Transactional.TxType.SUPPORTS)
-    public BankInstitute updateBankInstitute(BankInstitute bankInstitute) throws InvalidInputException {
+    public BankInstitute updateBankInstitute(BankInstitute bankInstitute) throws ValidationException {
         logger.info("updateBankInstitute :: Check bankInstitute data");
         validateBankInstitutionInput(bankInstitute);
         logger.info("updateBankInstitute :: Update bankInstitute");
@@ -110,12 +111,6 @@ public class BankInstituteService {
         while(iterator.hasNext()) {
             BankInstitute bankInstitute = iterator.next();
             logger.info("logAllBankInstitutes :: " + bankInstitute.getName() + "   " + bankInstitute.getBic());
-        }
-    }
-
-    public static class InvalidInputException extends Exception {
-        public InvalidInputException(String message, Throwable cause) {
-            super(message, cause);
         }
     }
 }

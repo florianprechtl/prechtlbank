@@ -4,6 +4,7 @@ import entity.enums.BankAccountStatus;
 import entity.util.GeneratedIdEntity;
 
 import javax.persistence.*;
+import javax.xml.bind.annotation.XmlTransient;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
@@ -11,8 +12,10 @@ import java.util.Objects;
 @Entity
 public class BankAccount extends GeneratedIdEntity implements Serializable {
 
-
+    @XmlTransient
     private BankAccountStatus accountStatus;
+
+    @XmlTransient
     private String iban;
 
     @ManyToOne(fetch = FetchType.EAGER)

@@ -22,6 +22,7 @@ public class TransactionDTO {
     private String reasonOfUsage;
     private Duration duration;
     private Date date;
+    private Date lastTransactionDate;
 
     public TransactionDTO() {
 
@@ -44,6 +45,7 @@ public class TransactionDTO {
         this.reasonOfUsage = reasonOfUsage;
         this.duration = duration;
         this.date = date;
+        this.lastTransactionDate = date;
     }
 
     public BankAccount getPayee() {
@@ -108,5 +110,13 @@ public class TransactionDTO {
 
     public void setDate(Date date) {
         this.date = date;
+    }
+
+    public Date getLastTransactionDate() {
+        return lastTransactionDate;
+    }
+
+    public void setLastTransactionDate(Date lastTransactionDate) {
+        this.lastTransactionDate = lastTransactionDate;
     }
 }

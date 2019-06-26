@@ -10,6 +10,7 @@ import entity.enums.TransactionType;
 import org.apache.log4j.Logger;
 import service.Exceptions.LoginException;
 import service.Exceptions.TransactionException;
+import service.Exceptions.ValidationException;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
@@ -19,11 +20,13 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.transaction.Transactional;
+import javax.xml.bind.annotation.XmlTransient;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
 @WebService
+@XmlTransient
 @RequestScoped
 public class TransactionService implements TransactionServiceIF{
 
@@ -39,59 +42,60 @@ public class TransactionService implements TransactionServiceIF{
     @Inject
     private Logger logger;
 
-    private void validateTransactionInput(Transaction transaction) throws InvalidInputException {
+    private void validateTransactionInput(Transaction transaction) throws ValidationException {
         if (transaction == null)
-            throw new InvalidInputException("Invalid Transaction: Transaction is null", null);
+            throw new ValidationException("Invalid Transaction: Transaction is null", null);
 
         if (transaction.getPayee() == null)
-            throw new InvalidInputException("Invalid Payee.", null);
+            throw new ValidationException("Invalid Payee.", null);
 
         if (transaction.getPayee().getBankInstitute() == null)
-            throw new InvalidInputException("Invalid Payee bankInstitute.", null);
+            throw new ValidationException("Invalid Payee bankInstitute.", null);
 
         if (transaction.getPayee().getBankInstitute().getBic() == null)
-            throw new InvalidInputException("Invalid Payee BIC.", null);
+            throw new ValidationException("Invalid Payee BIC.", null);
 
         if (transaction.getPayee().getIban() == null)
-            throw new InvalidInputException("Invalid Payee IBAN.", null);
+            throw new ValidationException("Invalid Payee IBAN.", null);
 
         if (transaction.getPayer() == null)
-            throw new InvalidInputException("Invalid Payer.", null);
+            throw new ValidationException("Invalid Payer.", null);
 
         if (transaction.getPayer().getBankInstitute() == null)
-            throw new InvalidInputException("Invalid Payer bankInstitute.", null);
+            throw new ValidationException("Invalid Payer bankInstitute.", null);
 
         if (transaction.getPayer().getBankInstitute().getBic() == null)
-            throw new InvalidInputException("Invalid Payer BIC.", null);
+            throw new ValidationException("Invalid Payer BIC.", null);
 
         if (transaction.getPayer().getIban() == null)
-            throw new InvalidInputException("Invalid Payer IBAN.", null);
+            throw new ValidationException("Invalid Payer IBAN.", null);
 
         if (!checkIbanAndBic(transaction.getPayee().getIban(), transaction.getPayee().getBankInstitute().getBic()))
-            throw new InvalidInputException("Could not find payee account with specified iban and bic", null);
+            throw new ValidationException("Could not find payee account with specified iban and bic", null);
 
         if (!checkIbanAndBic(transaction.getPayer().getIban(), transaction.getPayer().getBankInstitute().getBic()))
-            throw new InvalidInputException("Could not find payer account with specified iban and bic", null);
+            throw new ValidationException("Could not find payer account with specified iban and bic", null);
 
         if (transaction.getAmount() <= 0)
-            throw new InvalidInputException("Invalid amount.", null);
+            throw new ValidationException("Invalid amount.", null);
 
         if (transaction.getReasonOfUsage() == null)
-            throw new InvalidInputException("Invalid reason of usage.", null);
+            throw new ValidationException("Invalid reason of usage.", null);
 
         if(transaction.getTransactionStatus() == null)
-            throw new InvalidInputException("Invalid transaction status.", null);
+            throw new ValidationException("Invalid transaction status.", null);
 
         if (transaction.getTransactionType() == null)
-            throw new InvalidInputException("Invalid transaction type.", null);
+            throw new ValidationException("Invalid transaction type.", null);
 
         if (transaction.getDuration() == null)
-            throw new InvalidInputException("Invalid duration.", null);
+            throw new ValidationException("Invalid duration.", null);
 
         if (transaction.getDate() == null)
-            throw new InvalidInputException("Invalid date.", null);
+            throw new ValidationException("Invalid date.", null);
     }
 
+    @Override
     @WebMethod
     @Transactional(Transactional.TxType.REQUIRED)
     public TransactionDTO transfer(LoginDTO loginDTO, TransactionDTO transactionDTO) throws LoginException, TransactionException {
@@ -118,6 +122,7 @@ public class TransactionService implements TransactionServiceIF{
         return new TransactionDTO(transaction);
     }
 
+    @Override
     @WebMethod
     @Transactional(Transactional.TxType.SUPPORTS)
     public TransactionDTO directDebit(LoginDTO loginDTO, TransactionDTO transactionDTO) throws LoginException, TransactionException {
@@ -129,22 +134,30 @@ public class TransactionService implements TransactionServiceIF{
     @WebMethod(exclude = true)
     @Transactional(Transactional.TxType.SUPPORTS)
     public Transaction directDebit(Transaction transaction) throws TransactionException {
-        logger.info("directDebit :: Check directDebit data");
-        validateTransactionInput(transaction);
-        logger.info("directDebit :: Save directDebit");
-        em.persist(transaction);
-        logger.info("directDebit :: Successfully saved transaction as directDebit!");
+        try {
+            logger.info("directDebit :: Check directDebit data");
+            validateTransactionInput(transaction);
+            logger.info("directDebit :: Save directDebit");
+            em.persist(transaction);
+            logger.info("directDebit :: Successfully saved transaction as directDebit!");
+        } catch (Exception e) {
+            throw new TransactionException(e.getMessage(), e);
+        }
         return transaction;
     }
 
     @WebMethod(exclude = true)
     @Transactional(Transactional.TxType.SUPPORTS)
-    public Transaction transfer(Transaction transaction) throws InvalidInputException {
-        logger.info("transfer :: Check transfer data");
-        validateTransactionInput(transaction);
-        logger.info("transfer :: Save transfer");
-        em.persist(transaction);
-        logger.info("transfer :: Successfully saved transaction as Transfer!");
+    public Transaction transfer(Transaction transaction) throws TransactionException {
+        try {
+            logger.info("transfer :: Check transfer data");
+            validateTransactionInput(transaction);
+            logger.info("transfer :: Save transfer");
+            em.persist(transaction);
+            logger.info("transfer :: Successfully saved transaction as Transfer!");
+        } catch (Exception e) {
+            throw new TransactionException(e.getMessage(), e);
+        }
         return transaction;
     }
 
@@ -180,7 +193,7 @@ public class TransactionService implements TransactionServiceIF{
 
     @WebMethod(exclude = true)
     @Transactional(Transactional.TxType.SUPPORTS)
-    public Transaction updateTransaction(Transaction transaction) throws InvalidInputException {
+    public Transaction updateTransaction(Transaction transaction) throws ValidationException {
         logger.info("updateTransaction :: Check Transaction data");
         validateTransactionInput(transaction);
         logger.info("updateTransaction :: Update transaction");
@@ -254,11 +267,5 @@ public class TransactionService implements TransactionServiceIF{
             }
         }
         return false;
-    }
-
-    public static class InvalidInputException extends TransactionException {
-        public InvalidInputException(String message, Throwable cause) {
-            super(message, cause);
-        }
     }
 }

@@ -3,6 +3,7 @@ package ui.models;
 import entity.User;
 import entity.dto.LoginDTO;
 import entity.enums.UserType;
+import service.Exceptions.LoginException;
 import service.UserService;
 
 import javax.enterprise.context.SessionScoped;
@@ -32,7 +33,7 @@ public class LoginUserModel implements Serializable {
             user = userService.loginUser(new LoginDTO(loginId, password));
             loginId = "";
             password = "";
-        } catch(UserService.InvalidCredentialsException e) {
+        } catch(LoginException e) {
             error = e.getMessage();
             FacesContext context = FacesContext.getCurrentInstance();
             context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, error, error));

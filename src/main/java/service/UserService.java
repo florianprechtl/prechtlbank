@@ -6,6 +6,7 @@ import entity.dto.LoginDTO;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import service.Exceptions.LoginException;
+import service.Exceptions.ValidationException;
 import ui.models.LoginUserModel;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -35,50 +36,45 @@ public class UserService {
     @Inject
     private BankAccountService bankAccountService;
 
-    private void validateUserInput(User user) throws InvalidInputException {
+    private void validateUserInput(User user) throws ValidationException {
 
         if (user == null)
-            throw new InvalidInputException("User is null.", null);
+            throw new ValidationException("User is null.", null);
 
         if (user.getLoginId() == null || user.getLoginId().length() < 4)
-            throw new InvalidInputException("The generated Login Id is not valid.", null);
+            throw new ValidationException("The generated Login Id is not valid.", null);
 
         if (user.getFirstname() == null || user.getFirstname().length() < 1)
-            throw new InvalidInputException("The entered First Name is too short.", null);
+            throw new ValidationException("The entered First Name is too short.", null);
 
         if (user.getLastname() == null || user.getLastname().length() < 1)
-            throw new InvalidInputException("The entered Last Name is too short.", null);
+            throw new ValidationException("The entered Last Name is too short.", null);
 
         if (user.getAddress().getStreet() == null || user.getAddress().getStreet().length() < 2)
-            throw new InvalidInputException("The entered Street is too short.", null);
+            throw new ValidationException("The entered Street is too short.", null);
 
         if (user.getAddress().getCity() == null || user.getAddress().getCity().length() < 2)
-            throw new InvalidInputException("The entered City is too short.", null);
+            throw new ValidationException("The entered City is too short.", null);
 
         if (!StringUtils.isNumeric(user.getAddress().getZip()))
-            throw new InvalidInputException("The entered ZIP Code is not valid.", null);
+            throw new ValidationException("The entered ZIP Code is not valid.", null);
 
         if (user.getAddress().getCountry() == null || user.getAddress().getCountry().length() < 2)
-            throw new InvalidInputException("The entered Country is too short.", null);
+            throw new ValidationException("The entered Country is too short.", null);
 
         if (user.getUserType() == null)
-            throw new InvalidInputException("userType is not set.", null);
-    }
+            throw new ValidationException("userType is not set.", null);
 
-    private void checkForExistingUser(User user) throws DuplicateUserException {
         User existingUser = getUserByLoginId(user.getLoginId());
         if (existingUser != null) {
-            throw new DuplicateUserException("Duplicate User: User with loginId: " + user.getLoginId() + " does already exist.", null);
+            throw new ValidationException("Duplicate User: User with loginId: " + user.getLoginId() + " does already exist.", null);
         }
     }
 
-    @Transactional(Transactional.TxType.REQUIRED)
-    public User registerUser(User user) throws InvalidInputException, DuplicateUserException {
+    @Transactional(Transactional.TxType.SUPPORTS)
+    public User registerUser(User user) throws ValidationException {
         logger.info("registerUser :: Validate user input");
         validateUserInput(user);
-
-        logger.info("registerUser :: Check if user does already exist");
-        checkForExistingUser(user);
 
         em.persist(user);
         logger.info("registerUser :: User with loginId: " + user.getLoginId() + " successfully registered");
@@ -86,8 +82,8 @@ public class UserService {
         return user;
     }
 
-    @Transactional(Transactional.TxType.REQUIRED)
-    public User updateUser(User user) throws InvalidInputException {
+    @Transactional(Transactional.TxType.SUPPORTS)
+    public User updateUser(User user) throws ValidationException {
         logger.info("updateUser :: Validate user input");
         validateUserInput(user);
 
@@ -109,19 +105,19 @@ public class UserService {
         logger.info("deleteUser :: user successfully deleted");
     }
 
-    @Transactional(Transactional.TxType.REQUIRED)
-    public User loginUser(LoginDTO loginData) throws InvalidCredentialsException {
+    @Transactional(Transactional.TxType.SUPPORTS)
+    public User loginUser(LoginDTO loginData) throws LoginException {
         logger.info("loginUser :: Check Login DTO data");
         if(loginData == null || loginData.getLoginId() == null || loginData.getPassword() == null)
-            throw new InvalidCredentialsException("Entered data seems to be incomplete or invalid.", null);
+            throw new LoginException("Entered data seems to be incomplete or invalid.", null);
 
         logger.info("loginUser :: Check credentials");
         User user = getUserByLoginId(loginData.getLoginId());
         if (user == null) {
-            throw new InvalidCredentialsException("User '" + loginData.getLoginId() + "' does not exist.", null);
+            throw new LoginException("User '" + loginData.getLoginId() + "' does not exist.", null);
         }
         if (!user.checkPassword(loginData.getPassword())) {
-            throw new InvalidCredentialsException("The entered password is wrong.", null);
+            throw new LoginException("The entered password is wrong.", null);
         }
         return user;
     }
@@ -156,15 +152,6 @@ public class UserService {
         return users;
     }
 
-    public void logAllUsers() {
-        List<User> users = getAllUsers();
-        Iterator<User> iterator = users.iterator();
-        while(iterator.hasNext()) {
-            User user = iterator.next();
-            logger.info("logAllUsers :: " + user.getPassword() + "   " + user.getLoginId());
-        }
-    }
-
     @Transactional(Transactional.TxType.REQUIRED)
     public void updateSteamonKey(SteamonKey steamonKey) {
         User user = getUserById(loginUserModel.getUser().getId());
@@ -173,23 +160,4 @@ public class UserService {
         user.setSteamonKey(steamonKey);
         em.persist(user);
     }
-
-    public static class InvalidInputException extends LoginException {
-        public InvalidInputException(String message, Throwable cause) {
-            super(message, cause);
-        }
-    }
-
-    public static class DuplicateUserException extends LoginException {
-        public DuplicateUserException(String message, Throwable cause) {
-            super(message, cause);
-        }
-    }
-
-    public static class InvalidCredentialsException extends LoginException {
-        public InvalidCredentialsException(String message, Throwable cause) {
-            super(message, cause);
-        }
-    }
-
 }

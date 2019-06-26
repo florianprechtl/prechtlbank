@@ -4,6 +4,7 @@ import entity.BankAccount;
 import entity.BankInstitute;
 import entity.SteamonKey;
 import org.apache.log4j.Logger;
+import service.Exceptions.ValidationException;
 import ui.models.LoginUserModel;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -34,25 +35,25 @@ public class BankAccountService {
     private TransactionService transactionService;
 
 
-    private void validateBankAccountInput(BankAccount bankAccount) throws InvalidInputException {
+    private void validateBankAccountInput(BankAccount bankAccount) throws ValidationException {
         if (bankAccount == null)
-            throw new InvalidInputException("BankAccount is null.", null);
+            throw new ValidationException("BankAccount is null.", null);
 
         if (bankAccount.getAccountStatus() == null)
-            throw new InvalidInputException("The Account status is invalid.", null);
+            throw new ValidationException("The Account status is invalid.", null);
 
         if (bankAccount.getBankInstitute() == null)
-            throw new InvalidInputException("The Banking institute is invalid.", null);
+            throw new ValidationException("The Banking institute is invalid.", null);
     }
 
     @Transactional(Transactional.TxType.SUPPORTS)
-    public void createBankAccount(BankAccount bankAccount) throws InvalidInputException {
+    public void createBankAccount(BankAccount bankAccount) throws ValidationException {
         validateBankAccountInput(bankAccount);
         em.persist(bankAccount);
     }
 
     @Transactional(Transactional.TxType.REQUIRED)
-    public void createFirstBankAccount(BankAccount bankAccount) throws InvalidInputException {
+    public void createFirstBankAccount(BankAccount bankAccount) throws ValidationException {
         validateBankAccountInput(bankAccount);
         SteamonKey steamonKey = new SteamonKey("123456", loginUserModel.getUser());
         em.persist(steamonKey);
@@ -61,7 +62,7 @@ public class BankAccountService {
     }
 
     @Transactional(Transactional.TxType.SUPPORTS)
-    public BankAccount updateBankAccount(BankAccount bankAccount) throws InvalidInputException {
+    public BankAccount updateBankAccount(BankAccount bankAccount) throws ValidationException {
         logger.info("updateBankAccount :: Check bankAccount data");
         validateBankAccountInput(bankAccount);
         logger.info("updateBankAccount :: Update bankAccount");
@@ -161,12 +162,6 @@ public class BankAccountService {
         while(iterator.hasNext()) {
             BankAccount bankAccount = iterator.next();
             logger.info("logAllBankAccounts :: " + bankAccount);
-        }
-    }
-
-    public static class InvalidInputException extends Exception {
-        public InvalidInputException(String message, Throwable cause) {
-            super(message, cause);
         }
     }
 }

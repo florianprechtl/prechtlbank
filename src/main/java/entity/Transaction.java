@@ -10,6 +10,7 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
+import javax.xml.bind.annotation.XmlTransient;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
@@ -29,6 +30,7 @@ public class Transaction extends GeneratedIdEntity implements Serializable {
     private String reasonOfUsage;
     private Duration duration;
     private Date date;
+    private Date lastTransactionDate;
 
     public Transaction() {
         payee = new BankAccount();
@@ -44,6 +46,7 @@ public class Transaction extends GeneratedIdEntity implements Serializable {
         this.reasonOfUsage = reasonOfUsage;
         this.duration = duration;
         this.date = date;
+        this.lastTransactionDate = date;
     }
 
     public Transaction(TransactionDTO transactionDTO) {
@@ -55,6 +58,7 @@ public class Transaction extends GeneratedIdEntity implements Serializable {
         this.reasonOfUsage = transactionDTO.getReasonOfUsage();
         this.duration = transactionDTO.getDuration();
         this.date = transactionDTO.getDate();
+        this.lastTransactionDate = date;
     }
 
     public BankAccount getPayee() {
@@ -119,6 +123,14 @@ public class Transaction extends GeneratedIdEntity implements Serializable {
 
     public void setDate(Date date) {
         this.date = date;
+    }
+
+    public Date getLastTransactionDate() {
+        return lastTransactionDate;
+    }
+
+    public void setLastTransactionDate(Date lastTransactionDate) {
+        this.lastTransactionDate = lastTransactionDate;
     }
 
     @Override

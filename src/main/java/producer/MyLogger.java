@@ -12,6 +12,7 @@ import javax.enterprise.inject.spi.InjectionPoint;
 public class MyLogger {
     @Produces
     public Logger produceLogger(InjectionPoint injectionPoint) {
+        // https://www.torsten-horn.de/techdocs/java-log4j.htm
         Logger logger = Logger.getLogger(injectionPoint.getMember().getDeclaringClass().getName());
         try {
             PatternLayout layout = new PatternLayout("%d{HH:mm:ss} %-5p %-25c{1} :: %m%n");
