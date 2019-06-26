@@ -29,11 +29,12 @@ public class SteamonKeyService {
     private SteamonKeyRepo steamonKeyRepo;
 
     @Transactional(Transactional.TxType.REQUIRED)
-    public void persistSteamonKey(String keyCode) {
+    public SteamonKey persistSteamonKey(String keyCode) {
         SteamonKey steamonKey = new SteamonKey(keyCode, loginUserModel.getUser());
         loginUserModel.getUser().setSteamonKey(steamonKey);
         em.persist(loginUserModel.getUser());
         em.persist(steamonKey);
+        return steamonKey;
     }
 
     @Transactional(Transactional.TxType.SUPPORTS)

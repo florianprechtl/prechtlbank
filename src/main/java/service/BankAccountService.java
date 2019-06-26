@@ -36,6 +36,9 @@ public class BankAccountService {
     private TransactionService transactionService;
 
     @Inject
+    private SteamonKeyService steamonKeyService;
+
+    @Inject
     private BankAccountRepo bankAccountRepo;
 
 
@@ -59,8 +62,8 @@ public class BankAccountService {
     @Transactional(Transactional.TxType.REQUIRED)
     public void createFirstBankAccount(BankAccount bankAccount) throws ValidationException {
         validateBankAccountInput(bankAccount);
-        SteamonKey steamonKey = new SteamonKey("123456", loginUserModel.getUser());
-        em.persist(steamonKey);
+        // TODO: get steamonKey from Steamon
+        SteamonKey steamonKey = steamonKeyService.persistSteamonKey("123456");
         userService.updateSteamonKey(steamonKey);
         createBankAccount(bankAccount);
     }
