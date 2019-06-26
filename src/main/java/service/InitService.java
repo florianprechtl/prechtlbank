@@ -6,14 +6,16 @@ import javax.ejb.Singleton;
 import javax.ejb.Startup;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 
-import entity.BankAccount;
-import entity.BankInstitute;
-import entity.User;
-import entity.Address;
+import entity.*;
 import entity.enums.BankAccountStatus;
 import entity.enums.UserType;
+import entity.repo.*;
 import org.apache.log4j.Logger;
+
+import java.util.List;
 
 @Startup
 @Singleton
@@ -32,9 +34,31 @@ public class InitService {
     @Inject
     private BankAccountService bankAccountService;
 
+    @PersistenceContext
+    private EntityManager em;
+
+    ////////////////////////////////////////////////// REPOS ///////////////////////////////////////////////////////////
+
+    @Inject
+    private TransactionRepo transactionRepo;
+
+    @Inject
+    private UserRepo userRepo;
+
+    @Inject
+    private BankAccountRepo bankAccountRepo;
+
+    @Inject
+    private BankInstituteRepo bankInstituteRepo;
+
+    @Inject
+    private SteamonKeyRepo steamonKeyRepo;
+
+    //////////////////////////////////////////////// FUNCTIONS /////////////////////////////////////////////////////////
+
     @PostConstruct
     public void init() {
-        logger.info("initService :: PostConstruct!");
+        logger.info("init :: PostConstruct!");
         try {
             /////////////////////////////////////////// USER REGISTRATION //////////////////////////////////////////////
             Address address = new Address("Marktplatz 35", "92249", "Vilseck", "Germany");
@@ -51,6 +75,14 @@ public class InitService {
 
             address = new Address("BANK", "00000", "BANK", "BANK");
             newUser = new User("BANK", "BANK", "BANK", UserType.ADMIN, "BANK", address);
+            userService.registerUser(newUser);
+
+            address = new Address("my-secret-street 666", "93049", "Regensburg", "Deutschland");
+            newUser = new User("Josef", "Meier", "JME261", UserType.CUSTOMER, "abc", address);
+            userService.registerUser(newUser);
+
+            address = new Address("irgendne-straße", "93049", "Regensburg", "Deutschland");
+            newUser = new User("HPP", "HofmeisterPayPal", "PayPal23543", UserType.CUSTOMER, "payPalPwd4", address);
             userService.registerUser(newUser);
 
             ////////////////////////////////////////////// BANK INSTITUTE //////////////////////////////////////////////
@@ -79,6 +111,32 @@ public class InitService {
 
     @PreDestroy
     public void removeAll() {
-        logger.info("test :: PreDestroy!");
+        logger.info("exit :: PreDestroy!");
+        List<User> users = userRepo.getAll();
+        List<BankAccount> bankAccounts = bankAccountRepo.getAll();
+        List<BankInstitute> bankInstitutes = bankInstituteRepo.getAll();
+        List<SteamonKey> steamonKeys = steamonKeyRepo.getAll();
+        List<Transaction> transactions = transactionRepo.getAll();
+
+        logger.info("exit :: Delete all transactions");
+        for (Transaction transaction : transactions)
+            em.remove(transaction);
+
+        logger.info("exit :: Delete all steamonKeys");
+        for (SteamonKey steamonKey : steamonKeys)
+            em.remove(steamonKey);
+
+        logger.info("exit :: Delete all users");
+        for (User user : users)
+            em.remove(user);
+
+        logger.info("exit :: Delete all bankAccounts");
+        for (BankAccount bankAccount : bankAccounts)
+            em.remove(bankAccount);
+
+        logger.info("exit :: Delete all bankInstitutes");
+        for (BankInstitute bankInstitute : bankInstitutes)
+            em.remove(bankInstitute);
+
     }
 }

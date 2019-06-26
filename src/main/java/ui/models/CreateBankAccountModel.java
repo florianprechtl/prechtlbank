@@ -3,6 +3,7 @@ package ui.models;
 import entity.BankAccount;
 import entity.BankInstitute;
 import entity.enums.BankAccountStatus;
+import entity.repo.BankInstituteRepo;
 import service.BankAccountService;
 import service.BankInstituteService;
 import service.TransactionService;
@@ -31,6 +32,9 @@ public class CreateBankAccountModel implements Serializable {
 
     @Inject
     private BankInstituteService bankInstituteService;
+
+    @Inject
+    private BankInstituteRepo bankInstituteRepo;
 
     private String selectedSteamonKey;
     private BankInstitute selectedBankInstitute;
@@ -106,6 +110,6 @@ public class CreateBankAccountModel implements Serializable {
     }
 
     public List<BankInstitute> getAllBankInstitutes() {
-        return bankInstituteService.getAllBankInstitutes();
+        return bankInstituteRepo.getAll();
     }
 }

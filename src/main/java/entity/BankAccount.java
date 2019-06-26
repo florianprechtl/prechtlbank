@@ -12,10 +12,7 @@ import java.util.Objects;
 @Entity
 public class BankAccount extends GeneratedIdEntity implements Serializable {
 
-    @XmlTransient
     private BankAccountStatus accountStatus;
-
-    @XmlTransient
     private String iban;
 
     @ManyToOne(fetch = FetchType.EAGER)

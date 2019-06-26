@@ -3,6 +3,7 @@ package service;
 import entity.SteamonKey;
 import entity.User;
 import entity.dto.LoginDTO;
+import entity.repo.UserRepo;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import service.Exceptions.LoginException;
@@ -15,8 +16,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.transaction.Transactional;
-import java.util.Iterator;
-import java.util.List;
 
 @ApplicationScoped
 public class UserService {
@@ -35,6 +34,9 @@ public class UserService {
 
     @Inject
     private BankAccountService bankAccountService;
+
+    @Inject
+    private UserRepo userRepo;
 
     private void validateUserInput(User user) throws ValidationException {
 
@@ -95,7 +97,7 @@ public class UserService {
 
     @Transactional(Transactional.TxType.REQUIRED)
     public void deleteUserById(Long id) {
-        User user = getUserById(id);
+        User user = userRepo.getById(id);
         logger.info("deleteUser :: delete dependencies");
         transactionService.deleteTransactionByUserId(id);
         bankAccountService.deleteBankAccountByUserId(id);
@@ -134,27 +136,9 @@ public class UserService {
         return null;
     }
 
-    @Transactional(Transactional.TxType.SUPPORTS)
-    public User getUserById(Long id) {
-        Query query = em.createQuery("SELECT u FROM User AS u WHERE u.id = ?1", User.class);
-        query.setParameter(1, id);
-        try {
-            return (User)query.getSingleResult();
-        }
-        catch(Exception e) {
-        }
-        return null;
-    }
-
-    @Transactional(Transactional.TxType.SUPPORTS)
-    public List<User> getAllUsers() {
-        List<User> users =  em.createQuery("SELECT u FROM User AS u", User.class).getResultList();
-        return users;
-    }
-
     @Transactional(Transactional.TxType.REQUIRED)
     public void updateSteamonKey(SteamonKey steamonKey) {
-        User user = getUserById(loginUserModel.getUser().getId());
+        User user = userRepo.getById(loginUserModel.getUser().getId());
         user.setSteamonKey(null);
         em.persist(user);
         user.setSteamonKey(steamonKey);

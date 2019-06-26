@@ -3,6 +3,7 @@ package service;
 import entity.BankAccount;
 import entity.BankInstitute;
 import entity.SteamonKey;
+import entity.repo.BankAccountRepo;
 import org.apache.log4j.Logger;
 import service.Exceptions.ValidationException;
 import ui.models.LoginUserModel;
@@ -33,6 +34,9 @@ public class BankAccountService {
 
     @Inject
     private TransactionService transactionService;
+
+    @Inject
+    private BankAccountRepo bankAccountRepo;
 
 
     private void validateBankAccountInput(BankAccount bankAccount) throws ValidationException {
@@ -73,7 +77,7 @@ public class BankAccountService {
 
     @Transactional(Transactional.TxType.SUPPORTS)
     public void deleteBankAccountById(Long id) {
-        BankAccount bankAccount = getBankAccountById(id);
+        BankAccount bankAccount = bankAccountRepo.getById(id);
         logger.info("deleteBankAccount :: Delete bankAccount");
         logger.info("deleteBankAccount :: Delete dependencies");
         transactionService.deleteTransactionsByIban(bankAccount.getIban());
@@ -95,19 +99,6 @@ public class BankAccountService {
             em.remove(bankAccount);
         }
         logger.info("deleteBankAccount :: BankAccount successfully deleted");
-    }
-
-    @Transactional(Transactional.TxType.SUPPORTS)
-    public BankAccount getBankAccountById(Long id) {
-        Query query = em.createQuery("SELECT b FROM BankAccount AS b WHERE b.id = ?1", BankAccount.class);
-        query.setParameter(1, id);
-        try {
-            return (BankAccount) query.getSingleResult();
-        }
-        catch(Exception e) {
-            logger.info("getBankAccountById: No element found!");
-            return null;
-        }
     }
 
     @Transactional(Transactional.TxType.SUPPORTS)
@@ -144,24 +135,9 @@ public class BankAccountService {
 
     @Transactional(Transactional.TxType.SUPPORTS)
     public List<BankAccount> getBankAccountsOfUser(Long userId) {
-        List<BankAccount> bankAccounts =  em.createQuery("SELECT b FROM BankAccount AS b WHERE b.user.id = ?1", BankAccount.class)
+        List<BankAccount> bankAccounts = em.createQuery("SELECT b FROM BankAccount AS b WHERE b.user.id = ?1", BankAccount.class)
                 .setParameter(1, userId)
                 .getResultList();
         return bankAccounts;
-    }
-
-    @Transactional(Transactional.TxType.SUPPORTS)
-    public List<BankAccount> getAllBankAccounts() {
-        List<BankAccount> bankAccounts =  em.createQuery("SELECT u FROM BankAccount AS u", BankAccount.class).getResultList();
-        return bankAccounts;
-    }
-
-    public void logAllBankAccounts() {
-        List<BankAccount> users = getAllBankAccounts();
-        Iterator<BankAccount> iterator = users.iterator();
-        while(iterator.hasNext()) {
-            BankAccount bankAccount = iterator.next();
-            logger.info("logAllBankAccounts :: " + bankAccount);
-        }
     }
 }

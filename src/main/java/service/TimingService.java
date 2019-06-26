@@ -23,6 +23,9 @@ public class TimingService {
     @Inject
     private Logger logger;
 
+    /**
+     *  Checks in a specific time interval if the planned transactions have to be renewed
+     */
     @Schedule(second="*", minute="*/30", hour="*", persistent=false)
     public void TransactionScheduler() {
         List<Transaction> plannedTransactions = transactionService.getAllPlannedTransactions();

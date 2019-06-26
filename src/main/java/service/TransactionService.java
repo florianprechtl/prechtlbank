@@ -7,6 +7,7 @@ import entity.dto.TransactionDTO;
 import entity.enums.Duration;
 import entity.enums.TransactionStatus;
 import entity.enums.TransactionType;
+import entity.repo.TransactionRepo;
 import org.apache.log4j.Logger;
 import service.Exceptions.LoginException;
 import service.Exceptions.TransactionException;
@@ -41,6 +42,9 @@ public class TransactionService implements TransactionServiceIF{
 
     @Inject
     private Logger logger;
+
+    @Inject
+    private TransactionRepo transactionRepo;
 
     private void validateTransactionInput(Transaction transaction) throws ValidationException {
         if (transaction == null)
@@ -163,13 +167,6 @@ public class TransactionService implements TransactionServiceIF{
 
     @WebMethod(exclude = true)
     @Transactional(Transactional.TxType.SUPPORTS)
-    public List<Transaction> getAllTransactions() {
-        List<Transaction> transactions =  em.createQuery("SELECT u FROM Transaction AS u", Transaction.class).getResultList();
-        return transactions;
-    }
-
-    @WebMethod(exclude = true)
-    @Transactional(Transactional.TxType.SUPPORTS)
     public List<Transaction> getAllTransactionsByIban(String iban) {
         List<Transaction> transactions =  em.createQuery("SELECT u FROM Transaction AS u WHERE payee.iban = ?1 OR payer.iban = ?1", Transaction.class)
                 .setParameter(1, iban)
@@ -177,19 +174,6 @@ public class TransactionService implements TransactionServiceIF{
         return transactions;
     }
 
-    @WebMethod(exclude = true)
-    @Transactional(Transactional.TxType.SUPPORTS)
-    public Transaction getTransactionById(Long id) {
-        Query query = em.createQuery("SELECT u FROM Transaction AS u WHERE id = ?1", Transaction.class);
-        query.setParameter(1, id);
-        try {
-            return (Transaction) query.getSingleResult();
-        }
-        catch(Exception e) {
-            logger.info("getTransactionById: No element found!");
-            return null;
-        }
-    }
 
     @WebMethod(exclude = true)
     @Transactional(Transactional.TxType.SUPPORTS)
@@ -205,7 +189,7 @@ public class TransactionService implements TransactionServiceIF{
     @WebMethod(exclude = true)
     @Transactional(Transactional.TxType.SUPPORTS)
     public void deleteTransactionById(Long id) {
-        Transaction transaction = getTransactionById(id);
+        Transaction transaction = transactionRepo.getById(id);
         logger.info("deleteTransaction :: Delete transaction");
         em.remove(transaction);
         logger.info("deleteTransaction :: Transaction successfully deleted");
@@ -248,15 +232,6 @@ public class TransactionService implements TransactionServiceIF{
         return transactions;
     }
 
-    @WebMethod(exclude = true)
-    public void logAllTransactions() {
-        List<Transaction> transactions = getAllTransactions();
-        Iterator<Transaction> iterator = transactions.iterator();
-        while(iterator.hasNext()) {
-            Transaction transaction = iterator.next();
-            logger.info("logAllTransactions :: " + transaction);
-        }
-    }
 
     @WebMethod(exclude = true)
     public boolean checkIbanAndBic(String iban, String bic) {

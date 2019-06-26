@@ -2,6 +2,7 @@ package ui.models;
 
 import entity.*;
 import entity.enums.*;
+import entity.repo.*;
 import org.apache.log4j.Logger;
 import service.*;
 
@@ -36,6 +37,23 @@ public class AdminModel implements Serializable {
 
     @Inject
     private SteamonKeyService steamonKeyService;
+
+    ////////////////////////////////////////////////// REPOS ///////////////////////////////////////////////////////////
+
+    @Inject
+    private TransactionRepo transactionRepo;
+
+    @Inject
+    private UserRepo userRepo;
+
+    @Inject
+    private BankAccountRepo bankAccountRepo;
+
+    @Inject
+    private BankInstituteRepo bankInstituteRepo;
+
+    @Inject
+    private SteamonKeyRepo steamonKeyRepo;
 
     //////////////////////////////////////////////// VARIABLES /////////////////////////////////////////////////////////
 
@@ -82,7 +100,7 @@ public class AdminModel implements Serializable {
     @Transactional(Transactional.TxType.REQUIRES_NEW)
     public void doUpsertUser() {
         tabViewIndex = 0;
-        User user = userService.getUserById(tmpUser.getId());
+        User user = userRepo.getById(tmpUser.getId());
         try {
             if (user != null) {
                 tmpUser.setSteamonKey(null);
@@ -130,7 +148,7 @@ public class AdminModel implements Serializable {
     public void doUpsertTransaction() {
         tabViewIndex = 2;
         try {
-            Transaction transaction = transactionService.getTransactionById(tmpTransaction.getId());
+            Transaction transaction = transactionRepo.getById(tmpTransaction.getId());
             BankAccount payee = bankAccountService.getBankAccountByIban(tmpTransaction.getPayee().getIban());
             BankAccount payer = bankAccountService.getBankAccountByIban(tmpTransaction.getPayer().getIban());
             tmpTransaction.setPayee(payee);
@@ -167,7 +185,7 @@ public class AdminModel implements Serializable {
     @Transactional(Transactional.TxType.REQUIRES_NEW)
     public void doUpsertBankAccount() {
         tabViewIndex = 3;
-        BankAccount bankAccount = bankAccountService.getBankAccountById(tmpBankAccount.getId());
+        BankAccount bankAccount = bankAccountRepo.getById(tmpBankAccount.getId());
         User user = userService.getUserByLoginId(tmpBankAccount.getUser().getLoginId());
         tmpBankAccount.setUser(user);
         try {
@@ -202,7 +220,7 @@ public class AdminModel implements Serializable {
     @Transactional(Transactional.TxType.REQUIRES_NEW)
     public void doUpsertBankInstitute() {
         tabViewIndex = 4;
-        BankInstitute bankInstitute = bankInstituteService.getBankInstituteById(tmpBankInstitute.getId());
+        BankInstitute bankInstitute = bankInstituteRepo.getById(tmpBankInstitute.getId());
         try {
             if (bankInstitute != null) {
                 bankInstituteService.updateBankInstitute(tmpBankInstitute);
@@ -263,23 +281,23 @@ public class AdminModel implements Serializable {
     //////////////////////////////////////////////// GETTER & SETTER ///////////////////////////////////////////////////
 
     public List<User> getAllUsers() {
-        return userService.getAllUsers();
+        return userRepo.getAll();
     }
 
     public List<Transaction> getAllTransactions() {
-        return transactionService.getAllTransactions();
+        return transactionRepo.getAll();
     }
 
     public List<BankAccount> getAllBankAccounts() {
-        return bankAccountService.getAllBankAccounts();
+        return bankAccountRepo.getAll();
     }
 
     public List<BankInstitute> getAllBankInstitutes() {
-        return bankInstituteService.getAllBankInstitutes();
+        return bankInstituteRepo.getAll();
     }
 
     public List<SteamonKey> getAllSteamonKeys() {
-        return steamonKeyService.getAllSteamonKeys();
+        return steamonKeyRepo.getAll();
     }
 
     public BankAccountStatus[] getAllBankAccountStatuses() {

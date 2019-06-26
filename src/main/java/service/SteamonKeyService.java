@@ -1,6 +1,7 @@
 package service;
 
 import entity.SteamonKey;
+import entity.repo.SteamonKeyRepo;
 import org.apache.log4j.Logger;
 import ui.models.LoginUserModel;
 
@@ -24,6 +25,9 @@ public class SteamonKeyService {
     @Inject
     private LoginUserModel loginUserModel;
 
+    @Inject
+    private SteamonKeyRepo steamonKeyRepo;
+
     @Transactional(Transactional.TxType.REQUIRED)
     public void persistSteamonKey(String keyCode) {
         SteamonKey steamonKey = new SteamonKey(keyCode, loginUserModel.getUser());
@@ -33,27 +37,8 @@ public class SteamonKeyService {
     }
 
     @Transactional(Transactional.TxType.SUPPORTS)
-    public List<SteamonKey> getAllSteamonKeys() {
-        List<SteamonKey> steamonKeys =  em.createQuery("SELECT u FROM SteamonKey AS u", SteamonKey.class).getResultList();
-        return steamonKeys;
-    }
-
-    @Transactional(Transactional.TxType.SUPPORTS)
-    public SteamonKey getSteamonKeyById(Long id) {
-        Query query = em.createQuery("SELECT b FROM SteamonKey AS b WHERE b.id = ?1", SteamonKey.class);
-        query.setParameter(1, id);
-        try {
-            return (SteamonKey) query.getSingleResult();
-        }
-        catch(Exception e) {
-            logger.info("getSteamonKeyById: No element found!");
-            return null;
-        }
-    }
-
-    @Transactional(Transactional.TxType.SUPPORTS)
     public void deleteSteamonKeyById(Long id) {
-        SteamonKey steamonKey = getSteamonKeyById(id);
+        SteamonKey steamonKey = steamonKeyRepo.getById(id);
         logger.info("deleteSteamonKey :: Delete steamonKey");
         em.remove(steamonKey);
         logger.info("deleteSteamonKey :: SteamonKey successfully deleted");

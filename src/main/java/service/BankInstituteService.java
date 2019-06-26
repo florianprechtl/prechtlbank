@@ -3,6 +3,7 @@ package service;
 import entity.BankAccount;
 import entity.BankInstitute;
 import entity.Transaction;
+import entity.repo.BankInstituteRepo;
 import org.apache.log4j.Logger;
 import service.Exceptions.ValidationException;
 
@@ -22,9 +23,13 @@ public class BankInstituteService {
     private EntityManager em;
 
     @Inject
-    private transient Logger logger;
+    private Logger logger;
 
-    @Inject BankAccountService bankAccountService;
+    @Inject
+    private BankAccountService bankAccountService;
+
+    @Inject
+    private BankInstituteRepo bankInstituteRepo;
 
     private void validateBankInstitutionInput(BankInstitute bankInstitute) throws ValidationException {
         if (bankInstitute == null)
@@ -59,7 +64,7 @@ public class BankInstituteService {
 
     @Transactional(Transactional.TxType.REQUIRED)
     public void deleteBankInstituteById(Long id) {
-        BankInstitute bankInstitute = getBankInstituteById(id);
+        BankInstitute bankInstitute = bankInstituteRepo.getById(id);
         logger.info("deleteBankInstitute :: Delete bankInstitute");
         // TODO: Remove dependent bankAccounts
         List<BankAccount> bankAccounts = bankAccountService.getBankAccountsByBic(bankInstitute.getBic());
@@ -69,48 +74,5 @@ public class BankInstituteService {
         }
         em.remove(bankInstitute);
         logger.info("deleteBankInstitute :: BankInstitute successfully deleted");
-    }
-
-    @Transactional(Transactional.TxType.SUPPORTS)
-    public BankInstitute getBankInstituteById(Long id) {
-        Query query = em.createQuery("SELECT u FROM BankInstitute AS u WHERE id = ?1", BankInstitute.class);
-        query.setParameter(1, id);
-        try {
-            return (BankInstitute) query.getSingleResult();
-        }
-        catch(Exception e) {
-            logger.info("getBankInstituteById: No element found!");
-            return null;
-        }
-    }
-
-    @Transactional(Transactional.TxType.SUPPORTS)
-    public BankInstitute get(Long id) {
-        Query query = em.createQuery("SELECT u FROM BankInstitute AS u WHERE id = ?1", BankInstitute.class);
-        query.setParameter(1, id);
-        try {
-            return (BankInstitute) query.getSingleResult();
-        }
-        catch(Exception e) {
-            logger.info("getBankInstituteById: No element found!");
-            return null;
-        }
-    }
-
-    @Transactional(Transactional.TxType.SUPPORTS)
-    public List<BankInstitute> getAllBankInstitutes() {
-        List<BankInstitute> bankInstitutes =  em.createQuery("SELECT u FROM BankInstitute AS u", BankInstitute.class)
-                .getResultList();
-        return bankInstitutes;
-
-    }
-
-    public void logAllBankInstituates() {
-        List<BankInstitute> users = getAllBankInstitutes();
-        Iterator<BankInstitute> iterator = users.iterator();
-        while(iterator.hasNext()) {
-            BankInstitute bankInstitute = iterator.next();
-            logger.info("logAllBankInstitutes :: " + bankInstitute.getName() + "   " + bankInstitute.getBic());
-        }
     }
 }
