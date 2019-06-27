@@ -26,18 +26,21 @@ public class TimingService {
     /**
      *  Checks in a specific time interval if the planned transactions have to be renewed
      */
-    @Schedule(second="*", minute="*/30", hour="*", persistent=false)
+    @Schedule(second="*", minute="*", hour="*/12", persistent=false)
     public void TransactionScheduler() {
+        logger.info("Scheduler started");
         List<Transaction> plannedTransactions = transactionService.getAllPlannedTransactions();
         Iterator<Transaction> transactionIterator = plannedTransactions.iterator();
         while(transactionIterator.hasNext()) {
-            Transaction transaction = cloneTransaction(transactionIterator.next());
+            logger.info("Scheduler checks transaction");
+            Transaction transaction = transactionIterator.next();
             if (overdueTransactionInterval(transaction)) {
+                Transaction newTransaction = cloneTransaction(transaction);
                 try {
-                    if (transaction.getTransactionType().equals(TransactionType.TRANSFER)) {
-                        transactionService.transfer(transaction);
+                    if (newTransaction.getTransactionType().equals(TransactionType.TRANSFER)) {
+                        transactionService.transfer(newTransaction);
                     } else {
-                        transactionService.directDebit(transaction);
+                        transactionService.directDebit(newTransaction);
                     }
                 } catch (TransactionException e) {
                     logger.error(e.getMessage());
@@ -48,15 +51,17 @@ public class TimingService {
 
     public Transaction cloneTransaction(Transaction transaction) {
         Transaction clonedTransaction = new Transaction();
+        Date date = new Date();
 
         clonedTransaction.setAmount(transaction.getAmount());
-        clonedTransaction.setDate(transaction.getDate());
-        clonedTransaction.setReasonOfUsage(transaction.getReasonOfUsage());
+        clonedTransaction.setDate(date);
+        clonedTransaction.setReasonOfUsage("Automatische Transaktion: " + transaction.getReasonOfUsage());
         clonedTransaction.setDuration(Duration.ONCE);
         clonedTransaction.setTransactionType(transaction.getTransactionType());
         clonedTransaction.setTransactionStatus(transaction.getTransactionStatus());
         clonedTransaction.setPayee(transaction.getPayee());
         clonedTransaction.setPayer(transaction.getPayer());
+        clonedTransaction.setLastTransactionDate(date);
 
         return clonedTransaction;
     }
@@ -64,7 +69,7 @@ public class TimingService {
     public boolean overdueTransactionInterval(Transaction transaction) {
         Calendar now = Calendar.getInstance();
         Calendar dueToDate = Calendar.getInstance();
-        dueToDate.setTime(new Date(transaction.getLastTransactionDate().getTime()));
+        dueToDate.setTime(transaction.getLastTransactionDate());
 
         switch (transaction.getDuration()) {
             case DAILY:
@@ -81,6 +86,6 @@ public class TimingService {
                 break;
 
         }
-        return dueToDate.after(now);
+        return dueToDate.before(now);
     }
 }

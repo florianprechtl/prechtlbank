@@ -1,8 +1,11 @@
 package service;
 
 import entity.SteamonKey;
+import entity.User;
 import entity.repo.SteamonKeyRepo;
+import entity.repo.UserRepo;
 import org.apache.log4j.Logger;
+import service.Exceptions.ValidationException;
 import ui.models.LoginUserModel;
 
 import javax.enterprise.context.RequestScoped;
@@ -28,12 +31,19 @@ public class SteamonKeyService {
     @Inject
     private SteamonKeyRepo steamonKeyRepo;
 
+    @Inject
+    private UserRepo userRepo;
+
+    @Inject UserService userService;
+
     @Transactional(Transactional.TxType.REQUIRED)
-    public SteamonKey persistSteamonKey(String keyCode) {
+    public SteamonKey persistSteamonKey(String keyCode) throws ValidationException {
         SteamonKey steamonKey = new SteamonKey(keyCode, loginUserModel.getUser());
-        loginUserModel.getUser().setSteamonKey(steamonKey);
-        em.persist(loginUserModel.getUser());
         em.persist(steamonKey);
+        steamonKey = getSteamonKeyByKeyCode(keyCode);
+        User user = userRepo.getById(loginUserModel.getUser().getId());
+        user.setSteamonKey(steamonKey);
+        userService.updateUser(user);
         return steamonKey;
     }
 
@@ -44,4 +54,14 @@ public class SteamonKeyService {
         em.remove(steamonKey);
         logger.info("deleteSteamonKey :: SteamonKey successfully deleted");
     }
+
+    @Transactional(Transactional.TxType.SUPPORTS)
+    public SteamonKey getSteamonKeyByKeyCode(String keyCode) {
+        SteamonKey steamonKey =  em.createQuery("SELECT u FROM SteamonKey AS u WHERE keyCode = ?1", SteamonKey.class)
+                .setParameter(1, keyCode)
+                .getSingleResult();
+        return steamonKey;
+    }
+
+
 }

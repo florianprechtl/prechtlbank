@@ -128,7 +128,7 @@ public class TransactionService implements TransactionServiceIF{
 
     @Override
     @WebMethod
-    @Transactional(Transactional.TxType.SUPPORTS)
+    @Transactional(Transactional.TxType.REQUIRED)
     public TransactionDTO directDebit(LoginDTO loginDTO, TransactionDTO transactionDTO) throws LoginException, TransactionException {
         userService.loginUser(loginDTO);
         Transaction transaction = new Transaction(transactionDTO);
@@ -151,7 +151,7 @@ public class TransactionService implements TransactionServiceIF{
     }
 
     @WebMethod(exclude = true)
-    @Transactional(Transactional.TxType.SUPPORTS)
+    @Transactional(Transactional.TxType.REQUIRED)
     public Transaction transfer(Transaction transaction) throws TransactionException {
         try {
             logger.info("transfer :: Check transfer data");

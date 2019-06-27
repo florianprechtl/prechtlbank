@@ -38,7 +38,7 @@ public class UserService {
     @Inject
     private UserRepo userRepo;
 
-    private void validateUserInput(User user) throws ValidationException {
+    private void validateUserInput(User user, boolean update) throws ValidationException {
 
         if (user == null)
             throw new ValidationException("User is null.", null);
@@ -67,16 +67,18 @@ public class UserService {
         if (user.getUserType() == null)
             throw new ValidationException("userType is not set.", null);
 
-        User existingUser = getUserByLoginId(user.getLoginId());
-        if (existingUser != null) {
-            throw new ValidationException("Duplicate User: User with loginId: " + user.getLoginId() + " does already exist.", null);
+        if (!update) {
+            User existingUser = getUserByLoginId(user.getLoginId());
+            if (existingUser != null) {
+                throw new ValidationException("Duplicate User: User with loginId: " + user.getLoginId() + " does already exist.", null);
+            }
         }
     }
 
     @Transactional(Transactional.TxType.SUPPORTS)
     public User registerUser(User user) throws ValidationException {
         logger.info("registerUser :: Validate user input");
-        validateUserInput(user);
+        validateUserInput(user, false);
 
         em.persist(user);
         logger.info("registerUser :: User with loginId: " + user.getLoginId() + " successfully registered");
@@ -87,7 +89,7 @@ public class UserService {
     @Transactional(Transactional.TxType.SUPPORTS)
     public User updateUser(User user) throws ValidationException {
         logger.info("updateUser :: Validate user input");
-        validateUserInput(user);
+        validateUserInput(user, true);
 
         em.merge(user);
         logger.info("updateUser :: User successfully updated");

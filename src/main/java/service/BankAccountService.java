@@ -27,12 +27,6 @@ public class BankAccountService {
     private transient Logger logger;
 
     @Inject
-    private LoginUserModel loginUserModel;
-
-    @Inject
-    private UserService userService;
-
-    @Inject
     private TransactionService transactionService;
 
     @Inject
@@ -63,8 +57,7 @@ public class BankAccountService {
     public void createFirstBankAccount(BankAccount bankAccount) throws ValidationException {
         validateBankAccountInput(bankAccount);
         // TODO: get steamonKey from Steamon
-        SteamonKey steamonKey = steamonKeyService.persistSteamonKey("123456");
-        userService.updateSteamonKey(steamonKey);
+        steamonKeyService.persistSteamonKey("123456");
         createBankAccount(bankAccount);
     }
 

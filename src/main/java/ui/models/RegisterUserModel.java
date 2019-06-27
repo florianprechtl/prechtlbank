@@ -11,6 +11,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.transaction.Transactional;
 
 @Named
 @RequestScoped
@@ -32,6 +33,7 @@ public class RegisterUserModel {
     private String country;
     private String error;
 
+    @Transactional(Transactional.TxType.REQUIRES_NEW)
     public String doRegister() {
         try {
             if (password == null || passwordRepeat == null || !password.equals(passwordRepeat)) {

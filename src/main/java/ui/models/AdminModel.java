@@ -99,8 +99,11 @@ public class AdminModel implements Serializable {
 
     @Transactional(Transactional.TxType.REQUIRES_NEW)
     public void doUpsertUser() {
+        User user = null;
         tabViewIndex = 0;
-        User user = userRepo.getById(tmpUser.getId());
+        if (tmpUser.getId() != null) {
+            user = userRepo.getById(tmpUser.getId());
+        }
         try {
             if (user != null) {
                 tmpUser.setSteamonKey(null);
@@ -146,9 +149,12 @@ public class AdminModel implements Serializable {
 
     @Transactional(Transactional.TxType.REQUIRES_NEW)
     public void doUpsertTransaction() {
+        Transaction transaction = null;
         tabViewIndex = 2;
         try {
-            Transaction transaction = transactionRepo.getById(tmpTransaction.getId());
+            if (tmpTransaction.getId() != null) {
+                transaction = transactionRepo.getById(tmpTransaction.getId());
+            }
             BankAccount payee = bankAccountService.getBankAccountByIban(tmpTransaction.getPayee().getIban());
             BankAccount payer = bankAccountService.getBankAccountByIban(tmpTransaction.getPayer().getIban());
             tmpTransaction.setPayee(payee);
@@ -156,7 +162,9 @@ public class AdminModel implements Serializable {
             if (transaction != null) {
                 transactionService.updateTransaction(tmpTransaction);
             } else {
-                tmpTransaction.setDate(new Date());
+                Date date = new Date();
+                tmpTransaction.setDate(date);
+                tmpTransaction.setLastTransactionDate(date);
                 transactionService.transfer(tmpTransaction);
             }
         } catch (Exception e) {
@@ -165,7 +173,7 @@ public class AdminModel implements Serializable {
             context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, error, error));
         }
 
-        tmpUser = new User();
+        tmpTransaction = new Transaction();
     }
 
     @Transactional(Transactional.TxType.REQUIRES_NEW)
@@ -184,8 +192,11 @@ public class AdminModel implements Serializable {
 
     @Transactional(Transactional.TxType.REQUIRES_NEW)
     public void doUpsertBankAccount() {
+        BankAccount bankAccount = null;
         tabViewIndex = 3;
-        BankAccount bankAccount = bankAccountRepo.getById(tmpBankAccount.getId());
+        if (tmpBankAccount.getId() != null) {
+            bankAccount = bankAccountRepo.getById(tmpBankAccount.getId());
+        }
         User user = userService.getUserByLoginId(tmpBankAccount.getUser().getLoginId());
         tmpBankAccount.setUser(user);
         try {
@@ -200,7 +211,7 @@ public class AdminModel implements Serializable {
             context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, error, error));
         }
 
-        tmpUser = new User();
+        tmpBankAccount = new BankAccount();
     }
 
     @Transactional(Transactional.TxType.REQUIRES_NEW)
@@ -219,8 +230,11 @@ public class AdminModel implements Serializable {
 
     @Transactional(Transactional.TxType.REQUIRES_NEW)
     public void doUpsertBankInstitute() {
+        BankInstitute bankInstitute = null;
         tabViewIndex = 4;
-        BankInstitute bankInstitute = bankInstituteRepo.getById(tmpBankInstitute.getId());
+        if (tmpBankInstitute.getId() != null) {
+            bankInstitute = bankInstituteRepo.getById(tmpBankInstitute.getId());
+        }
         try {
             if (bankInstitute != null) {
                 bankInstituteService.updateBankInstitute(tmpBankInstitute);
@@ -233,7 +247,7 @@ public class AdminModel implements Serializable {
             context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, error, error));
         }
 
-        tmpUser = new User();
+        tmpBankInstitute = new BankInstitute();
     }
 
     @Transactional(Transactional.TxType.REQUIRES_NEW)
