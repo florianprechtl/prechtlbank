@@ -11,7 +11,7 @@ public class SteamonKey extends GeneratedIdEntity implements Serializable {
 
     private String keyCode;
 
-    @OneToOne(fetch = FetchType.EAGER)
+    @OneToOne(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE, CascadeType.REMOVE, CascadeType.REFRESH})
     private User keyReceiver;
 
     public SteamonKey() {

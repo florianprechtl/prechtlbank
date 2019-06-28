@@ -133,7 +133,7 @@ public class TransactionService implements TransactionServiceIF{
     }
 
     @WebMethod(exclude = true)
-    @Transactional(Transactional.TxType.SUPPORTS)
+    @Transactional(Transactional.TxType.REQUIRED)
     public Transaction directDebit(Transaction transaction) throws TransactionException {
         try {
             logger.info("directDebit :: Check directDebit data");
@@ -154,7 +154,10 @@ public class TransactionService implements TransactionServiceIF{
             logger.info("transfer :: Check transfer data");
             validateTransactionInput(transaction);
             logger.info("transfer :: Save transfer");
+            transaction.setPayee(bankAccountService.getBankAccountByIban(transaction.getPayee().getIban()));
+            transaction.setPayer(bankAccountService.getBankAccountByIban(transaction.getPayer().getIban()));
             em.persist(transaction);
+
             logger.info("transfer :: Successfully saved transaction as Transfer!");
         } catch (Exception e) {
             throw new TransactionException(e.getMessage(), e);
@@ -173,7 +176,7 @@ public class TransactionService implements TransactionServiceIF{
 
 
     @WebMethod(exclude = true)
-    @Transactional(Transactional.TxType.SUPPORTS)
+    @Transactional(Transactional.TxType.REQUIRED)
     public Transaction updateTransaction(Transaction transaction) throws ValidationException {
         logger.info("updateTransaction :: Check Transaction data");
         validateTransactionInput(transaction);
@@ -184,7 +187,7 @@ public class TransactionService implements TransactionServiceIF{
     }
 
     @WebMethod(exclude = true)
-    @Transactional(Transactional.TxType.SUPPORTS)
+    @Transactional(Transactional.TxType.REQUIRED)
     public void deleteTransactionById(Long id) {
         Transaction transaction = transactionRepo.getById(id);
         logger.info("deleteTransaction :: Delete transaction");
@@ -193,7 +196,7 @@ public class TransactionService implements TransactionServiceIF{
     }
 
     @WebMethod(exclude = true)
-    @Transactional(Transactional.TxType.SUPPORTS)
+    @Transactional(Transactional.TxType.REQUIRED)
     public void deleteTransactionByUserId(Long userId) {
         List<Transaction> transactions =  em.createQuery("SELECT u FROM Transaction AS u WHERE payee.user.id = ?1 OR payer.user.id = ?1", Transaction.class)
                 .setParameter(1, userId)
@@ -207,7 +210,7 @@ public class TransactionService implements TransactionServiceIF{
     }
 
     @WebMethod(exclude = true)
-    @Transactional(Transactional.TxType.SUPPORTS)
+    @Transactional(Transactional.TxType.REQUIRED)
     public void deleteTransactionsByIban(String iban) {
         List<Transaction> transactions =  em.createQuery("SELECT u FROM Transaction AS u WHERE payee.iban = ?1 OR payer.iban = ?1", Transaction.class)
                 .setParameter(1, iban)

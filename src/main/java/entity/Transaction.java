@@ -6,6 +6,7 @@ import entity.enums.TransactionStatus;
 import entity.enums.TransactionType;
 import entity.util.GeneratedIdEntity;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;

@@ -52,7 +52,7 @@ public class BankInstituteService {
         return bankInstitute;
     }
 
-    @Transactional(Transactional.TxType.SUPPORTS)
+    @Transactional(Transactional.TxType.REQUIRED)
     public BankInstitute updateBankInstitute(BankInstitute bankInstitute) throws ValidationException {
         logger.info("updateBankInstitute :: Check bankInstitute data");
         validateBankInstitutionInput(bankInstitute);
@@ -66,7 +66,7 @@ public class BankInstituteService {
     public void deleteBankInstituteById(Long id) {
         BankInstitute bankInstitute = bankInstituteRepo.getById(id);
         logger.info("deleteBankInstitute :: Delete bankInstitute");
-        // TODO: Remove dependent bankAccounts
+
         List<BankAccount> bankAccounts = bankAccountService.getBankAccountsByBic(bankInstitute.getBic());
         Iterator iterator = bankAccounts.iterator();
         while(iterator.hasNext()) {

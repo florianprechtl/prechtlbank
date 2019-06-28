@@ -3,6 +3,7 @@ package service;
 import entity.BankAccount;
 import entity.BankInstitute;
 import entity.SteamonKey;
+import entity.Transaction;
 import entity.repo.BankAccountRepo;
 import org.apache.log4j.Logger;
 import service.Exceptions.ValidationException;
@@ -47,7 +48,7 @@ public class BankAccountService {
             throw new ValidationException("The Banking institute is invalid.", null);
     }
 
-    @Transactional(Transactional.TxType.SUPPORTS)
+    @Transactional(Transactional.TxType.REQUIRED)
     public void createBankAccount(BankAccount bankAccount) throws ValidationException {
         validateBankAccountInput(bankAccount);
         em.persist(bankAccount);
@@ -61,7 +62,7 @@ public class BankAccountService {
         createBankAccount(bankAccount);
     }
 
-    @Transactional(Transactional.TxType.SUPPORTS)
+    @Transactional(Transactional.TxType.REQUIRED)
     public BankAccount updateBankAccount(BankAccount bankAccount) throws ValidationException {
         logger.info("updateBankAccount :: Check bankAccount data");
         validateBankAccountInput(bankAccount);
@@ -71,17 +72,27 @@ public class BankAccountService {
         return bankAccount;
     }
 
-    @Transactional(Transactional.TxType.SUPPORTS)
+    @Transactional(Transactional.TxType.REQUIRED)
     public void deleteBankAccountById(Long id) {
         BankAccount bankAccount = bankAccountRepo.getById(id);
         logger.info("deleteBankAccount :: Delete bankAccount");
         logger.info("deleteBankAccount :: Delete dependencies");
-        transactionService.deleteTransactionsByIban(bankAccount.getIban());
+        String iban = bankAccount.getIban();
+        List<Transaction> transactions = transactionService.getAllTransactionsByIban(iban);
+        for (Transaction transaction : transactions) {
+            if (transaction.getPayee().getIban().equals(iban)) {
+                transaction.setPayee(null);
+            } else {
+                transaction.setPayer(null);
+            }
+            em.merge(transaction);
+
+        }
         em.remove(bankAccount);
         logger.info("deleteBankAccount :: BankAccount successfully deleted");
     }
 
-    @Transactional(Transactional.TxType.SUPPORTS)
+    @Transactional(Transactional.TxType.REQUIRED)
     public void deleteBankAccountByUserId(Long userId) {
         List<BankAccount> bankAccounts =  em.createQuery("SELECT u FROM BankAccount AS u WHERE user.id = ?1", BankAccount.class)
                 .setParameter(1, userId)

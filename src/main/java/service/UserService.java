@@ -86,7 +86,7 @@ public class UserService {
         return user;
     }
 
-    @Transactional(Transactional.TxType.SUPPORTS)
+    @Transactional(Transactional.TxType.REQUIRED)
     public User updateUser(User user) throws ValidationException {
         logger.info("updateUser :: Validate user input");
         validateUserInput(user, true);
@@ -101,7 +101,9 @@ public class UserService {
     public void deleteUserById(Long id) {
         User user = userRepo.getById(id);
         logger.info("deleteUser :: delete dependencies");
+/*
         transactionService.deleteTransactionByUserId(id);
+*/
         bankAccountService.deleteBankAccountByUserId(id);
         logger.info("deleteUser :: delete user");
         em.remove(user);

@@ -12,9 +12,6 @@ public class BankInstitute extends GeneratedIdEntity implements Serializable {
     private String name;
     private String bic;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "bankInstitute", cascade = {CascadeType.REMOVE, CascadeType.MERGE})
-    private List<BankAccount> bankAccounts;
-
     public BankInstitute() {
 
     }
@@ -38,14 +35,6 @@ public class BankInstitute extends GeneratedIdEntity implements Serializable {
 
     public void setBic(String bic) {
         this.bic = bic;
-    }
-
-    public List<BankAccount> getBankAccounts() {
-        return bankAccounts;
-    }
-
-    public void setBankAccounts(List<BankAccount> bankAccounts) {
-        this.bankAccounts = bankAccounts;
     }
 
     @Override

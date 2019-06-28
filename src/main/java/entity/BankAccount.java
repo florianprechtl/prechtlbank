@@ -5,6 +5,7 @@ import entity.util.GeneratedIdEntity;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -19,10 +20,6 @@ public class BankAccount extends GeneratedIdEntity implements Serializable {
 
     @ManyToOne(fetch = FetchType.EAGER)
     private BankInstitute bankInstitute;
-
-    @OneToMany(fetch = FetchType.EAGER)
-    private List<Transaction> transactions;
-
 
     public BankAccount() {
         bankInstitute = new BankInstitute();
@@ -68,14 +65,6 @@ public class BankAccount extends GeneratedIdEntity implements Serializable {
         this.user = user;
     }
 
-    public List<Transaction> getTransactions() {
-        return transactions;
-    }
-
-    public void setTransactions(List<Transaction> transactions) {
-        this.transactions = transactions;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -85,13 +74,12 @@ public class BankAccount extends GeneratedIdEntity implements Serializable {
         return getAccountStatus() == that.getAccountStatus() &&
                 Objects.equals(getIban(), that.getIban()) &&
                 Objects.equals(getUser(), that.getUser()) &&
-                Objects.equals(getBankInstitute(), that.getBankInstitute()) &&
-                Objects.equals(getTransactions(), that.getTransactions());
+                Objects.equals(getBankInstitute(), that.getBankInstitute());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), getAccountStatus(), getIban(), getUser(), getBankInstitute(), getTransactions());
+        return Objects.hash(super.hashCode(), getAccountStatus(), getIban(), getUser(), getBankInstitute());
     }
 
     @Override
@@ -101,7 +89,6 @@ public class BankAccount extends GeneratedIdEntity implements Serializable {
                 ", iban='" + iban + '\'' +
                 ", user=" + user +
                 ", bankInstitute=" + bankInstitute +
-                ", transactions=" + transactions +
                 ", id=" + id +
                 '}';
     }

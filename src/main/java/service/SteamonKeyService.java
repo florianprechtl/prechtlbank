@@ -47,7 +47,7 @@ public class SteamonKeyService {
         return steamonKey;
     }
 
-    @Transactional(Transactional.TxType.SUPPORTS)
+    @Transactional(Transactional.TxType.REQUIRED)
     public void deleteSteamonKeyById(Long id) {
         SteamonKey steamonKey = steamonKeyRepo.getById(id);
         logger.info("deleteSteamonKey :: Delete steamonKey");
