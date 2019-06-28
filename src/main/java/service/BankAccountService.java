@@ -24,7 +24,7 @@ public class BankAccountService {
     private EntityManager em;
 
     @Inject
-    private transient Logger logger;
+    private Logger logger;
 
     @Inject
     private TransactionService transactionService;

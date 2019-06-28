@@ -4,7 +4,6 @@ import entity.enums.BankAccountStatus;
 import entity.util.GeneratedIdEntity;
 
 import javax.persistence.*;
-import javax.xml.bind.annotation.XmlTransient;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;

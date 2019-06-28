@@ -9,8 +9,6 @@ import entity.util.GeneratedIdEntity;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
-import javax.xml.bind.annotation.XmlTransient;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;

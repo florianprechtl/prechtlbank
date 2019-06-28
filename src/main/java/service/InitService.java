@@ -23,7 +23,7 @@ import java.util.List;
 public class InitService {
 
     @Inject
-    private transient Logger logger;
+    private Logger logger;
 
     @Inject
     private UserService userService;
