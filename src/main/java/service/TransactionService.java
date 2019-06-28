@@ -27,7 +27,6 @@ import java.util.Iterator;
 import java.util.List;
 
 @WebService
-@XmlTransient
 @RequestScoped
 public class TransactionService implements TransactionServiceIF{
 

@@ -13,13 +13,13 @@
 
 
     <!-- OTH VPN DB -->
-<!--    <persistence-unit name="prechtlBankPU" transaction-type="JTA">-->
-<!--        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>-->
-<!--        <jta-data-source>java:/jboss/condescending_hamilton</jta-data-source>-->
-<!--        <exclude-unlisted-classes>false</exclude-unlisted-classes>-->
-<!--        <properties>-->
-<!--            <property name="hibernate.hbm2ddl.auto" value="update"/>-->
-<!--            <property name="hibernate.dialect" value="org.hibernate.dialect.MySQL57Dialect"/>-->
-<!--        </properties>-->
-<!--    </persistence-unit>-->
+<!--    <persistence-unit name="prechtlBankPU" transaction-type="JTA">
+        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+        <jta-data-source>java:/jboss/condescending_hamilton</jta-data-source>
+        <exclude-unlisted-classes>false</exclude-unlisted-classes>
+        <properties>
+            <property name="hibernate.hbm2ddl.auto" value="update"/>
+            <property name="hibernate.dialect" value="org.hibernate.dialect.MySQL57Dialect"/>
+        </properties>
+    </persistence-unit>-->
 </persistence>
