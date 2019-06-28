@@ -74,8 +74,8 @@ public class InitService {
             userService.registerUser(newUser);
 
             address = new Address("my-secret-street 666", "93049", "Regensburg", "Deutschland");
-            newUser = new User("Josef", "Meier", "JME261", UserType.CUSTOMER, "abc", address);
-            userService.registerUser(newUser);
+            User meier = new User("Josef", "Meier", "JME261", UserType.CUSTOMER, "abc", address);
+            userService.registerUser(meier);
 
             address = new Address("irgendne-straße", "93049", "Regensburg", "Deutschland");
             User payPal = new User("HPP", "HofmeisterPayPal", "PayPal23543", UserType.CUSTOMER, "payPalPwd4", address);
@@ -87,10 +87,10 @@ public class InitService {
             userService.registerUser(newUser);
 
             ////////////////////////////////////////////// BANK INSTITUTE //////////////////////////////////////////////
-            BankInstitute bankInstitute = new BankInstitute("Regensburg PB", "RPGE1SZ6");
-            bankInstituteService.createBankInstitute(bankInstitute);
+            BankInstitute bankInstituteRegensburg = new BankInstitute("Regensburg PB", "RPGE1SZ6");
+            bankInstituteService.createBankInstitute(bankInstituteRegensburg);
 
-            bankInstitute = new BankInstitute("Amberg PB", "AMGE1SZ6");
+            BankInstitute bankInstitute = new BankInstitute("Amberg PB", "AMGE1SZ6");
             bankInstituteService.createBankInstitute(bankInstitute);
 
             bankInstitute = new BankInstitute("Ingolstadt PB", "INGE1SZ6");
@@ -107,13 +107,16 @@ public class InitService {
             bankAccount = new BankAccount("DE20614672326156345227", BankAccountStatus.APPROVED, bankInstitute, payPal);
             bankAccountService.createBankAccount(bankAccount);
 
+            bankAccount = new BankAccount("DE62480599303994628351", BankAccountStatus.APPROVED, bankInstituteRegensburg, meier);
+            bankAccountService.createBankAccount(bankAccount);
+
         } catch (Exception e) {
             logger.error(e.getMessage());
             logger.error(e.getStackTrace());
         }
     }
 
-//    @PreDestroy
+    @PreDestroy
     public void removeAll() {
         logger.info("exit :: PreDestroy!");
         List<User> users = userRepo.getAll();
