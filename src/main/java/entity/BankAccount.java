@@ -85,12 +85,6 @@ public class BankAccount extends GeneratedIdEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "BankAccount{" +
-                "accountStatus=" + accountStatus +
-                ", iban='" + iban + '\'' +
-                ", user=" + user +
-                ", bankInstitute=" + bankInstitute +
-                ", id=" + id +
-                '}';
+        return iban + "  (" + bankInstitute.getBic() + ", " + accountStatus + ")";
     }
 }

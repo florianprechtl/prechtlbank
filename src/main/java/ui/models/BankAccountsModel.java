@@ -6,6 +6,7 @@ import entity.enums.BankAccountStatus;
 import org.apache.log4j.Logger;
 import service.BankAccountService;
 import service.TransactionService;
+import ui.models.converter.BankAccountConverter;
 
 import javax.annotation.ManagedBean;
 import javax.annotation.PostConstruct;
@@ -22,6 +23,9 @@ import java.util.List;
 @Named
 @SessionScoped
 public class BankAccountsModel implements Serializable {
+
+    @Inject
+    private BankAccountConverter bankAccountConverter;
 
     @Inject
     private LoginUserModel loginUserModel;
@@ -124,5 +128,13 @@ public class BankAccountsModel implements Serializable {
         return sum < 0
                 ? "- " + sum
                 : "+ " + sum;
+    }
+
+    public BankAccountConverter getBankAccountConverter() {
+        return bankAccountConverter;
+    }
+
+    public void setBankAccountConverter(BankAccountConverter bankAccountConverter) {
+        this.bankAccountConverter = bankAccountConverter;
     }
 }
