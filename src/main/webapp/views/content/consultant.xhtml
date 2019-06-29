@@ -84,7 +84,7 @@
                                 <h:form>
                                     <b:commandButton class="margin2px" disabled="#{consultantModel.hasBankAccountStatus(bankAccount.accountStatus, 'APPROVED')}" look="success" tooltip="bestätigtue=" icon="check" action="#{consultantModel.doUpdateBankAccountStatus(bankAccount, 'APPROVED')}"/>
                                     <b:commandButton class="margin2px" disabled="#{consultantModel.hasBankAccountStatus(bankAccount.accountStatus, 'PENDING')}" look="info" tooltip="ausstehend" icon="check" action="#{consultantModel.doUpdateBankAccountStatus(bankAccount, 'PENDING')}"/>
-                                    <b:commandButton class="margin2px" disabled="#{consultantModel.hasBankAccountStatus(bankAccount.accountStatus, 'FROZEN')}" look="warning" tooltip="eingefroren" con="check" action="#{consultantModel.doUpdateBankAccountStatus(bankAccount, 'FROZEN')}"/>
+                                    <b:commandButton class="margin2px" disabled="#{consultantModel.hasBankAccountStatus(bankAccount.accountStatus, 'FROZEN')}" look="warning" tooltip="eingefroren" icon="check" action="#{consultantModel.doUpdateBankAccountStatus(bankAccount, 'FROZEN')}"/>
                                     <b:commandButton class="margin2px" look="danger" tooltip="entfernen" value=" " icon="trash" action="#{consultantModel.doDeleteBankAccount(bankAccount)}"/>
                                 </h:form>
                             </b:dataTableColumn>
