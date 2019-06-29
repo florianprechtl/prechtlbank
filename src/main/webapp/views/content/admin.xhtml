@@ -15,7 +15,7 @@
             <h:panelGroup>
                 <b:tabView activeIndex="#{adminModel.tabViewIndex}">
                     // ----------------------------------------------------------------------------------------------------------------------------
-                    <b:tab title="User Management">
+                    <b:tab title="Benutzer Verwaltung">
                         <f:facet name="anchor"><b:iconAwesome value="users"/></f:facet>
                         <br/>
 
@@ -23,14 +23,14 @@
 
                             <b:dataTableColumn value="#{user.id}" label="Id" order="asc" data-order="#{user.id}"/>
                             <b:dataTableColumn value="#{user.loginId}" label="LoginId"/>
-                            <b:dataTableColumn value="#{user.firstname}" label="Firstname"/>
-                            <b:dataTableColumn value="#{user.lastname}" label="Lastname"/>
-                            <b:dataTableColumn value="#{user.password}" label="Password"/>
+                            <b:dataTableColumn value="#{user.firstname}" label="Vorname"/>
+                            <b:dataTableColumn value="#{user.lastname}" label="Nachname"/>
+                            <b:dataTableColumn value="#{user.password}" label="Passwort"/>
 
-                            <b:dataTableColumn label="Action">
+                            <b:dataTableColumn label="Aktion">
                                 <h:form>
-                                    <b:commandButton class="margin2px" value=" " icon="edit" ajax="true" update="@(.message-well)" onclick="ajax:adminModel.onUserSelect(user)"/>
-                                    <b:commandButton class="margin2px" look="danger" value=" " icon="trash" action="#{adminModel.doDeleteUser(user)}"/>
+                                    <b:commandButton class="margin2px" tooltip="lade Informationen" value=" " icon="edit" ajax="true" update="@(.message-well)" onclick="ajax:adminModel.onUserSelect(user)"/>
+                                    <b:commandButton class="margin2px" tooltip="entfernen" look="danger" value=" " icon="trash" action="#{adminModel.doDeleteUser(user)}"/>
                                 </h:form>
                             </b:dataTableColumn>
                         </b:dataTable>
@@ -40,22 +40,22 @@
                                     <h:outputText value="ID: " class="padding2px margin2px"/>
                                     <b:inputText value="#{adminModel.tmpUser.id}" disabled="true" class="margin2px" style="width: 250px;"/>
 
-                                    <h:outputText value="Firstname: " class="padding2px margin2px"/>
+                                    <h:outputText value="Vorname: " class="padding2px margin2px"/>
                                     <b:inputText value="#{adminModel.tmpUser.firstname}" class="margin2px" style="width: 250px;"/>
 
-                                    <h:outputText value="Lastname: " class="padding2px margin2px"/>
+                                    <h:outputText value="nachname: " class="padding2px margin2px"/>
                                     <b:inputText value="#{adminModel.tmpUser.lastname}" class="margin2px" style="width: 250px;"/>
 
-                                    <h:outputText value="Country: " class="padding2px margin2px"/>
+                                    <h:outputText value="Land: " class="padding2px margin2px"/>
                                     <b:inputText value="#{adminModel.tmpUser.address.country}" class="margin2px" style="width: 250px;"/>
 
-                                    <h:outputText value="ZIP Code: " class="padding2px margin2px"/>
+                                    <h:outputText value="Postleitzahl: " class="padding2px margin2px"/>
                                     <b:inputText value="#{adminModel.tmpUser.address.zip}" class="margin2px" style="width: 250px;"/>
 
-                                    <h:outputText value="City: " class="padding2px margin2px"/>
+                                    <h:outputText value="Stadt: " class="padding2px margin2px"/>
                                     <b:inputText value="#{adminModel.tmpUser.address.city}" class="margin2px" style="width: 250px;"/>
 
-                                    <h:outputText value="Street: " class="padding2px margin2px"/>
+                                    <h:outputText value="Straße und Hausnummer: " class="padding2px margin2px"/>
                                     <b:inputText value="#{adminModel.tmpUser.address.street}" class="margin2px" style="width: 250px;"/>
 
                                     <h:outputText value="Password: " class="padding2px margin2px"/>
@@ -64,17 +64,17 @@
                                     <h:outputText value="LoginId: " class="padding2px margin2px"/>
                                     <b:inputText value="#{adminModel.tmpUser.loginId}" class="margin2px" style="width: 250px;"/>
 
-                                    <h:outputText value="User Type: " class="padding2px margin2px"/>
+                                    <h:outputText value="Nutzer Type: " class="padding2px margin2px"/>
                                     <b:selectOneMenu value="#{adminModel.tmpUser.userType}" class="margin2px">
-                                        <f:selectItem itemLabel="(No user type selected)" itemValue="#{null}" />
+                                        <f:selectItem itemLabel="(Wählen Sie bitte einen Typ aus)" itemValue="#{null}" />
                                         <f:selectItems value="#{adminModel.allUserTypes}"/>
                                     </b:selectOneMenu>
                                 </h:panelGrid>
 
                                 <br/><br/>
 
-                                <b:commandButton class="margin2px" look="success" value="Create or update user" action="#{adminModel.doUpsertUser()}"/>
-                                <b:commandButton class="margin2px" look="info" value="Clear Form" ajax="true" update="@(.message-well)" action="#{adminModel.clearUserForm()}"/>
+                                <b:commandButton class="margin2px" look="success" value="Erstelle oder update Nutzer" action="#{adminModel.doUpsertUser()}"/>
+                                <b:commandButton class="margin2px" look="info" value="Leere Form" ajax="true" update="@(.message-well)" action="#{adminModel.clearUserForm()}"/>
 
                             </h:form>
                         </b:well>
@@ -82,7 +82,7 @@
 
                     // ----------------------------------------------------------------------------------------------------------------------------
 
-                    <b:tab title="Steamon Key Management">
+                    <b:tab title="Steamon Key Verwaltung">
                         <f:facet name="anchor"><b:iconAwesome value="key"/></f:facet>
                         <br/>
 
@@ -90,12 +90,12 @@
 
                             <b:dataTableColumn value="#{steamonKey.id}" label="Id" order="asc" data-order="#{steamonKey.id}"/>
                             <b:dataTableColumn value="#{steamonKey.keyCode}" label="Key Code"/>
-                            <b:dataTableColumn value="#{steamonKey.keyReceiver.loginId}" label="User"/>
+                            <b:dataTableColumn value="#{steamonKey.keyReceiver.loginId}" label="Nutzer"/>
 
-                            <b:dataTableColumn label="Action">
+                            <b:dataTableColumn label="Aktion">
                                 <h:form>
-                                    <b:commandButton class="margin2px" value=" " icon="edit" ajax="true" update="@(.message-well)" onclick="ajax:adminModel.onSteamonKeySelect(steamonKey)"/>
-                                    <b:commandButton class="margin2px" look="danger" value=" " icon="trash" action="#{adminModel.doDeleteSteamonKey(steamonKey)}"/>
+                                    <b:commandButton class="margin2px" tooltip="lade Informationen" value=" " icon="edit" ajax="true" update="@(.message-well)" onclick="ajax:adminModel.onSteamonKeySelect(steamonKey)"/>
+                                    <b:commandButton class="margin2px" tooltip="entfernen" look="danger" value=" " icon="trash" action="#{adminModel.doDeleteSteamonKey(steamonKey)}"/>
                                 </h:form>
                             </b:dataTableColumn>
                         </b:dataTable>
@@ -117,7 +117,7 @@
 
                     // ----------------------------------------------------------------------------------------------------------------------------
 
-                    <b:tab title="Transaction Management">
+                    <b:tab title="Transaktion Verwaltung">
                         <f:facet name="anchor"><b:iconAwesome value="exchange"/></f:facet>
                         <br/>
 
@@ -128,12 +128,12 @@
                             <b:dataTableColumn value="#{transaction.payee.bankInstitute.bic}" label="Payee BIC"/>
                             <b:dataTableColumn value="#{transaction.payer.iban}" label="Payer IBAN"/>
                             <b:dataTableColumn value="#{transaction.payer.bankInstitute.bic}" label="Payer BIC"/>
-                            <b:dataTableColumn value="#{transaction.amount}" label="Amount"/>
+                            <b:dataTableColumn value="#{transaction.amount}" label="Betrag"/>
 
-                            <b:dataTableColumn label="Action">
+                            <b:dataTableColumn label="Aktion">
                                 <h:form>
-                                    <b:commandButton class="margin2px" value=" " icon="edit" ajax="true" update="@(.message-well)" onclick="ajax:adminModel.onTransactionSelect(transaction)"/>
-                                    <b:commandButton class="margin2px" look="danger" value=" " icon="trash" action="#{adminModel.doDeleteTransaction(transaction)}"/>
+                                    <b:commandButton class="margin2px" tooltip="lade Informationen" value=" " icon="edit" ajax="true" update="@(.message-well)" onclick="ajax:adminModel.onTransactionSelect(transaction)"/>
+                                    <b:commandButton class="margin2px" tooltip="entfernen" look="danger" value=" " icon="trash" action="#{adminModel.doDeleteTransaction(transaction)}"/>
                                 </h:form>
                             </b:dataTableColumn>
                         </b:dataTable>
@@ -155,35 +155,35 @@
                                     <h:outputText value="Payer BIC: " class="padding2px margin2px"/>
                                     <b:inputText value="#{adminModel.tmpTransaction.payer.bankInstitute.bic}" class="margin2px" style="width: 250px;"/>
 
-                                    <h:outputText value="Amount: " class="padding2px margin2px"/>
+                                    <h:outputText value="Betrag: " class="padding2px margin2px"/>
                                     <b:inputText value="#{adminModel.tmpTransaction.amount}" class="margin2px" style="width: 250px;"/>
 
-                                    <h:outputText value="Reason of usage: " class="padding2px margin2px"/>
+                                    <h:outputText value="Verwendungszweck: " class="padding2px margin2px"/>
                                     <b:inputText value="#{adminModel.tmpTransaction.reasonOfUsage}" class="margin2px" style="width: 250px;"/>
 
-                                    <h:outputText value="Transaction status: " class="padding2px margin2px"/>
+                                    <h:outputText value="Transaktionsstatus: " class="padding2px margin2px"/>
                                     <b:selectOneMenu value="#{adminModel.tmpTransaction.transactionStatus}" class="margin2px">
-                                        <f:selectItem itemLabel="(No transaction status selected)" itemValue="#{null}" />
+                                        <f:selectItem itemLabel="(Wählen Sie bitt einen Transaktionsstatus aus)" itemValue="#{null}" />
                                         <f:selectItems value="#{adminModel.allTransactionStatuses}"/>
                                     </b:selectOneMenu>
 
-                                    <h:outputText value="Transaction type: " class="padding2px margin2px"/>
+                                    <h:outputText value="Transaktionstyp: " class="padding2px margin2px"/>
                                     <b:selectOneMenu value="#{adminModel.tmpTransaction.transactionType}" class="margin2px">
-                                        <f:selectItem itemLabel="(No transaction type selected)" itemValue="#{null}" />
+                                        <f:selectItem itemLabel="(Wählen Sie bitte eine Transaktionstyp aus)" itemValue="#{null}" />
                                         <f:selectItems value="#{adminModel.allTransactionTypes}"/>
                                     </b:selectOneMenu>
 
-                                    <h:outputText value="Duration: " class="padding2px margin2px"/>
+                                    <h:outputText value="Interval: " class="padding2px margin2px"/>
                                     <b:selectOneMenu value="#{adminModel.tmpTransaction.duration}" class="margin2px">
-                                        <f:selectItem itemLabel="(No duration selected)" itemValue="#{null}" />
+                                        <f:selectItem itemLabel="(Wählen Sie bitte ein Transaktionsinterval aus)" itemValue="#{null}" />
                                         <f:selectItems value="#{adminModel.allDurations}"/>
                                     </b:selectOneMenu>
                                 </h:panelGrid>
 
                                 <br/><br/>
 
-                                <b:commandButton class="margin2px" look="success" value="Create or update transaction" action="#{adminModel.doUpsertTransaction()}"/>
-                                <b:commandButton class="margin2px" look="info" value="Clear Form" ajax="true" update="@(.message-well)" action="#{adminModel.clearTransactionForm()}"/>
+                                <b:commandButton class="margin2px" look="success" value="Erstelle oder update Transaktion" action="#{adminModel.doUpsertTransaction()}"/>
+                                <b:commandButton class="margin2px" look="info" value="Leere Form" ajax="true" update="@(.message-well)" action="#{adminModel.clearTransactionForm()}"/>
 
                             </h:form>
                         </b:well>
@@ -191,22 +191,22 @@
 
                     // ----------------------------------------------------------------------------------------------------------------------------
 
-                    <b:tab title="Bank Account Management">
+                    <b:tab title="Bank Account Verwaltung">
                         <f:facet name="anchor"><b:iconAwesome value="bank"/></f:facet>
                         <br/>
 
                         <b:dataTable value="#{adminModel.allBankAccounts}" var="bankAccount" mark-search-results="true">
 
                             <b:dataTableColumn value="#{bankAccount.id}" label="Id" order="asc" data-order="#{bankAccount.id}"/>
-                            <b:dataTableColumn value="#{bankAccount.user.loginId}" label="User"/>
+                            <b:dataTableColumn value="#{bankAccount.user.loginId}" label="Nutzer"/>
                             <b:dataTableColumn value="#{bankAccount.iban}" label="IBAN"/>
-                            <b:dataTableColumn value="#{bankAccount.bankInstitute.name}" label="Bank institute"/>
-                            <b:dataTableColumn value="#{bankAccount.accountStatus}" label="Account status"/>
+                            <b:dataTableColumn value="#{bankAccount.bankInstitute.name}" label="Bankinstitut"/>
+                            <b:dataTableColumn value="#{bankAccount.accountStatus}" label="Accountstatus"/>
 
-                            <b:dataTableColumn label="Action">
+                            <b:dataTableColumn label="Aktion">
                                 <h:form>
-                                    <b:commandButton class="margin2px" value=" " icon="edit" ajax="true" update="@(.message-well)" onclick="ajax:adminModel.onBankAccountSelect(bankAccount)"/>
-                                    <b:commandButton class="margin2px" look="danger" value=" " icon="trash" action="#{adminModel.doDeleteBankAccount(bankAccount)}"/>
+                                    <b:commandButton class="margin2px" tooltip="lade Informationen" value=" " icon="edit" ajax="true" update="@(.message-well)" onclick="ajax:adminModel.onBankAccountSelect(bankAccount)"/>
+                                    <b:commandButton class="margin2px" tooltip="entfernen" look="danger" value=" " icon="trash" action="#{adminModel.doDeleteBankAccount(bankAccount)}"/>
                                 </h:form>
                             </b:dataTableColumn>
                         </b:dataTable>
@@ -223,23 +223,23 @@
                                     <h:outputText value="LoginId: " class="padding2px margin2px"/>
                                     <b:inputText value="#{adminModel.tmpBankAccount.user.loginId}" class="margin2px" style="width: 250px;"/>
 
-                                    <h:outputText value="Account status: " class="padding2px margin2px"/>
+                                    <h:outputText value="Accountstatus: " class="padding2px margin2px"/>
                                     <b:selectOneMenu value="#{adminModel.tmpBankAccount.accountStatus}" class="margin2px">
-                                        <f:selectItem itemLabel="(No account status selected)" itemValue="#{null}" />
+                                        <f:selectItem itemLabel="(Wählen Sie bitte einen Accountstatus aus)" itemValue="#{null}" />
                                         <f:selectItems value="#{adminModel.allBankAccountStatuses}"/>
                                     </b:selectOneMenu>
 
-                                    <h:outputText value="Bank institute: " class="padding2px margin2px"/>
+                                    <h:outputText value="Bankinstitut: " class="padding2px margin2px"/>
                                     <b:selectOneMenu value="#{adminModel.tmpBankAccount.bankInstitute}" class="margin2px">
-                                        <f:selectItem itemLabel="(No bank institute selected)" itemValue="#{null}" />
+                                        <f:selectItem itemLabel="(Wählen Sie bitte ein Bankinstitut aus)" itemValue="#{null}" />
                                         <f:selectItems value="#{adminModel.allBankInstitutes}" var="c" itemValue="#{c}" itemLabel="#{c.name}"/>
                                     </b:selectOneMenu>
                                 </h:panelGrid>
 
                                 <br/><br/>
 
-                                <b:commandButton class="margin2px" look="success" value="Create or update bank account" action="#{adminModel.doUpsertBankAccount()}"/>
-                                <b:commandButton class="margin2px" look="info" value="Clear Form" ajax="true" update="@(.message-well)" action="#{adminModel.clearBankAccountForm()}"/>
+                                <b:commandButton class="margin2px" look="success" value="Erstlle oder Update Bankaccount" action="#{adminModel.doUpsertBankAccount()}"/>
+                                <b:commandButton class="margin2px" look="info" value="Leere Form" ajax="true" update="@(.message-well)" action="#{adminModel.clearBankAccountForm()}"/>
 
                             </h:form>
                         </b:well>
@@ -247,7 +247,7 @@
 
                     // ----------------------------------------------------------------------------------------------------------------------------
 
-                    <b:tab title="Bank Institute Management">
+                    <b:tab title="Bankinstitut Verwaltung">
                         <f:facet name="anchor"><b:iconAwesome value="bank"/></f:facet>
                         <br/>
 
@@ -257,10 +257,10 @@
                             <b:dataTableColumn value="#{bankInstitute.name}" label="Name"/>
                             <b:dataTableColumn value="#{bankInstitute.bic}" label="BIC"/>
 
-                            <b:dataTableColumn label="Action">
+                            <b:dataTableColumn label="Aktion">
                                 <h:form>
-                                    <b:commandButton class="margin2px" value=" " icon="edit" ajax="true" update="@(.message-well)" onclick="ajax:adminModel.onBankInstituteSelect(bankInstitute)"/>
-                                    <b:commandButton class="margin2px" look="danger" value=" " icon="trash" action="#{adminModel.doDeleteBankInstitute(bankInstitute)}"/>
+                                    <b:commandButton class="margin2px" tooltip="lade Informationen" value=" " icon="edit" ajax="true" update="@(.message-well)" onclick="ajax:adminModel.onBankInstituteSelect(bankInstitute)"/>
+                                    <b:commandButton class="margin2px" tooltip="entfernen" look="danger" value=" " icon="trash" action="#{adminModel.doDeleteBankInstitute(bankInstitute)}"/>
                                 </h:form>
                             </b:dataTableColumn>
                         </b:dataTable>
@@ -279,8 +279,8 @@
 
                                 <br/><br/>
 
-                                <b:commandButton class="margin2px" look="success" value="Create or update bank institute" action="#{adminModel.doUpsertBankInstitute()}"/>
-                                <b:commandButton class="margin2px" look="info" value="Clear Form" ajax="true" update="@(.message-well)" action="#{adminModel.clearBankInstituteForm()}"/>
+                                <b:commandButton class="margin2px" look="success" value="Erstelle oder update Bankinstitut" action="#{adminModel.doUpsertBankInstitute()}"/>
+                                <b:commandButton class="margin2px" look="info" value="Leere Form" ajax="true" update="@(.message-well)" action="#{adminModel.clearBankInstituteForm()}"/>
                             </h:form>
                         </b:well>
                     </b:tab>

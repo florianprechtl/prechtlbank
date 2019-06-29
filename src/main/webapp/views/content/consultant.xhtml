@@ -15,7 +15,7 @@
             <h:panelGroup>
                 <b:tabView activeIndex="#{consultantModel.tabViewIndex}">
                     // ----------------------------------------------------------------------------------------------------------------------------
-                    <b:tab title="User Management">
+                    <b:tab title="Benutzer Verwaltung">
                         <f:facet name="anchor"><b:iconAwesome value="users"/></f:facet>
                         <br/>
 
@@ -23,12 +23,16 @@
 
                             <b:dataTableColumn value="#{user.id}" label="Id" order="asc" data-order="#{user.id}"/>
                             <b:dataTableColumn value="#{user.loginId}" label="LoginId"/>
-                            <b:dataTableColumn value="#{user.firstname}" label="Firstname"/>
-                            <b:dataTableColumn value="#{user.lastname}" label="Lastname"/>
+                            <b:dataTableColumn value="#{user.firstname}" label="Vorname"/>
+                            <b:dataTableColumn value="#{user.lastname}" label="Nachname"/>
+                            <b:dataTableColumn value="#{user.address.street}" label="Straße"/>
+                            <b:dataTableColumn value="#{user.address.zip}" label="Postleitzahl"/>
+                            <b:dataTableColumn value="#{user.address.city}" label="Stadt"/>
+                            <b:dataTableColumn value="#{user.address.country}" label="Land"/>
 
                             <b:dataTableColumn label="Action">
                                 <h:form>
-                                    <b:commandButton class="margin2px" look="danger" tooltip="delete" value=" " icon="trash" action="#{consultantModel.doDeleteUser(user)}"/>
+                                    <b:commandButton class="margin2px" look="danger" tooltip="entfernen" value=" " icon="trash" action="#{consultantModel.doDeleteUser(user)}"/>
                                 </h:form>
                             </b:dataTableColumn>
                         </b:dataTable>
@@ -36,24 +40,25 @@
 
                     // ---------------------------------------------------------------------------------------------------------------------------
 
-                    <b:tab title="Transaction Management">
+                    <b:tab title="Transaktion Verwaltung">
                         <f:facet name="anchor"><b:iconAwesome value="users"/></f:facet>
                         <br/>
 
                         <b:dataTable value="#{consultantModel.allTransactions}" var="transaction" mark-search-results="true">
 
                             <b:dataTableColumn value="#{transaction.id}" label="Id" order="asc" data-order="#{transaction.id}" />
-                            <b:dataTableColumn value="#{transaction.date}" label="Date"/>
+                            <b:dataTableColumn value="#{transaction.date}" label="Datum"/>
                             <b:dataTableColumn value="#{transaction.payer.iban}" label="Payer"/>
                             <b:dataTableColumn value="#{transaction.payee.iban}" label="Payee"/>
-                            <b:dataTableColumn value="#{transaction.amount}" label="Amount"/>
+                            <b:dataTableColumn value="#{transaction.amount}" label="Betrag"/>
+                            <b:dataTableColumn value="#{transaction.reasonOfUsage}" label="Verwendungszweck"/>
                             <b:dataTableColumn value="#{transaction.transactionStatus}" label="Status" styleClass="#{consultantModel.hasTransactionStatus(transaction.transactionStatus, 'NEW')?'new-transaction':'not-new'}"/>
 
                             <b:dataTableColumn label="Action">
                                 <h:form>
-                                    <b:commandButton class="margin2px" disabled="#{consultantModel.hasTransactionStatus(transaction.transactionStatus, 'DONE')}" look="success" tooltip="done" value=" " icon="check" action="#{consultantModel.doUpdateTransactionStatus(transaction, 'DONE')}"/>
-                                    <b:commandButton class="margin2px" disabled="#{consultantModel.hasTransactionStatus(transaction.transactionStatus, 'PENDING')}" look="info" tooltip="pending" value=" " icon="check" action="#{consultantModel.doUpdateTransactionStatus(transaction, 'PENDING')}"/>
-                                    <b:commandButton class="margin2px" look="danger" tooltip="delete" value=" " icon="trash" action="#{consultantModel.doDeleteTransaction(transaction)}"/>
+                                    <b:commandButton class="margin2px" disabled="#{consultantModel.hasTransactionStatus(transaction.transactionStatus, 'DONE')}" look="success" tooltip="durchgeführt" value=" " icon="check" action="#{consultantModel.doUpdateTransactionStatus(transaction, 'DONE')}"/>
+                                    <b:commandButton class="margin2px" disabled="#{consultantModel.hasTransactionStatus(transaction.transactionStatus, 'PENDING')}" look="info" tooltip="ausstehend" value=" " icon="check" action="#{consultantModel.doUpdateTransactionStatus(transaction, 'PENDING')}"/>
+                                    <b:commandButton class="margin2px" look="danger" tooltip="entfernen" value=" " icon="trash" action="#{consultantModel.doDeleteTransaction(transaction)}"/>
                                 </h:form>
                             </b:dataTableColumn>
                         </b:dataTable>
@@ -61,7 +66,7 @@
 
                     // ---------------------------------------------------------------------------------------------------------------------------
 
-                    <b:tab title="Bank Account Management">
+                    <b:tab title="Bankaccount Verwaltung">
                         <f:facet name="anchor"><b:iconAwesome value="users"/></f:facet>
                         <br/>
 
@@ -71,14 +76,16 @@
                             <b:dataTableColumn value="#{bankAccount.iban}" label="IBAN"/>
                             <b:dataTableColumn value="#{bankAccount.bankInstitute.bic}" label="BIC"/>
                             <b:dataTableColumn value="#{bankAccount.user.loginId}" label="LoginId"/>
+                            <b:dataTableColumn value="#{bankAccount.user.firstname}" label="Vorname"/>
+                            <b:dataTableColumn value="#{bankAccount.user.lastname}" label="Nachname"/>
                             <b:dataTableColumn value="#{bankAccount.accountStatus}" label="Status" styleClass="#{consultantModel.hasBankAccountStatus(bankAccount.accountStatus, 'NEW')?'new-bankAccount':'not-new'}"/>
 
                             <b:dataTableColumn label="Action">
                                 <h:form>
-                                    <b:commandButton class="margin2px" disabled="#{consultantModel.hasBankAccountStatus(bankAccount.accountStatus, 'APPROVED')}" look="success" tooltip="approved" value=" " icon="check" action="#{consultantModel.doUpdateBankAccountStatus(bankAccount, 'APPROVED')}"/>
-                                    <b:commandButton class="margin2px" disabled="#{consultantModel.hasBankAccountStatus(bankAccount.accountStatus, 'PENDING')}" look="info" tooltip="pending" value=" " icon="check" action="#{consultantModel.doUpdateBankAccountStatus(bankAccount, 'PENDING')}"/>
-                                    <b:commandButton class="margin2px" disabled="#{consultantModel.hasBankAccountStatus(bankAccount.accountStatus, 'FROZEN')}" look="warning" tooltip="frozen" value=" " icon="check" action="#{consultantModel.doUpdateBankAccountStatus(bankAccount, 'FROZEN')}"/>
-                                    <b:commandButton class="margin2px" look="danger" tooltip="delete" value=" " icon="trash" action="#{consultantModel.doDeleteBankAccount(bankAccount)}"/>
+                                    <b:commandButton class="margin2px" disabled="#{consultantModel.hasBankAccountStatus(bankAccount.accountStatus, 'APPROVED')}" look="success" tooltip="bestätigtue=" icon="check" action="#{consultantModel.doUpdateBankAccountStatus(bankAccount, 'APPROVED')}"/>
+                                    <b:commandButton class="margin2px" disabled="#{consultantModel.hasBankAccountStatus(bankAccount.accountStatus, 'PENDING')}" look="info" tooltip="ausstehend" icon="check" action="#{consultantModel.doUpdateBankAccountStatus(bankAccount, 'PENDING')}"/>
+                                    <b:commandButton class="margin2px" disabled="#{consultantModel.hasBankAccountStatus(bankAccount.accountStatus, 'FROZEN')}" look="warning" tooltip="eingefroren" con="check" action="#{consultantModel.doUpdateBankAccountStatus(bankAccount, 'FROZEN')}"/>
+                                    <b:commandButton class="margin2px" look="danger" tooltip="entfernen" value=" " icon="trash" action="#{consultantModel.doDeleteBankAccount(bankAccount)}"/>
                                 </h:form>
                             </b:dataTableColumn>
                         </b:dataTable>

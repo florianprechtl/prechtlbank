@@ -9,8 +9,8 @@
 
     <f:view>
         <h:form horizontal="true">
-            <b:inputText class="margin2px" pt:placeholder="Username" colMd="12" value="#{loginUserModel.loginId}"/>
-            <b:inputSecret class="margin2px" pt:placeholder="Password" colMd="12" value="#{loginUserModel.password}"/>
+            <b:inputText class="margin2px" pt:placeholder="Login Id" colMd="12" value="#{loginUserModel.loginId}"/>
+            <b:inputSecret class="margin2px" pt:placeholder="Passwort" colMd="12" value="#{loginUserModel.password}"/>
 
             <b:commandButton look="success" colMd="12" value="Login" action="#{loginUserModel.doLogin()}"/>
             <div style="width: 250px; text-align: center">

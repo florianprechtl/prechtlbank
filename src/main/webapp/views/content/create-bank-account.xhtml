@@ -12,7 +12,7 @@
     <ui:composition template="../../WEB-INF/templates/basicTemplate.xhtml">
         <ui:define name="content">
             <f:view>
-                <h1>Create Account</h1>
+                <h1>Erstelle einen neuen Bankaccount</h1>
                 <h:panelGroup rendered="#{createBankAccountModel.isFirstBankAccount()}">
                     <h:form horizontal="true" style="width: 700px; margin: auto; margin-top: 60px;">
                         <h2>Das ist dein erstes Konto?</h2>
@@ -26,7 +26,7 @@
 
                         <h:outputText value="Account status: " class="padding2px margin2px"/>
                         <b:selectOneMenu value="#{createBankAccountModel.selectedBankInstitute}" class="margin2px">
-                            <f:selectItem itemLabel="(No bank institute selected)" itemValue="#{null}" />
+                            <f:selectItem itemLabel="(Bitte wählen Sie ein Bank Institut aus)" itemValue="#{null}" />
                             <f:selectItems value="#{adminModel.allBankInstitutes}" var="c" itemValue="#{c}" itemLabel="#{c.name}"/>
                         </b:selectOneMenu>
 

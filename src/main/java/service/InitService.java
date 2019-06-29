@@ -61,30 +61,30 @@ public class InitService {
         logger.info("init :: PostConstruct!");
         try {
             /////////////////////////////////////////// USER REGISTRATION //////////////////////////////////////////////
-            Address address = new Address("Marktplatz 35", "92249", "Vilseck", "Germany");
-            User newUser = new User("Florian", "Prechtl", "testID", UserType.CONSULTANT, "testPW", address);
-            userService.registerUser(newUser);
+            Address address = new Address("Mozartalee 8", "93562", "Mumflingen", "Deutschland");
+            User consultant = new User("Daniel", "Jobst", "consultant", UserType.CONSULTANT, "1234", address);
+            userService.registerUser(consultant);
 
-            address = new Address("Marktplatz 35", "92249", "Vilseck", "Germany");
-            newUser = new User("Florian", "Prechtl", "testID2", UserType.CUSTOMER, "testPW", address);
-            userService.registerUser(newUser);
+            address = new Address("Kranweg 35", "92249", "Wingersdorf", "Deutschland");
+            User customer = new User("Florian", "Prechtl", "customer", UserType.CUSTOMER, "1234", address);
+            userService.registerUser(customer);
 
-            address = new Address("Marktplatz 35", "92249", "Vilseck", "Germany");
-            newUser = new User("Florian", "Prechtl", "testID3", UserType.ADMIN, "testPW", address);
-            userService.registerUser(newUser);
+            address = new Address("Am Markt 4", "98421", "Dunhausen", "Deutschland");
+            User admin = new User("Adrian", "Admin", "admin", UserType.ADMIN, "1234", address);
+            userService.registerUser(admin);
 
-            address = new Address("my-secret-street 666", "93049", "Regensburg", "Deutschland");
+            address = new Address("Secret Straße 666", "93049", "Regensburg", "Deutschland");
             User meier = new User("Josef", "Meier", "JME261", UserType.CUSTOMER, "abc", address);
             userService.registerUser(meier);
 
-            address = new Address("irgendne-straße", "93049", "Regensburg", "Deutschland");
+            address = new Address("Irgendne Straße", "93049", "Regensburg", "Deutschland");
             User payPal = new User("HPP", "HofmeisterPayPal", "PayPal23543", UserType.CUSTOMER, "payPalPwd4", address);
             userService.registerUser(payPal);
 
             // Has to be last insert
             address = new Address("BANK", "00000", "BANK", "BANK");
-            newUser = new User("BANK", "BANK", "BANK", UserType.ADMIN, "BANK", address);
-            userService.registerUser(newUser);
+            User bank = new User("BANK", "BANK", "BANK", UserType.ADMIN, "BANK", address);
+            userService.registerUser(bank);
 
             ////////////////////////////////////////////// BANK INSTITUTE //////////////////////////////////////////////
             BankInstitute bankInstituteRegensburg = new BankInstitute("Regensburg PB", "RPGE1SZ6");
@@ -101,7 +101,7 @@ public class InitService {
 
             ////////////////////////////////////////////// BANK ACCOUNT ////////////////////////////////////////////////
 
-            BankAccount bankAccount = new BankAccount("BANK", BankAccountStatus.APPROVED, bankInstitute, newUser);
+            BankAccount bankAccount = new BankAccount("BANK", BankAccountStatus.APPROVED, bankInstitute, bank);
             bankAccountService.createBankAccount(bankAccount);
 
             bankAccount = new BankAccount("DE20614672326156345227", BankAccountStatus.APPROVED, bankInstitute, payPal);
