@@ -4,6 +4,7 @@ import entity.BankAccount;
 import entity.Transaction;
 import entity.dto.LoginDTO;
 import entity.dto.TransactionDTO;
+import entity.enums.BankAccountStatus;
 import entity.enums.Duration;
 import entity.enums.TransactionStatus;
 import entity.enums.TransactionType;
@@ -58,6 +59,12 @@ public class TransactionService implements TransactionServiceIF{
 
         if (transaction.getPayee().getIban() == null)
             throw new ValidationException("Invalid Payee IBAN.", null);
+
+        if (transaction.getPayer().getAccountStatus() != BankAccountStatus.APPROVED)
+            throw new ValidationException("Payer account is not approved.", null);
+
+        if (transaction.getPayee().getAccountStatus() != BankAccountStatus.APPROVED)
+            throw new ValidationException("Payee account is not approved.", null);
 
         if (transaction.getPayer() == null)
             throw new ValidationException("Invalid Payer.", null);
@@ -174,6 +181,15 @@ public class TransactionService implements TransactionServiceIF{
         return transactions;
     }
 
+    @WebMethod(exclude = true)
+    @Transactional(Transactional.TxType.SUPPORTS)
+    public List<Transaction> getAllDoneTransactionsByIban(String iban) {
+        List<Transaction> transactions =  em.createQuery("SELECT u FROM Transaction AS u WHERE transactionStatus = ?2 AND (payee.iban = ?1 OR payer.iban = ?1)", Transaction.class)
+                .setParameter(1, iban)
+                .setParameter(2, TransactionStatus.DONE)
+                .getResultList();
+        return transactions;
+    }
 
     @WebMethod(exclude = true)
     @Transactional(Transactional.TxType.REQUIRED)
@@ -193,20 +209,6 @@ public class TransactionService implements TransactionServiceIF{
         logger.info("deleteTransaction :: Delete transaction");
         em.remove(transaction);
         logger.info("deleteTransaction :: Transaction successfully deleted");
-    }
-
-    @WebMethod(exclude = true)
-    @Transactional(Transactional.TxType.REQUIRED)
-    public void deleteTransactionByUserId(Long userId) {
-        List<Transaction> transactions =  em.createQuery("SELECT u FROM Transaction AS u WHERE payee.user.id = ?1 OR payer.user.id = ?1", Transaction.class)
-                .setParameter(1, userId)
-                .getResultList();
-        logger.info("deleteTransaction :: Delete transactions");
-        Iterator<Transaction> transactionIterator = transactions.iterator();
-        while(transactionIterator.hasNext()) {
-            em.remove(transactionIterator.next());
-        }
-        logger.info("deleteTransaction :: Transactions successfully deleted");
     }
 
     @WebMethod(exclude = true)

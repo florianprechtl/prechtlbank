@@ -4,6 +4,7 @@ import entity.BankAccount;
 import entity.BankInstitute;
 import entity.SteamonKey;
 import entity.Transaction;
+import entity.enums.BankAccountStatus;
 import entity.repo.BankAccountRepo;
 import org.apache.log4j.Logger;
 import service.Exceptions.ValidationException;
@@ -41,11 +42,21 @@ public class BankAccountService {
         if (bankAccount == null)
             throw new ValidationException("BankAccount is null.", null);
 
+        if (bankAccount.getUser() == null)
+            throw new ValidationException("The user is invalid.", null);
+
+        if (bankAccount.getUser().getLoginId() == null)
+            throw new ValidationException("The loginId is invalid.", null);
+
         if (bankAccount.getAccountStatus() == null)
-            throw new ValidationException("The Account status is invalid.", null);
+            throw new ValidationException("The account status is invalid.", null);
 
         if (bankAccount.getBankInstitute() == null)
-            throw new ValidationException("The Banking institute is invalid.", null);
+            throw new ValidationException("The banking institute is invalid.", null);
+
+        if (bankAccount.getIban() == null || (bankAccount.getIban().length() != 22 && !bankAccount.getIban().equals("BANK")))
+            throw new ValidationException("The IBAN is invalid (length should be 22 characters).", null);
+
     }
 
     @Transactional(Transactional.TxType.REQUIRED)
@@ -80,13 +91,7 @@ public class BankAccountService {
         String iban = bankAccount.getIban();
         List<Transaction> transactions = transactionService.getAllTransactionsByIban(iban);
         for (Transaction transaction : transactions) {
-            if (transaction.getPayee().getIban().equals(iban)) {
-                transaction.setPayee(null);
-            } else {
-                transaction.setPayer(null);
-            }
-            em.merge(transaction);
-
+            em.remove(transaction);
         }
         em.remove(bankAccount);
         logger.info("deleteBankAccount :: BankAccount successfully deleted");
@@ -144,6 +149,15 @@ public class BankAccountService {
     public List<BankAccount> getBankAccountsOfUser(Long userId) {
         List<BankAccount> bankAccounts = em.createQuery("SELECT b FROM BankAccount AS b WHERE b.user.id = ?1", BankAccount.class)
                 .setParameter(1, userId)
+                .getResultList();
+        return bankAccounts;
+    }
+
+    @Transactional(Transactional.TxType.SUPPORTS)
+    public List<BankAccount> getApprovedBankAccountsOfUser(Long userId) {
+        List<BankAccount> bankAccounts = em.createQuery("SELECT b FROM BankAccount AS b WHERE b.accountStatus = ?2 AND b.user.id = ?1", BankAccount.class)
+                .setParameter(1, userId)
+                .setParameter(2, BankAccountStatus.APPROVED)
                 .getResultList();
         return bankAccounts;
     }

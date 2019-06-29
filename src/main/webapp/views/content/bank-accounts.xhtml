@@ -20,9 +20,9 @@
             <h:form id="myForm">
                 <b:selectOneMenu value="#{bankAccountsModel.selectedBankAccount}" offset="2" colMd="8">
                     <f:selectItem itemLabel="(Please select bank account)" itemValue="#{null}" />
-                    <f:selectItems value="#{bankAccountsModel.allBankAccounts}" var="c" itemValue="#{c}" itemLabel="#{c.iban}"/>
+                    <f:selectItems value="#{bankAccountsModel.allBankAccounts}" var="c" itemValue="#{c}" itemLabel="#{c.iban.concat('   (').concat(c.bankInstitute.bic).concat(', ').concat(c.accountStatus).concat(')')}"/>
                 </b:selectOneMenu>
-                <b:commandButton class="margin2px" value=" " icon="edit" ajax="true" update="dataTable" action="#{bankAccountsModel.onBankAccountChange}"/>
+                <b:commandButton class="margin2px" tooltip="Lade Transactionen" look="success" value=" " icon="edit" ajax="true" update="dataTable" action="#{bankAccountsModel.onBankAccountChange}"/>
             </h:form>
             <b:dataTable
                     value="#{bankAccountsModel.transactions}"

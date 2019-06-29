@@ -72,7 +72,7 @@ public class TransferModel {
 
     public List<BankAccount> getAllBankAccounts() {
         if (allBankAccounts == null) {
-            allBankAccounts = bankAccountService.getBankAccountsOfUser(loginUserModel.getUser().getId());
+            allBankAccounts = bankAccountService.getApprovedBankAccountsOfUser(loginUserModel.getUser().getId());
         }
         return allBankAccounts;
     }

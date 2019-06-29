@@ -2,6 +2,7 @@ package ui.models;
 
 import entity.BankAccount;
 import entity.Transaction;
+import entity.enums.BankAccountStatus;
 import org.apache.log4j.Logger;
 import service.BankAccountService;
 import service.TransactionService;
@@ -10,6 +11,7 @@ import javax.annotation.ManagedBean;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.application.FacesMessage;
 import javax.faces.application.NavigationHandler;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
@@ -67,7 +69,7 @@ public class BankAccountsModel implements Serializable {
 
     public List<Transaction> getTransactions() {
         if (selectedBankAccount != null) {
-            List<Transaction> transactions = transactionService.getAllTransactionsByIban(selectedBankAccount.getIban());
+            List<Transaction> transactions = transactionService.getAllDoneTransactionsByIban(selectedBankAccount.getIban());
             Transaction transaction = new Transaction();
             transaction.setAmount(20000);
             transactions.add(transaction);

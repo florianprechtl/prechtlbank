@@ -4,6 +4,7 @@ import entity.enums.BankAccountStatus;
 import entity.util.GeneratedIdEntity;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;

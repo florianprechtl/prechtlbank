@@ -69,3 +69,13 @@ a:link:hover, a:visited:hover  {
 .marginAuto {
     margin: auto;
 }
+
+.new-transaction {
+    background-color: lightgreen;
+    color: white;
+}
+
+.new-bankAccount {
+    background-color: lightgreen;
+    color: white;
+}

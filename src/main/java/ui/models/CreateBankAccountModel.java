@@ -58,7 +58,7 @@ public class CreateBankAccountModel implements Serializable {
             context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, error, error));
             return "create-bank-account";
         }
-        String message = "Neuen Bank Account erstellt.";
+        String message = "Neuen Bank Account erstellt. Aber dein Account muss zuerst noch von einem Mitarbeiter bestätigt werden, bevor du etwas überweisen kannst.";
         FacesContext context = FacesContext.getCurrentInstance();
         context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, message, message));
         return "bank-accounts";

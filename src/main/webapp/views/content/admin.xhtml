@@ -22,7 +22,7 @@
                         <b:dataTable value="#{adminModel.allUsers}" var="user" mark-search-results="true">
 
                             <b:dataTableColumn value="#{user.id}" label="Id" order="asc" data-order="#{user.id}"/>
-                            <b:dataTableColumn value="#{user.loginId}" label="LoginId" order="asc" data-order="#{user.id}"/>
+                            <b:dataTableColumn value="#{user.loginId}" label="LoginId"/>
                             <b:dataTableColumn value="#{user.firstname}" label="Firstname"/>
                             <b:dataTableColumn value="#{user.lastname}" label="Lastname"/>
                             <b:dataTableColumn value="#{user.password}" label="Password"/>

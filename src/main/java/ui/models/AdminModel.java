@@ -41,10 +41,10 @@ public class AdminModel implements Serializable {
     ////////////////////////////////////////////////// REPOS ///////////////////////////////////////////////////////////
 
     @Inject
-    private TransactionRepo transactionRepo;
+    private UserRepo userRepo;
 
     @Inject
-    private UserRepo userRepo;
+    private TransactionRepo transactionRepo;
 
     @Inject
     private BankAccountRepo bankAccountRepo;
@@ -116,8 +116,6 @@ public class AdminModel implements Serializable {
             FacesContext context = FacesContext.getCurrentInstance();
             context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, error, error));
         }
-
-        tmpUser = new User();
     }
 
     @Transactional(Transactional.TxType.REQUIRES_NEW)
@@ -157,8 +155,8 @@ public class AdminModel implements Serializable {
             }
             BankAccount payee = bankAccountService.getBankAccountByIban(tmpTransaction.getPayee().getIban());
             BankAccount payer = bankAccountService.getBankAccountByIban(tmpTransaction.getPayer().getIban());
-            tmpTransaction.setPayee(payee);
-            tmpTransaction.setPayer(payer);
+            tmpTransaction.setPayee(payee != null ? payee : new BankAccount());
+            tmpTransaction.setPayer(payer != null ? payer : new BankAccount());
             if (transaction != null) {
                 transactionService.updateTransaction(tmpTransaction);
             } else {
@@ -172,8 +170,6 @@ public class AdminModel implements Serializable {
             FacesContext context = FacesContext.getCurrentInstance();
             context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, error, error));
         }
-
-        tmpTransaction = new Transaction();
     }
 
     @Transactional(Transactional.TxType.REQUIRES_NEW)
@@ -198,7 +194,7 @@ public class AdminModel implements Serializable {
             bankAccount = bankAccountRepo.getById(tmpBankAccount.getId());
         }
         User user = userService.getUserByLoginId(tmpBankAccount.getUser().getLoginId());
-        tmpBankAccount.setUser(user);
+        tmpBankAccount.setUser(user != null ? user : new User());
         try {
             if (bankAccount != null) {
                 bankAccountService.updateBankAccount(tmpBankAccount);
@@ -210,8 +206,6 @@ public class AdminModel implements Serializable {
             FacesContext context = FacesContext.getCurrentInstance();
             context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, error, error));
         }
-
-        tmpBankAccount = new BankAccount();
     }
 
     @Transactional(Transactional.TxType.REQUIRES_NEW)
@@ -246,8 +240,6 @@ public class AdminModel implements Serializable {
             FacesContext context = FacesContext.getCurrentInstance();
             context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, error, error));
         }
-
-        tmpBankInstitute = new BankInstitute();
     }
 
     @Transactional(Transactional.TxType.REQUIRES_NEW)

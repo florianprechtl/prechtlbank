@@ -4,5 +4,5 @@ public enum BankAccountStatus {
     NEW,
     PENDING,
     APPROVED,
-    DENIED
+    FROZEN
 }

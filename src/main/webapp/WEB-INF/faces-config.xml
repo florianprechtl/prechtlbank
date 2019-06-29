@@ -24,6 +24,11 @@
         </navigation-case>
 
         <navigation-case>
+            <from-outcome>consultant</from-outcome>
+            <to-view-id>/views/content/consultant.xhtml</to-view-id>
+        </navigation-case>
+
+        <navigation-case>
             <from-outcome>profile</from-outcome>
             <to-view-id>/views/content/profile.xhtml</to-view-id>
         </navigation-case>

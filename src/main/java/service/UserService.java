@@ -67,6 +67,9 @@ public class UserService {
         if (user.getUserType() == null)
             throw new ValidationException("userType is not set.", null);
 
+        if (user.getPassword() == null || user.getPassword().length() < 2)
+            throw new ValidationException("Password is invalid or too short (min: 2 characters).", null);
+
         if (!update) {
             User existingUser = getUserByLoginId(user.getLoginId());
             if (existingUser != null) {
