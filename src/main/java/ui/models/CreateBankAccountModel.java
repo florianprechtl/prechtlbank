@@ -35,19 +35,11 @@ public class CreateBankAccountModel implements Serializable {
     @Inject
     private TransactionService transactionService;
 
-    @Inject
-    private BankInstituteService bankInstituteService;
-
-    @Inject
-    private BankInstituteRepo bankInstituteRepo;
 
     @Inject
     private DefaultSteamonService steamonService;
 
-    @Inject
-    private Logger logger;
-
-    private String selectedSteamonKey;
+    private Software selectedSoftware;
     private BankInstitute selectedBankInstitute;
 
     @Transactional(Transactional.TxType.REQUIRED)
@@ -57,7 +49,7 @@ public class CreateBankAccountModel implements Serializable {
             BankAccount bankAccount = new BankAccount(iban, BankAccountStatus.NEW, selectedBankInstitute, loginUserModel.getUser());
 
             if (isFirstBankAccount()) {
-                bankAccountService.createFirstBankAccount(bankAccount);
+                bankAccountService.createFirstBankAccount(bankAccount, selectedSoftware);
             } else {
                 bankAccountService.createBankAccount(bankAccount);
             }
@@ -97,20 +89,20 @@ public class CreateBankAccountModel implements Serializable {
         return "create-bank-account";
     }
 
-    public String getSelectedSteamonKey() {
-        return selectedSteamonKey;
-    }
-
-    public void setSelectedSteamonKey(String selectedSteamonKey) {
-        this.selectedSteamonKey = selectedSteamonKey;
-    }
-
     public BankInstitute getSelectedBankInstitute() {
         return selectedBankInstitute;
     }
 
     public void setSelectedBankInstitute(BankInstitute selectedBankInstitute) {
         this.selectedBankInstitute = selectedBankInstitute;
+    }
+
+    public Software getSelectedSoftware() {
+        return selectedSoftware;
+    }
+
+    public void setSelectedSoftware(Software selectedSoftware) {
+        this.selectedSoftware = selectedSoftware;
     }
 
     public boolean isFirstBankAccount() {

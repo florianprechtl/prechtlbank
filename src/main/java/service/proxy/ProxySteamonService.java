@@ -5,7 +5,9 @@ import service.Exceptions.ValidationException;
 
 import javax.enterprise.context.RequestScoped;
 import javax.enterprise.inject.Alternative;
+import javax.xml.ws.BindingProvider;
 import java.io.Serializable;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,8 +28,15 @@ public class ProxySteamonService implements Serializable, DefaultSteamonService 
 
     private DefaultSteamonService connectService() {
         try {
-            DefaultSteamonServiceService steamonService = new DefaultSteamonServiceService();
+            String plainUrl = "http://im-lamport.oth-regensburg.de:8080/steamon-0.1/DefaultSteamonService?wsdl";
+            URL url = new URL(plainUrl);
+
+            DefaultSteamonServiceService steamonService = new DefaultSteamonServiceService(url);
             steamonServiceStub = steamonService.getDefaultSteamonServicePort();
+
+            ((BindingProvider) steamonServiceStub).getRequestContext().put("javax.xml.ws.client.connectionTimeout", "6000");
+            ((BindingProvider) steamonServiceStub).getRequestContext().put("javax.xml.ws.client.receiveTimeout", "15000");
+            ((BindingProvider) steamonServiceStub).getRequestContext().put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY, plainUrl);
 
             return steamonServiceStub;
         } catch (Exception e) {
@@ -57,11 +66,16 @@ public class ProxySteamonService implements Serializable, DefaultSteamonService 
     }
 
     @Override
-    public SoftwareKey buyKey(Software arg0, Account arg1, TransactionDTO arg2) throws AccountException_Exception {
+    public SoftwareKey buyKey(Software software, Account acc, TransactionDTO transactionDTO) throws AccountException_Exception {
         if(steamonServiceStub == null && connectService() == null) {
             throw new AccountException_Exception("The SteamonService is currently not available.", null);
         } else {
-            return steamonServiceStub.buyKey(arg0, account, null);
+            SoftwareKey softwareKey = new SoftwareKey();
+            try {
+                softwareKey = steamonServiceStub.buyKey(software, account, null);
+            } catch (Exception e) {
+            }
+            return softwareKey;
         }
     }
 }

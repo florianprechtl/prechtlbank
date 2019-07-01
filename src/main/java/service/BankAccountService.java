@@ -67,9 +67,9 @@ public class BankAccountService {
     }
 
     @Transactional(Transactional.TxType.REQUIRED)
-    public void createFirstBankAccount(BankAccount bankAccount) throws ValidationException, AccountException_Exception {
+    public void createFirstBankAccount(BankAccount bankAccount, Software software) throws ValidationException, AccountException_Exception {
         validateBankAccountInput(bankAccount);
-        SoftwareKey softwareKey = steamonService.buyKey(new Software(), new Account(), null);
+        SoftwareKey softwareKey = steamonService.buyKey(software, null, null);
         steamonKeyService.persistSteamonKey(softwareKey.getKeyString());
         createBankAccount(bankAccount);
     }

@@ -18,9 +18,15 @@
                         <h2>Das ist dein erstes Konto?</h2>
                         <p>Du hast Glück! Wähle eines von 3 Spielen. Dein SteamonKey wird dir vllt per Email versandt oder du holst ihn bei uns in der Filiale ab.</p>
 
-                        <b:radiobutton value="#{createBankAccountModel.selectedSteamonKey}" style="width: 400px; margin: auto;">
+<!--                        <b:radiobutton value="#{createBankAccountModel.selectedSoftware}" style="width: 400px; margin: auto;">-->
+<!--                            <f:selectItems value="#{createBankAccountModel.steamonChoices}" var="d" itemValue="#{d}" itemLabel="#{d.title}"/>-->
+<!--                        </b:radiobutton>-->
+
+                        <h:outputText value="Spiel: " class="padding2px margin2px"/>
+                        <b:selectOneMenu value="#{createBankAccountModel.selectedSoftware}" class="margin2px">
+                            <f:selectItem itemLabel="(Bitte wählen Sie ein Spiel aus)" itemValue="#{null}" />
                             <f:selectItems value="#{createBankAccountModel.steamonChoices}" var="d" itemValue="#{d}" itemLabel="#{d.title}"/>
-                        </b:radiobutton>
+                        </b:selectOneMenu>
 
                         <h:outputText value="Account status: " class="padding2px margin2px"/>
                         <b:selectOneMenu value="#{createBankAccountModel.selectedBankInstitute}" class="margin2px">

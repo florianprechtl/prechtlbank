@@ -36,9 +36,21 @@ public class SteamonKeyService {
 
     @Inject UserService userService;
 
+    private void validateBankInstitutionInput(SteamonKey steamonKey) throws ValidationException {
+        if (steamonKey == null)
+            throw new ValidationException("steamonKey is null.", null);
+
+        if (steamonKey.getKeyCode() == null)
+            throw new ValidationException("The keyCode is invalid.", null);
+
+        if (steamonKey.getKeyReceiver()== null)
+            throw new ValidationException("The receiver is invalid.", null);
+    }
+
     @Transactional(Transactional.TxType.REQUIRED)
     public SteamonKey persistSteamonKey(String keyCode) throws ValidationException {
         SteamonKey steamonKey = new SteamonKey(keyCode, loginUserModel.getUser());
+        validateBankInstitutionInput(steamonKey);
         em.persist(steamonKey);
         steamonKey = getSteamonKeyByKeyCode(keyCode);
         User user = userRepo.getById(loginUserModel.getUser().getId());
