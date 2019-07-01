@@ -151,4 +151,8 @@ public class UserService {
         user.setSteamonKey(steamonKey);
         em.persist(user);
     }
+
+    public void loggerTest() {
+        logger.info("test");
+    }
 }

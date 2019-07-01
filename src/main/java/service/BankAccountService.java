@@ -1,14 +1,12 @@
 package service;
 
+import de.Steamon.*;
 import entity.BankAccount;
-import entity.BankInstitute;
-import entity.SteamonKey;
 import entity.Transaction;
 import entity.enums.BankAccountStatus;
 import entity.repo.BankAccountRepo;
 import org.apache.log4j.Logger;
 import service.Exceptions.ValidationException;
-import ui.models.LoginUserModel;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -36,6 +34,9 @@ public class BankAccountService {
 
     @Inject
     private BankAccountRepo bankAccountRepo;
+
+    @Inject
+    private DefaultSteamonService steamonService;
 
 
     private void validateBankAccountInput(BankAccount bankAccount) throws ValidationException {
@@ -66,10 +67,10 @@ public class BankAccountService {
     }
 
     @Transactional(Transactional.TxType.REQUIRED)
-    public void createFirstBankAccount(BankAccount bankAccount) throws ValidationException {
+    public void createFirstBankAccount(BankAccount bankAccount) throws ValidationException, AccountException_Exception {
         validateBankAccountInput(bankAccount);
-        // TODO: get steamonKey from Steamon
-        steamonKeyService.persistSteamonKey("123456");
+        SoftwareKey softwareKey = steamonService.buyKey(new Software(), new Account(), null);
+        steamonKeyService.persistSteamonKey(softwareKey.getKeyString());
         createBankAccount(bankAccount);
     }
 

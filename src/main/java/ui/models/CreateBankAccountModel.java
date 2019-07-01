@@ -1,9 +1,13 @@
 package ui.models;
 
+import de.Steamon.AccountException_Exception;
+import de.Steamon.DefaultSteamonService;
+import de.Steamon.Software;
 import entity.BankAccount;
 import entity.BankInstitute;
 import entity.enums.BankAccountStatus;
 import entity.repo.BankInstituteRepo;
+import org.apache.log4j.Logger;
 import service.BankAccountService;
 import service.BankInstituteService;
 import service.TransactionService;
@@ -15,6 +19,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.transaction.Transactional;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 @Named
@@ -36,6 +41,12 @@ public class CreateBankAccountModel implements Serializable {
     @Inject
     private BankInstituteRepo bankInstituteRepo;
 
+    @Inject
+    private DefaultSteamonService steamonService;
+
+    @Inject
+    private Logger logger;
+
     private String selectedSteamonKey;
     private BankInstitute selectedBankInstitute;
 
@@ -52,6 +63,11 @@ public class CreateBankAccountModel implements Serializable {
             }
             // Give initial money
             transactionService.giveMoneyToIban(1000.00, bankAccount.getIban());
+        } catch(AccountException_Exception e) {
+            String error = "SteamonKey konnte nicht gekauft werden:" + e.getMessage() + "";
+            FacesContext context = FacesContext.getCurrentInstance();
+            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, error, error));
+            return "create-bank-account";
         } catch(Exception e) {
             String error = "Fehler beim Erstellen des Bankaccounts:" + e.getMessage() + "";
             FacesContext context = FacesContext.getCurrentInstance();
@@ -109,7 +125,25 @@ public class CreateBankAccountModel implements Serializable {
         return iban.toString();
     }
 
-    public List<BankInstitute> getAllBankInstitutes() {
-        return bankInstituteRepo.getAll();
+    public List<Software> getSteamonChoices() {
+        try {
+            return steamonService.getSoftwareChoicesForFloBank();
+        } catch (Exception e) {
+            List<Software> softwareList = new ArrayList<>();
+
+            Software software = new Software();
+            software.setTitle("Die MIMS 4: Zerstöre virtuelle Leben");
+            softwareList.add(software);
+
+            software = new Software();
+            software.setTitle("Rätselfield 4: Die Wunder der Levolution");
+            softwareList.add(software);
+
+            software = new Software();
+            software.setTitle("FIFA 75");
+            softwareList.add(software);
+
+            return softwareList;
+        }
     }
 }
