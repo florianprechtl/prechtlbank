@@ -238,9 +238,7 @@ public class TransactionService implements TransactionServiceIF{
     public boolean checkIbanAndBic(String iban, String bic) {
         BankAccount bankAccount = bankAccountService.getBankAccountByIban(iban);
         if (bankAccount != null && iban != null && bic!= null) {
-            if (bankAccount.getBankInstitute().getBic().equals(bic)) {
-                return true;
-            }
+            return bankAccount.getBankInstitute().getBic().equals(bic);
         }
         return false;
     }

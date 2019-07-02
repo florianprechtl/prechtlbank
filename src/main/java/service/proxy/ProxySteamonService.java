@@ -15,6 +15,8 @@ import java.util.List;
 @RequestScoped
 public class ProxySteamonService implements Serializable, DefaultSteamonService {
 
+    /* Ich brauche für die Nutzung des SteamonService nur 2 von den angebotenen Funktionen. Deswegen implementiere ich auch nur diese aus*/
+
     private Account account;
     private DefaultSteamonService steamonServiceStub;
 
@@ -49,17 +51,17 @@ public class ProxySteamonService implements Serializable, DefaultSteamonService 
     }
 
     @Override
-    public List<Software> getSoftwareChoicesForFloBank(){
+    public List<Software> getSoftwareChoicesForFloBank() {
         return steamonServiceStub.getSoftwareChoicesForFloBank();
     }
 
     @Override
-    public AccountItem activateKey(Account arg0, SoftwareKey arg1) throws AccountException_Exception {
+    public AccountItem activateKey(Account arg0, SoftwareKey arg1) {
         return null;
     }
 
     @Override
-    public Account createAccount(Account arg0) throws AccountException_Exception {
+    public Account createAccount(Account arg0) {
         return null;
     }
 
@@ -70,7 +72,7 @@ public class ProxySteamonService implements Serializable, DefaultSteamonService 
 
     @Override
     public SoftwareKey buyKey(Software software, Account acc, TransactionDTO transactionDTO) throws AccountException_Exception {
-        if(steamonServiceStub == null && connectService() == null) {
+        if (steamonServiceStub == null && connectService() == null) {
             throw new AccountException_Exception("The SteamonService is currently not available.", null);
         } else {
             SoftwareKey softwareKey = new SoftwareKey();

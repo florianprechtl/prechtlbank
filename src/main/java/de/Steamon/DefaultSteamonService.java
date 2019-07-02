@@ -33,7 +33,7 @@ public interface DefaultSteamonService {
     @WebResult(targetNamespace = "")
     @RequestWrapper(localName = "getSoftwareChoicesForFloBank", targetNamespace = "http://service.steamon.de/", className = "de.Steamon.GetSoftwareChoicesForFloBank")
     @ResponseWrapper(localName = "getSoftwareChoicesForFloBankResponse", targetNamespace = "http://service.steamon.de/", className = "de.Steamon.GetSoftwareChoicesForFloBankResponse")
-    public List<Software> getSoftwareChoicesForFloBank();
+    List<Software> getSoftwareChoicesForFloBank();
 
     /**
      * 
@@ -47,11 +47,11 @@ public interface DefaultSteamonService {
     @WebResult(targetNamespace = "")
     @RequestWrapper(localName = "activateKey", targetNamespace = "http://service.steamon.de/", className = "de.Steamon.ActivateKey")
     @ResponseWrapper(localName = "activateKeyResponse", targetNamespace = "http://service.steamon.de/", className = "de.Steamon.ActivateKeyResponse")
-    public AccountItem activateKey(
-        @WebParam(name = "arg0", targetNamespace = "")
-        Account arg0,
-        @WebParam(name = "arg1", targetNamespace = "")
-        SoftwareKey arg1)
+    AccountItem activateKey(
+            @WebParam(name = "arg0", targetNamespace = "")
+                    Account arg0,
+            @WebParam(name = "arg1", targetNamespace = "")
+                    SoftwareKey arg1)
         throws AccountException_Exception
     ;
 
@@ -66,9 +66,9 @@ public interface DefaultSteamonService {
     @WebResult(targetNamespace = "")
     @RequestWrapper(localName = "createAccount", targetNamespace = "http://service.steamon.de/", className = "de.Steamon.CreateAccount")
     @ResponseWrapper(localName = "createAccountResponse", targetNamespace = "http://service.steamon.de/", className = "de.Steamon.CreateAccountResponse")
-    public Account createAccount(
-        @WebParam(name = "arg0", targetNamespace = "")
-        Account arg0)
+    Account createAccount(
+            @WebParam(name = "arg0", targetNamespace = "")
+                    Account arg0)
         throws AccountException_Exception
     ;
 
@@ -81,11 +81,11 @@ public interface DefaultSteamonService {
     @WebMethod
     @RequestWrapper(localName = "downloadAndInstallSoftware", targetNamespace = "http://service.steamon.de/", className = "de.Steamon.DownloadAndInstallSoftware")
     @ResponseWrapper(localName = "downloadAndInstallSoftwareResponse", targetNamespace = "http://service.steamon.de/", className = "de.Steamon.DownloadAndInstallSoftwareResponse")
-    public void downloadAndInstallSoftware(
-        @WebParam(name = "arg0", targetNamespace = "")
-        Account arg0,
-        @WebParam(name = "arg1", targetNamespace = "")
-        Software arg1)
+    void downloadAndInstallSoftware(
+            @WebParam(name = "arg0", targetNamespace = "")
+                    Account arg0,
+            @WebParam(name = "arg1", targetNamespace = "")
+                    Software arg1)
         throws AccountException_Exception
     ;
 
@@ -102,13 +102,13 @@ public interface DefaultSteamonService {
     @WebResult(targetNamespace = "")
     @RequestWrapper(localName = "buyKey", targetNamespace = "http://service.steamon.de/", className = "de.Steamon.BuyKey")
     @ResponseWrapper(localName = "buyKeyResponse", targetNamespace = "http://service.steamon.de/", className = "de.Steamon.BuyKeyResponse")
-    public SoftwareKey buyKey(
-        @WebParam(name = "arg0", targetNamespace = "")
-        Software arg0,
-        @WebParam(name = "arg1", targetNamespace = "")
-        Account arg1,
-        @WebParam(name = "arg2", targetNamespace = "")
-        TransactionDTO arg2)
+    SoftwareKey buyKey(
+            @WebParam(name = "arg0", targetNamespace = "")
+                    Software arg0,
+            @WebParam(name = "arg1", targetNamespace = "")
+                    Account arg1,
+            @WebParam(name = "arg2", targetNamespace = "")
+                    TransactionDTO arg2)
         throws AccountException_Exception
     ;
 

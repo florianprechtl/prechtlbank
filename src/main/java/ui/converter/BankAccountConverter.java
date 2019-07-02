@@ -37,6 +37,6 @@ public class BankAccountConverter implements Converter {
             return null;
         }
 
-        return ((BankAccount) o).toString();
+        return o.toString();
     }
 }

@@ -15,6 +15,8 @@ import java.util.List;
 @SessionScoped
 public class OfflineSteamonService implements Serializable, DefaultSteamonService {
 
+    /* Ich brauche für die Nutzung des SteamonService nur 2 von den angebotenen Funktionen. Deswegen implementiere ich auch nur diese aus*/
+
     @Inject
     private UserService userService;
 
@@ -24,12 +26,12 @@ public class OfflineSteamonService implements Serializable, DefaultSteamonServic
     }
 
     @Override
-    public AccountItem activateKey(Account arg0, SoftwareKey arg1) throws AccountException_Exception {
+    public AccountItem activateKey(Account arg0, SoftwareKey arg1) {
         return null;
     }
 
     @Override
-    public Account createAccount(Account arg0) throws AccountException_Exception {
+    public Account createAccount(Account arg0) {
         return null;
     }
 
@@ -39,7 +41,7 @@ public class OfflineSteamonService implements Serializable, DefaultSteamonServic
     }
 
     @Override
-    public SoftwareKey buyKey(Software arg0, Account arg1, TransactionDTO arg2) throws AccountException_Exception {
+    public SoftwareKey buyKey(Software arg0, Account arg1, TransactionDTO arg2) {
         userService.loggerTest();
         return null;
     }
