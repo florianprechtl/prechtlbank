@@ -20,7 +20,7 @@
             <b:form>
                 <b:selectOneMenu update="@form" value="#{transferModel.selectedBankAccount}"
                                  label="Konto des Überweisenden">
-                    <f:selectItem itemLabel="(Wählen Sie bitt einen Bankaccount aus)" itemValue="#{null}"/>
+                    <f:selectItem itemLabel="(Wählen Sie bitte einen Bankaccount aus)" itemValue="#{null}"/>
                     <f:selectItems value="#{transferModel.allBankAccounts}" var="c" itemValue="#{c}"
                                    itemLabel="#{c.iban.concat('   -   ').concat(c.bankInstitute.bic)}"/>
                 </b:selectOneMenu>

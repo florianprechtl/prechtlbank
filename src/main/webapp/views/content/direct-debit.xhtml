@@ -20,7 +20,7 @@
             <b:form>
                 <b:selectOneMenu update="@form" value="#{directDebitModel.selectedBankAccount}"
                                  label="Konto des Lastschreibenden">
-                    <f:selectItem itemLabel="(Wählen Sie bitt einen Bankaccount aus)" itemValue="#{null}"/>
+                    <f:selectItem itemLabel="(Wählen Sie bitte einen Bankaccount aus)" itemValue="#{null}"/>
                     <f:selectItems value="#{directDebitModel.allBankAccounts}" var="c" itemValue="#{c}"
                                    itemLabel="#{c.iban.concat('   -   ').concat(c.bankInstitute.bic)}"/>
                 </b:selectOneMenu>

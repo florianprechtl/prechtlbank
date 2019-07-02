@@ -10,7 +10,6 @@
 
 <!-- https://showcase.bootsfaces.net/forms/DataTable.jsf -->
 <!-- Zum Großteil von Bootsface Website Beispielen. Weil die dataTables doch einen sehr großen Funktionsbereich abdecken, enne ich das hier nochaml -->
-
 <f:metadata>
     <!-- https://stackoverflow.com/questions/8177288/list-of-jsf-2-events -->
     <f:event type="preRenderView" listener="#{redirectModel.onLoadTestUserType('admin')}"/>
@@ -41,7 +40,7 @@
                                 <h:form>
                                     <b:commandButton class="margin2px" tooltip="lade Informationen" value=" "
                                                      icon="edit" ajax="true" update="@(.message-well)"
-                                                     onclick="adminModel.onUserSelect(user)"/>
+                                                     action="#{adminModel.onUserSelect(user)}"/>
                                     <b:commandButton class="margin2px" tooltip="entfernen" look="danger" value=" "
                                                      icon="trash" action="#{adminModel.doDeleteUser(user)}"/>
                                 </h:form>
@@ -121,7 +120,7 @@
                                 <h:form>
                                     <b:commandButton class="margin2px" tooltip="lade Informationen" value=" "
                                                      icon="edit" ajax="true" update="@(.message-well)"
-                                                     onclick="adminModel.onSteamonKeySelect(steamonKey)"/>
+                                                     action="#{adminModel.onSteamonKeySelect(steamonKey)}"/>
                                     <b:commandButton class="margin2px" tooltip="entfernen" look="danger" value=" "
                                                      icon="trash"
                                                      action="#{adminModel.doDeleteSteamonKey(steamonKey)}"/>
@@ -167,7 +166,7 @@
                                 <h:form>
                                     <b:commandButton class="margin2px" tooltip="lade Informationen" value=" "
                                                      icon="edit" ajax="true" update="@(.message-well)"
-                                                     onclick="adminModel.onTransactionSelect(transaction)"/>
+                                                     action="#{adminModel.onTransactionSelect(transaction)}"/>
                                     <b:commandButton class="margin2px" tooltip="entfernen" look="danger" value=" "
                                                      icon="trash"
                                                      action="#{adminModel.doDeleteTransaction(transaction)}"/>
@@ -261,7 +260,7 @@
                                 <h:form>
                                     <b:commandButton class="margin2px" tooltip="lade Informationen" value=" "
                                                      icon="edit" ajax="true" update="@(.message-well)"
-                                                     onclick="adminModel.onBankAccountSelect(bankAccount)"/>
+                                                     action="#{adminModel.onBankAccountSelect(bankAccount)}"/>
                                     <b:commandButton class="margin2px" tooltip="entfernen" look="danger" value=" "
                                                      icon="trash"
                                                      action="#{adminModel.doDeleteBankAccount(bankAccount)}"/>
@@ -333,7 +332,7 @@
                                 <h:form>
                                     <b:commandButton class="margin2px" tooltip="lade Informationen" value=" "
                                                      icon="edit" ajax="true" update="@(.message-well)"
-                                                     onclick="adminModel.onBankInstituteSelect(bankInstitute)"/>
+                                                     action="#{adminModel.onBankInstituteSelect(bankInstitute)}"/>
                                     <b:commandButton class="margin2px" tooltip="entfernen" look="danger" value=" "
                                                      icon="trash"
                                                      action="#{adminModel.doDeleteBankInstitute(bankInstitute)}"/>
