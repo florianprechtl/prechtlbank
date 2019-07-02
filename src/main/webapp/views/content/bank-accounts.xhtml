@@ -20,7 +20,7 @@
             <h1>Meine Bankaccounts</h1>
             <h:form id="myForm">
                 <b:selectOneMenu value="#{bankAccountsModel.selectedBankAccount}" offset="2" colMd="8">
-                    <f:selectItem itemLabel="(Bitte wählen Sie eine Bank Account aus)" itemValue="#{null}"/>
+                    <f:selectItem itemLabel="(Bitte wählen Sie einen Bank Account aus)" itemValue="#{null}"/>
                     <!-- Exemplarische Nutzung des Converters -->
                     <f:converter binding="#{bankAccountsModel.bankAccountConverter}"/>
                     <f:selectItems value="#{bankAccountsModel.allBankAccounts}"/>

@@ -4,6 +4,10 @@
               xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
               xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_2.xsd">
 
+    <!-- https://docs.oracle.com/javaee/6/tutorial/doc/bnaxf.html -->
+    <!-- Ursprünglich wollte ich so einmal meine Routes schützen, aber das hat nicht so ganz funktioniert. Deswegen habe ich
+         Das über das preRenderView Event gelöst-->
+
     <navigation-rule>
         <description>Navigation rules for PrechtlBank</description>
         <from-view-id>/views/content/*</from-view-id>
