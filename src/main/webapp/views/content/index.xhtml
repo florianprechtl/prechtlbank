@@ -7,75 +7,81 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:b="http://bootsfaces.net/ui">
 
-    <f:metadata>
-        <f:event type="preRenderView" listener="#{redirectModel.doRedirect('index.html')}" />
-    </f:metadata>
+<f:metadata>
+    <f:event type="preRenderView" listener="#{redirectModel.doRedirect('index.html')}"/>
+</f:metadata>
 
-    <ui:composition template="../../WEB-INF/templates/basicTemplate.xhtml">
-        <ui:define name="content">
-            <f:view>
-                <h:panelGroup class="grid-container grid-container-view1">
-                    <b:carousel id="content-top" >
-                        <b:carouselCaption style="top: 120px">
-                            <h1 style="font-size: 90px;">PrechtlBank</h1>
-                            <h:form>
-                                <b:commandButton styleClass="new-account-button" rendered="#{loginUserModel.isCustomer() or !loginUserModel.isLoggedIn()}" action="#{createBankAccountModel.navigateToCreateFirstBankAccount}">Jetzt Konto eröffnen</b:commandButton>
-                            </h:form>
+<ui:composition template="../../WEB-INF/templates/basicTemplate.xhtml">
+    <ui:define name="content">
+        <f:view>
+            <h:panelGroup class="grid-container grid-container-view1">
+                <b:carousel id="content-top">
+                    <b:carouselCaption style="top: 120px">
+                        <h1 style="font-size: 90px;">PrechtlBank</h1>
+                        <h:form>
+                            <b:commandButton styleClass="new-account-button"
+                                             rendered="#{loginUserModel.isCustomer() or !loginUserModel.isLoggedIn()}"
+                                             action="#{createBankAccountModel.navigateToCreateFirstBankAccount}">Jetzt Konto eröffnen</b:commandButton>
+                        </h:form>
+                    </b:carouselCaption>
+                    <b:carouselItem>
+                        <h:graphicImage value="../../resources/images/city2.jpg"
+                                        style="width: 100%; height: 600px; object-fit: cover;"/>
+                        <b:carouselCaption style="top: 215px">
+                            <h:panelGroup class="grid-container grid-container-carousel">
+                                <h:panelGroup id="left1">
+                                    <b:iconAwesome value="fa-money" style="font-size: 270px"/>
+                                </h:panelGroup>
+                                <h:panelGroup id="middle1">
+                                    <h3>Prächtiger kann man sein Geld nicht verwalten</h3>
+                                    <h:panelGroup
+                                            rendered="#{!loginUserModel.isLoggedIn() or loginUserModel.isCustomer()}">
+                                        <h3 style="margin-top: 155px">Freue dich bei Eröffnung deines Neukontos über ein tolles Geschenk</h3>
+                                        <h1>Ein SteamonKey deiner Wahl</h1>
+                                    </h:panelGroup>
+                                    <h:panelGroup
+                                            rendered="#{loginUserModel.isConsultant() or loginUserModel.isAdmin()}">
+                                        <h1 style="margin-top: 155px">Hier arbeite ich gerne!</h1>
+                                    </h:panelGroup>
+                                </h:panelGroup>
+                                <h:panelGroup id="right1">
+                                    <b:iconAwesome value="fa-money" style="font-size: 270px"/>
+                                </h:panelGroup>
+                            </h:panelGroup>
                         </b:carouselCaption>
-                        <b:carouselItem>
-                            <h:graphicImage value="../../resources/images/city2.jpg" style="width: 100%; height: 600px; object-fit: cover;"/>
-                            <b:carouselCaption style="top: 215px">
-                                <h:panelGroup class="grid-container grid-container-carousel">
-                                    <h:panelGroup id="left1">
-                                        <b:iconAwesome value="fa-money" style="font-size: 270px"/>
-                                    </h:panelGroup>
-                                    <h:panelGroup id="middle1">
-                                        <h3>Prächtiger kann man sein Geld nicht verwalten</h3>
-                                        <h:panelGroup  rendered="#{!loginUserModel.isLoggedIn() or loginUserModel.isCustomer()}">
-                                            <h3 style="margin-top: 155px">Freue dich bei Eröffnung deines Neukontos über ein tolles Geschenk</h3>
-                                            <h1>Ein SteamonKey deiner Wahl</h1>
-                                        </h:panelGroup>
-                                        <h:panelGroup  rendered="#{loginUserModel.isConsultant() or loginUserModel.isAdmin()}">
-                                            <h1 style="margin-top: 155px">Hier arbeite ich gerne!</h1>
-                                        </h:panelGroup>
-                                    </h:panelGroup>
-                                    <h:panelGroup id="right1">
-                                        <b:iconAwesome value="fa-money" style="font-size: 270px"/>
-                                    </h:panelGroup>
+                    </b:carouselItem>
+                    <b:carouselItem>
+                        <h:graphicImage value="../../resources/images/city.jpg"
+                                        style="width: 100%; height: 600px; object-fit: cover; filter: blur(3px);"/>
+                        <b:carouselCaption style="top: 215px">
+                            <h:panelGroup class="grid-container grid-container-carousel">
+                                <h:panelGroup id="left2">
+                                    <b:iconAwesome value="fa-dollar" style="font-size: 270px"/>
                                 </h:panelGroup>
-                            </b:carouselCaption>
-                        </b:carouselItem>
-                        <b:carouselItem>
-                            <h:graphicImage value="../../resources/images/city.jpg" style="width: 100%; height: 600px; object-fit: cover; filter: blur(3px);"/>
-                            <b:carouselCaption style="top: 215px">
-                                <h:panelGroup class="grid-container grid-container-carousel">
-                                    <h:panelGroup id="left2">
-                                        <b:iconAwesome value="fa-dollar" style="font-size: 270px"/>
-                                    </h:panelGroup>
-                                    <h:panelGroup id="middle2">
-                                        <h3>Werde auch du Teil der Familie und gib uns dein Geld! Bitte!</h3>
-                                        <h3>Ernsthaft jetzt. Wir baruchen dein Geld. Du bist uns egal!</h3>
-                                    </h:panelGroup>
-                                    <h:panelGroup id="right2">
-                                        <b:iconAwesome value="fa-dollar" style="font-size: 270px"/>
-                                    </h:panelGroup>
+                                <h:panelGroup id="middle2">
+                                    <h3>Werde auch du Teil der Familie und gib uns dein Geld! Bitte!</h3>
+                                    <h3>Ernsthaft jetzt. Wir baruchen dein Geld. Du bist uns egal!</h3>
                                 </h:panelGroup>
-                            </b:carouselCaption>
-                        </b:carouselItem>
-                    </b:carousel>
-                    <h:panelGroup class="grid-container grid-container-bottom-icons" id="icons-bottom">
-                        <h:panelGroup id="bottom-left-icon">
-                            <b:iconAwesome value="fa-university" style="font-size: 230px"/>
-                        </h:panelGroup>
-                        <h:panelGroup id="bottom-center-icon">
-                            <b:iconAwesome value="fa-university" style="font-size: 230px"/>
-                        </h:panelGroup>
-                        <h:panelGroup id="bottom-right-icon" >
-                            <b:iconAwesome value="fa-university" style="font-size: 230px"/>
-                        </h:panelGroup>
+                                <h:panelGroup id="right2">
+                                    <b:iconAwesome value="fa-dollar" style="font-size: 270px"/>
+                                </h:panelGroup>
+                            </h:panelGroup>
+                        </b:carouselCaption>
+                    </b:carouselItem>
+                </b:carousel>
+                <h:panelGroup class="grid-container grid-container-bottom-icons" id="icons-bottom">
+                    <h:panelGroup id="bottom-left-icon">
+                        <b:iconAwesome value="fa-university" style="font-size: 230px"/>
+                    </h:panelGroup>
+                    <h:panelGroup id="bottom-center-icon">
+                        <b:iconAwesome value="fa-university" style="font-size: 230px"/>
+                    </h:panelGroup>
+                    <h:panelGroup id="bottom-right-icon">
+                        <b:iconAwesome value="fa-university" style="font-size: 230px"/>
                     </h:panelGroup>
                 </h:panelGroup>
-            </f:view>
-        </ui:define>
-    </ui:composition>
+            </h:panelGroup>
+        </f:view>
+    </ui:define>
+</ui:composition>
 </html>

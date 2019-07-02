@@ -9,52 +9,53 @@
       xmlns:b="http://bootsfaces.net/ui">
 
 <body>
-    <ui:composition template="../../WEB-INF/templates/basicTemplate.xhtml">
-        <ui:define name="content">
-            <f:view>
-                <h1>Erstelle einen neuen Bankaccount</h1>
-                <h:panelGroup rendered="#{createBankAccountModel.isFirstBankAccount()}">
-                    <h:form horizontal="true" style="width: 700px; margin: auto; margin-top: 60px;">
-                        <h2>Das ist dein erstes Konto?</h2>
-                        <p>Du hast Glück! Wähle eines von 3 Spielen. Dein SteamonKey wird dir vllt per Email versandt oder du holst ihn bei uns in der Filiale ab.</p>
+<ui:composition template="../../WEB-INF/templates/basicTemplate.xhtml">
+    <ui:define name="content">
+        <f:view>
+            <h1>Erstelle einen neuen Bankaccount</h1>
+            <h:panelGroup rendered="#{createBankAccountModel.isFirstBankAccount()}">
+                <h:form horizontal="true" style="width: 700px; margin: auto; margin-top: 60px;">
+                    <h2>Das ist dein erstes Konto?</h2>
+                    <p>Du hast Glück! Wähle eines von 3 Spielen. Dein SteamonKey wird dir vllt per Email versandt oder du holst ihn bei uns in der Filiale ab.</p>
 
-<!--                        <b:radiobutton value="#{createBankAccountModel.selectedSoftware}" style="width: 400px; margin: auto;">-->
-<!--                            <f:selectItems value="#{createBankAccountModel.steamonChoices}" var="d" itemValue="#{d}" itemLabel="#{d.title}"/>-->
-<!--                        </b:radiobutton>-->
+                    <h:outputText value="Gratis SteamonKey: " class="padding2px margin2px"/>
+                    <b:selectOneMenu value="#{createBankAccountModel.selectedSoftware}" class="margin2px">
+                        <f:selectItem itemLabel="(Bitte wählen Sie ein Spiel aus)" itemValue="#{null}"/>
+                        <f:selectItems value="#{createBankAccountModel.steamonChoices}" var="d" itemValue="#{d}"
+                                       itemLabel="#{d.title}"/>
+                    </b:selectOneMenu>
 
-                        <h:outputText value="Spiel: " class="padding2px margin2px"/>
-                        <b:selectOneMenu value="#{createBankAccountModel.selectedSoftware}" class="margin2px">
-                            <f:selectItem itemLabel="(Bitte wählen Sie ein Spiel aus)" itemValue="#{null}" />
-                            <f:selectItems value="#{createBankAccountModel.steamonChoices}" var="d" itemValue="#{d}" itemLabel="#{d.title}"/>
-                        </b:selectOneMenu>
+                    <h:outputText value="Account status: " class="padding2px margin2px"/>
+                    <b:selectOneMenu value="#{createBankAccountModel.selectedBankInstitute}" class="margin2px">
+                        <f:selectItem itemLabel="(Bitte wählen Sie ein Bank Institut aus)" itemValue="#{null}"/>
+                        <f:selectItems value="#{adminModel.allBankInstitutes}" var="c" itemValue="#{c}"
+                                       itemLabel="#{c.name}"/>
+                    </b:selectOneMenu>
 
-                        <h:outputText value="Account status: " class="padding2px margin2px"/>
-                        <b:selectOneMenu value="#{createBankAccountModel.selectedBankInstitute}" class="margin2px">
-                            <f:selectItem itemLabel="(Bitte wählen Sie ein Bank Institut aus)" itemValue="#{null}" />
-                            <f:selectItems value="#{adminModel.allBankInstitutes}" var="c" itemValue="#{c}" itemLabel="#{c.name}"/>
-                        </b:selectOneMenu>
+                    <h:commandButton class="create-account-button" offset="1" look="success" colMd="10"
+                                     value="Neues Bankkonto eröffnen"
+                                     action="#{createBankAccountModel.createBankAccount}"/>
+                </h:form>
+            </h:panelGroup>
+            <h:panelGroup rendered="#{!createBankAccountModel.isFirstBankAccount()}">
+                <h:form horizontal="true" style="width: 700px; margin: auto; margin-top: 60px;">
 
-                        <h:commandButton class="create-account-button" offset="1" look="success" colMd="10" value="Neues Bankkonto eröffnen" action="#{createBankAccountModel.createBankAccount}"/>
-                    </h:form>
-                </h:panelGroup>
-                <h:panelGroup rendered="#{!createBankAccountModel.isFirstBankAccount()}">
-                    <h:form horizontal="true" style="width: 700px; margin: auto; margin-top: 60px;">
+                    <h:outputText value="Account status: " class="padding2px margin2px"/>
+                    <b:selectOneMenu value="#{createBankAccountModel.selectedBankInstitute}" class="margin2px">
+                        <f:selectItem itemLabel="(No bank institute selected)" itemValue="#{null}"/>
+                        <f:selectItems value="#{adminModel.allBankInstitutes}" var="c" itemValue="#{c}"
+                                       itemLabel="#{c.name}"/>
+                    </b:selectOneMenu>
 
-                        <h:outputText value="Account status: " class="padding2px margin2px"/>
-                        <b:selectOneMenu value="#{createBankAccountModel.selectedBankInstitute}" class="margin2px">
-                            <f:selectItem itemLabel="(No bank institute selected)" itemValue="#{null}" />
-                            <f:selectItems value="#{adminModel.allBankInstitutes}" var="c" itemValue="#{c}" itemLabel="#{c.name}"/>
-                        </b:selectOneMenu>
-
-                        <h:commandButton class="create-account-button" offset="1" look="success" colMd="10" value="Neues Bankkonto eröffnen" action="#{createBankAccountModel.createBankAccount}"/>
-                    </h:form>
-                </h:panelGroup>>
-            </f:view>
-        </ui:define>
-    </ui:composition>
+                    <h:commandButton class="create-account-button" offset="1" look="success" colMd="10"
+                                     value="Neues Bankkonto eröffnen"
+                                     action="#{createBankAccountModel.createBankAccount}"/>
+                </h:form>
+            </h:panelGroup>>
+        </f:view>
+    </ui:define>
+</ui:composition>
 </body>
-
-
 
 
 </html>

@@ -5,10 +5,8 @@ import entity.Transaction;
 import entity.enums.Duration;
 import entity.enums.TransactionStatus;
 import entity.enums.TransactionType;
-import org.apache.log4j.Logger;
 import service.BankAccountService;
 import service.TransactionService;
-import service.UserService;
 
 import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;

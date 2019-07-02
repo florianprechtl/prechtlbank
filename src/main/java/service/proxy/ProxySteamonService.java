@@ -34,6 +34,9 @@ public class ProxySteamonService implements Serializable, DefaultSteamonService 
             DefaultSteamonServiceService steamonService = new DefaultSteamonServiceService(url);
             steamonServiceStub = steamonService.getDefaultSteamonServicePort();
 
+            /* https://stackoverflow.com/questions/2148915/how-do-i-set-the-timeout-for-a-jax-ws-webservice-client */
+            /* https://agile-pm.de/2015/07/31/soap-fehlermeldung-webserviceexception-could-not-send-message-umgehen/ */
+
             ((BindingProvider) steamonServiceStub).getRequestContext().put("javax.xml.ws.client.connectionTimeout", "6000");
             ((BindingProvider) steamonServiceStub).getRequestContext().put("javax.xml.ws.client.receiveTimeout", "15000");
             ((BindingProvider) steamonServiceStub).getRequestContext().put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY, plainUrl);

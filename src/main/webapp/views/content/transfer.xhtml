@@ -14,15 +14,17 @@
         <f:view>
             <h1>Überweisung</h1>
             <b:form>
-                <b:selectOneMenu update="@form" value="#{transferModel.selectedBankAccount}" label="Konto des Überweisenden" >
-                    <f:selectItem itemLabel="(Wählen Sie bitt einen Bankaccount aus)" itemValue="#{null}" />
+                <b:selectOneMenu update="@form" value="#{transferModel.selectedBankAccount}"
+                                 label="Konto des Überweisenden">
+                    <f:selectItem itemLabel="(Wählen Sie bitt einen Bankaccount aus)" itemValue="#{null}"/>
                     <f:selectItems value="#{transferModel.allBankAccounts}" var="c" itemValue="#{c}"
                                    itemLabel="#{c.iban.concat('   -   ').concat(c.bankInstitute.bic)}"/>
                 </b:selectOneMenu>
-                <b:inputText placeholder="Empfänger" label="Empfänger" value="#{transferModel.receiver}" />
+                <b:inputText placeholder="Empfänger" label="Empfänger" value="#{transferModel.receiver}"/>
                 <b:inputText placeholder="BIC" label="BIC" value="#{transferModel.bic}"/>
                 <b:inputText placeholder="IBAN" label="IBAN" value="#{transferModel.iban}" id="payee_iban"/>
-                <b:inputText placeholder="Verwendungszweck" label="Verwendungszweck" value="#{transferModel.reasonOfUsage}"/>
+                <b:inputText placeholder="Verwendungszweck" label="Verwendungszweck"
+                             value="#{transferModel.reasonOfUsage}"/>
                 <b:inputText placeholder="Betrag" label="Betrag" value="#{transferModel.amount}"/>
                 <b:commandButton look="success" value="Überweisung tätigen" colMd="12"
                                  action="#{transferModel.makeTransaction}"/>
@@ -30,8 +32,6 @@
         </f:view>
     </ui:define>
 </ui:composition>
-
-
 
 
 </html>

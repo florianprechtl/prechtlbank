@@ -1,4 +1,4 @@
-package ui.models.converter;
+package ui.converter;
 
 import entity.BankAccount;
 import entity.repo.BankAccountRepo;

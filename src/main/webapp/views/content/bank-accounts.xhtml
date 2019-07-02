@@ -9,7 +9,7 @@
       xmlns:b="http://bootsfaces.net/ui">
 
 <f:metadata>
-    <f:event type="preRenderView" listener="#{bankAccountsModel.onLoad}" />
+    <f:event type="preRenderView" listener="#{bankAccountsModel.onLoad}"/>
 </f:metadata>
 
 
@@ -19,12 +19,13 @@
             <h1>Meine Bankaccounts</h1>
             <h:form id="myForm">
                 <b:selectOneMenu value="#{bankAccountsModel.selectedBankAccount}" offset="2" colMd="8">
-                    <f:selectItem itemLabel="(Bitte wählen Sie eine Bank Account aus)" itemValue="#{null}" />
+                    <f:selectItem itemLabel="(Bitte wählen Sie eine Bank Account aus)" itemValue="#{null}"/>
                     <!-- Exemplarische Nutzung des Converters -->
                     <f:converter binding="#{bankAccountsModel.bankAccountConverter}"/>
                     <f:selectItems value="#{bankAccountsModel.allBankAccounts}"/>
                 </b:selectOneMenu>
-                <b:commandButton class="margin2px" tooltip="Lade Transaktionen" look="success" value=" " icon="edit" ajax="true" update="dataTable" action="#{bankAccountsModel.onBankAccountChange}"/>
+                <b:commandButton class="margin2px" tooltip="Lade Transaktionen" look="success" value=" " icon="edit"
+                                 ajax="true" update="dataTable" action="#{bankAccountsModel.onBankAccountChange}"/>
             </h:form>
             <b:dataTable
                     value="#{bankAccountsModel.transactions}"
@@ -32,15 +33,15 @@
                     id="dataTable"
                     searching="false"
                     paginated="false">
-                <b:dataTableColumn value="#{transaction.date}" label="Datum" order="desc" data-order="#{transaction.date}"/>
-                <b:dataTableColumn value="#{bankAccountsModel.getTransactionPartner(transaction)}" label="Transaktionsparner"/>
+                <b:dataTableColumn value="#{transaction.date}" label="Datum" order="desc"
+                                   data-order="#{transaction.date}"/>
+                <b:dataTableColumn value="#{bankAccountsModel.getTransactionPartner(transaction)}"
+                                   label="Transaktionsparner"/>
                 <b:dataTableColumn value="#{bankAccountsModel.getTransactionAmount(transaction)}" label="Betrag"/>
             </b:dataTable>
         </f:view>
     </ui:define>
 </ui:composition>
-
-
 
 
 </html>

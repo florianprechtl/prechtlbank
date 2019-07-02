@@ -6,10 +6,7 @@ import de.Steamon.Software;
 import entity.BankAccount;
 import entity.BankInstitute;
 import entity.enums.BankAccountStatus;
-import entity.repo.BankInstituteRepo;
-import org.apache.log4j.Logger;
 import service.BankAccountService;
-import service.BankInstituteService;
 import service.TransactionService;
 
 import javax.enterprise.context.RequestScoped;

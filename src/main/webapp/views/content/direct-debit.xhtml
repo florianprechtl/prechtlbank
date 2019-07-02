@@ -14,15 +14,18 @@
         <f:view>
             <h1>Lastschrift</h1>
             <b:form>
-                <b:selectOneMenu update="@form" value="#{directDebitModel.selectedBankAccount}" label="Konto des Lastschreibenden">
-                    <f:selectItem itemLabel="(Wählen Sie bitt einen Bankaccount aus)" itemValue="#{null}" />
+                <b:selectOneMenu update="@form" value="#{directDebitModel.selectedBankAccount}"
+                                 label="Konto des Lastschreibenden">
+                    <f:selectItem itemLabel="(Wählen Sie bitt einen Bankaccount aus)" itemValue="#{null}"/>
                     <f:selectItems value="#{directDebitModel.allBankAccounts}" var="c" itemValue="#{c}"
                                    itemLabel="#{c.iban.concat('   -   ').concat(c.bankInstitute.bic)}"/>
                 </b:selectOneMenu>
-                <b:inputText placeholder="Transaktionspartner" label="Transaktionspartner" value="#{directDebitModel.sender}" />
+                <b:inputText placeholder="Transaktionspartner" label="Transaktionspartner"
+                             value="#{directDebitModel.sender}"/>
                 <b:inputText placeholder="BIC" label="BIC" value="#{directDebitModel.bic}"/>
                 <b:inputText placeholder="IBAN" label="IBAN" value="#{directDebitModel.iban}" id="payee_iban"/>
-                <b:inputText placeholder="Verwendungszweck" label="Verwendungszweck" value="#{directDebitModel.reasonOfUsage}"/>
+                <b:inputText placeholder="Verwendungszweck" label="Verwendungszweck"
+                             value="#{directDebitModel.reasonOfUsage}"/>
                 <b:inputText placeholder="Betrag" label="Betrag" value="#{directDebitModel.amount}"/>
                 <b:selectOneMenu value="#{directDebitModel.duration}" label="Zahlungsintervall">
                     <f:selectItems value="#{directDebitModel.allDurations}" var="c" itemValue="#{c}" itemLabel="#{c}"/>
@@ -33,8 +36,6 @@
         </f:view>
     </ui:define>
 </ui:composition>
-
-
 
 
 </html>
