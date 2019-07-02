@@ -39,7 +39,7 @@ public class ProfileModel implements Serializable {
     private String newPasswordRepeat;
 
     public void onLoad() {
-        if (!loginUserModel.isCustomer()) {
+        if (!loginUserModel.isLoggedIn()) {
             FacesContext context = FacesContext.getCurrentInstance();
             NavigationHandler navigationHandler = context.getApplication().getNavigationHandler();
             navigationHandler.handleNavigation(context, null, "index.html?faces-redirect=true");
@@ -49,9 +49,15 @@ public class ProfileModel implements Serializable {
     }
 
     public void showSuccessMessage() {
-        String message = "SteamonKey " + tmpUser.getSteamonKey() + " erfolgreich in Ablage gesichert!";
-        FacesContext context = FacesContext.getCurrentInstance();
-        context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, message, message));
+        if (tmpUser.getSteamonKey() != null) {
+            String message = "SteamonKey " + tmpUser.getSteamonKey().getKeyCode() + " erfolgreich in Ablage gesichert!";
+            FacesContext context = FacesContext.getCurrentInstance();
+            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, message, message));
+        } else {
+            String message = "Du hast leider keinen SteamonKey!";
+            FacesContext context = FacesContext.getCurrentInstance();
+            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, message, message));
+        }
     }
 
     public String updateUserInformation() {
