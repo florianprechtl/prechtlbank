@@ -25,7 +25,6 @@ public class LoginUserModel implements Serializable {
     private String loginId;
     private String password;
     private User user;
-    private String sessionId;
 
 
     public String doLogin() {

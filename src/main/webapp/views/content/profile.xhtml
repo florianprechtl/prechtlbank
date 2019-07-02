@@ -10,13 +10,108 @@
 
 <f:metadata>
     <!-- https://stackoverflow.com/questions/8177288/list-of-jsf-2-events -->
-    <f:event type="preRenderView" listener="#{redirectModel.onLoadTestUserType('customer')}"/>
+    <f:event type="preRenderView" listener="#{profileModel.onLoad()}"/>
 </f:metadata>
 
 <ui:composition template="../../WEB-INF/templates/basicTemplate.xhtml">
     <ui:define name="content">
         <f:view>
+            <!-- Include some js to copy steamonKey -->
+            <h:outputScript name="js/clipboard.js"></h:outputScript>
             <h1>Profil</h1>
+
+            <!-- EditMode View -->
+            <b:well styleClass="message-well" style="margin-top:10px">
+                <h:form id="userForm">
+                    <h:panelGrid columns="2" class="block top">
+                        <h:outputText value="Vorname: " class="padding2px margin2px"/>
+                        <b:inputText value="#{profileModel.tmpUser.firstname}" disabled="#{!profileModel.editMode}"
+                                     class="margin2px" style="width: 250px;"/>
+
+                        <h:outputText value="Nachname: " class="padding2px margin2px"/>
+                        <b:inputText value="#{profileModel.tmpUser.lastname}" class="margin2px"
+                                     disabled="#{!profileModel.editMode}"
+                                     style="width: 250px;"/>
+
+                        <h:outputText value="LoginId: " class="padding2px margin2px"/>
+                        <b:inputText value="#{profileModel.tmpUser.loginId}" disabled="#{!profileModel.editMode}"
+                                     class="margin2px" style="width: 250px;"/>
+
+                        <h:outputText value="Straße und Hausnummer: " class="padding2px margin2px"/>
+                        <b:inputText value="#{profileModel.tmpUser.address.street}" class="margin2px"
+                                     disabled="#{!profileModel.editMode}"
+                                     style="width: 250px;"/>
+
+                        <h:outputText value="Postleitzahl: " class="padding2px margin2px"/>
+                        <b:inputText value="#{profileModel.tmpUser.address.zip}" class="margin2px"
+                                     disabled="#{!profileModel.editMode}"
+                                     style="width: 250px;"/>
+
+                        <h:outputText value="Stadt: " class="padding2px margin2px"/>
+                        <b:inputText value="#{profileModel.tmpUser.address.city}" class="margin2px"
+                                     disabled="#{!profileModel.editMode}"
+                                     style="width: 250px;"/>
+
+                        <h:outputText value="Land: " class="padding2px margin2px"/>
+                        <b:inputText value="#{profileModel.tmpUser.address.country}" class="margin2px"
+                                     disabled="#{!profileModel.editMode}"
+                                     style="width: 250px;"/>
+
+                        <h:outputText value="SteamonKey: " class="padding2px margin2px"/>
+                        <b:inputText value="#{profileModel.tmpUser.steamonKey.keyCode}" class="margin2px steamonKey"
+                                     disabled="true"
+                                     style="width: 177px;">
+                            <f:facet name="append">
+                                <b:commandButton look="primary" value="copy" ajax="true" onclick="myFunction(); myFunction()"
+                                                 iconAwesome="copy" icon-align="right" action="#{profileModel.showSuccessMessage}">
+                                    <f:ajax render="userForm"/>
+                                </b:commandButton>
+                            </f:facet>
+                        </b:inputText>
+                    </h:panelGrid>
+
+                    <br></br>
+
+                    <h:panelGrid columns="2" class="block top" rendered="#{profileModel.editPassword}">
+                        <h:outputText value="Altes Passwort: " class="padding2px margin2px"/>
+                        <b:inputSecret value="#{profileModel.oldPassword}" disabled="#{!profileModel.editPassword}"
+                                       class="margin2px" style="width: 250px;"/>
+
+                        <h:outputText value="Neues Passwort: " class="padding2px margin2px"/>
+                        <b:inputSecret value="#{profileModel.newPassword}" class="margin2px"
+                                       disabled="#{!profileModel.editPassword}"
+                                       style="width: 250px;"/>
+
+                        <h:outputText value="Neues Passwort wiederholen: " class="padding2px margin2px"/>
+                        <b:inputSecret value="#{profileModel.newPasswordRepeat}" class="margin2px"
+                                       disabled="#{!profileModel.editPassword}"
+                                       style="width: 250px;"/>
+                    </h:panelGrid>
+
+                    <br/><br/>
+
+                    <b:commandButton class="margin2px" look="success" rendered="#{!profileModel.editMode}"
+                                     value="Bearbeite Profil" disabled="#{profileModel.editPassword}"
+                                     action="#{profileModel.setEditMode(true)}">
+                        <f:ajax render="userForm"/>
+                        <!-- https://stackoverflow.com/questions/21163347/jsf-prevent-commandlink-to-reload-page -->
+                    </b:commandButton>
+                    <b:commandButton class="margin2px" look="success" rendered="#{!profileModel.editMode}"
+                                     value="Ändere Passwort" disabled="#{profileModel.editPassword}"
+                                     action="#{profileModel.setEditPassword(true)}">
+                        <f:ajax render="userForm"/>
+                    </b:commandButton>
+
+                    <b:commandButton class="margin2px" look="success" rendered="#{profileModel.editMode}"
+                                     value="Speichere Änderungen"
+                                     action="#{profileModel.updateUserInformation}">
+                    </b:commandButton>
+                    <b:commandButton class="margin2px" look="success" rendered="#{profileModel.editPassword}"
+                                     value="Passwort Übernehmen"
+                                     action="#{profileModel.updateUserPassword}">
+                    </b:commandButton>
+                </h:form>
+            </b:well>
         </f:view>
     </ui:define>
 </ui:composition>
