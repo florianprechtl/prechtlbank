@@ -15,7 +15,7 @@ import java.util.List;
 @SessionScoped
 public class OfflineSteamonService implements Serializable, DefaultSteamonService {
 
-    /* Ich brauche für die Nutzung des SteamonService nur 2 von den angebotenen Funktionen. Deswegen implementiere ich auch nur diese aus*/
+    /* Ich brauche für die Nutzung des SteamonService nur zwei von den angebotenen Funktionen. Deswegen implementiere ich auch nur diese aus*/
 
     @Inject
     private UserService userService;

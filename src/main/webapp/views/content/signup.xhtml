@@ -8,6 +8,10 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:b="http://bootsfaces.net/ui">
 
+<f:metadata>
+    <!-- https://stackoverflow.com/questions/8177288/list-of-jsf-2-events -->
+    <f:event type="preRenderView" listener="#{redirectModel.onLoadTestUserType('notLoggedIn')}"/>
+</f:metadata>
 
 <ui:composition template="../../WEB-INF/templates/basicTemplate.xhtml">
     <ui:define name="content">
