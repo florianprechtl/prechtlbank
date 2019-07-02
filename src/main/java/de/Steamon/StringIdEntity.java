@@ -8,16 +8,16 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Java class for longIdEntity complex type.
+ * <p>Java class for stringIdEntity complex type.
  * 
  * <p>The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
- * &lt;complexType name="longIdEntity">
+ * &lt;complexType name="stringIdEntity">
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
- *         &lt;element name="id" type="{http://www.w3.org/2001/XMLSchema}long" minOccurs="0"/>
+ *         &lt;element name="keyString" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -27,40 +27,38 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "longIdEntity", propOrder = {
-    "id"
+@XmlType(name = "stringIdEntity", propOrder = {
+    "keyString"
 })
 @XmlSeeAlso({
-    Software.class,
-    Account.class,
-    AccountItem.class
+    SoftwareKey.class
 })
-public abstract class LongIdEntity {
+public abstract class StringIdEntity {
 
-    protected Long id;
+    protected String keyString;
 
     /**
-     * Gets the value of the id property.
+     * Gets the value of the keyString property.
      * 
      * @return
      *     possible object is
-     *     {@link Long }
+     *     {@link String }
      *     
      */
-    public Long getId() {
-        return id;
+    public String getKeyString() {
+        return keyString;
     }
 
     /**
-     * Sets the value of the id property.
+     * Sets the value of the keyString property.
      * 
      * @param value
      *     allowed object is
-     *     {@link Long }
+     *     {@link String }
      *     
      */
-    public void setId(Long value) {
-        this.id = value;
+    public void setKeyString(String value) {
+        this.keyString = value;
     }
 
 }

@@ -14,10 +14,9 @@ import javax.xml.bind.annotation.XmlType;
  * <pre>
  * &lt;complexType name="softwareKey">
  *   &lt;complexContent>
- *     &lt;extension base="{http://service.steamon.de/}longIdEntity">
+ *     &lt;extension base="{http://service.steamon.de/}stringIdEntity">
  *       &lt;sequence>
  *         &lt;element name="software" type="{http://service.steamon.de/}software" minOccurs="0"/>
- *         &lt;element name="keyString" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
  *         &lt;element name="activated" type="{http://www.w3.org/2001/XMLSchema}boolean"/>
  *         &lt;element name="reserved" type="{http://www.w3.org/2001/XMLSchema}boolean"/>
  *       &lt;/sequence>
@@ -31,16 +30,14 @@ import javax.xml.bind.annotation.XmlType;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "softwareKey", propOrder = {
     "software",
-    "keyString",
     "activated",
     "reserved"
 })
 public class SoftwareKey
-    extends LongIdEntity
+    extends StringIdEntity
 {
 
     protected Software software;
-    protected String keyString;
     protected boolean activated;
     protected boolean reserved;
 
@@ -66,30 +63,6 @@ public class SoftwareKey
      */
     public void setSoftware(Software value) {
         this.software = value;
-    }
-
-    /**
-     * Gets the value of the keyString property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getKeyString() {
-        return keyString;
-    }
-
-    /**
-     * Sets the value of the keyString property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setKeyString(String value) {
-        this.keyString = value;
     }
 
     /**

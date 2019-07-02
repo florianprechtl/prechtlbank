@@ -33,6 +33,7 @@ public class ObjectFactory {
     private final static QName _SoftwareKey_QNAME = new QName("http://service.steamon.de/", "softwareKey");
     private final static QName _TransactionDTO_QNAME = new QName("http://service.steamon.de/", "transactionDTO");
     private final static QName _Software_QNAME = new QName("http://service.steamon.de/", "software");
+    private final static QName _StringIdEntity_QNAME = new QName("http://service.steamon.de/", "stringIdEntity");
     private final static QName _ActivateKeyResponse_QNAME = new QName("http://service.steamon.de/", "activateKeyResponse");
     private final static QName _CreateAccountResponse_QNAME = new QName("http://service.steamon.de/", "createAccountResponse");
     private final static QName _LongIdEntity_QNAME = new QName("http://service.steamon.de/", "longIdEntity");
@@ -263,6 +264,15 @@ public class ObjectFactory {
     @XmlElementDecl(namespace = "http://service.steamon.de/", name = "software")
     public JAXBElement<Software> createSoftware(Software value) {
         return new JAXBElement<Software>(_Software_QNAME, Software.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link StringIdEntity }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://service.steamon.de/", name = "stringIdEntity")
+    public JAXBElement<StringIdEntity> createStringIdEntity(StringIdEntity value) {
+        return new JAXBElement<StringIdEntity>(_StringIdEntity_QNAME, StringIdEntity.class, null, value);
     }
 
     /**

@@ -109,6 +109,7 @@ public class TransactionService implements TransactionServiceIF{
     public TransactionDTO transfer(LoginDTO loginDTO, TransactionDTO transactionDTO) throws LoginException, TransactionException {
         userService.loginUser(loginDTO);
         Transaction transaction = new Transaction(transactionDTO);
+        transaction = setPayeeAndPayer(transaction);
         return new TransactionDTO(transfer(transaction));
     }
 
@@ -136,6 +137,7 @@ public class TransactionService implements TransactionServiceIF{
     public TransactionDTO directDebit(LoginDTO loginDTO, TransactionDTO transactionDTO) throws LoginException, TransactionException {
         userService.loginUser(loginDTO);
         Transaction transaction = new Transaction(transactionDTO);
+        transaction = setPayeeAndPayer(transaction);
         return new TransactionDTO(transfer(transaction));
     }
 
@@ -161,10 +163,7 @@ public class TransactionService implements TransactionServiceIF{
             logger.info("transfer :: Check transfer data");
             validateTransactionInput(transaction);
             logger.info("transfer :: Save transfer");
-            transaction.setPayee(bankAccountService.getBankAccountByIban(transaction.getPayee().getIban()));
-            transaction.setPayer(bankAccountService.getBankAccountByIban(transaction.getPayer().getIban()));
             em.persist(transaction);
-
             logger.info("transfer :: Successfully saved transaction as Transfer!");
         } catch (Exception e) {
             throw new TransactionException(e.getMessage(), e);
@@ -244,5 +243,18 @@ public class TransactionService implements TransactionServiceIF{
             }
         }
         return false;
+    }
+
+    @WebMethod(exclude = true)
+    public Transaction setPayeeAndPayer(Transaction transaction) {
+        String ibanPayee = transaction.getPayee().getIban();
+        String ibanPayer = transaction.getPayer().getIban();
+        if (ibanPayee != null) {
+            transaction.setPayee(bankAccountService.getBankAccountByIban(ibanPayee));
+        }
+        if (ibanPayer != null) {
+            transaction.setPayer(bankAccountService.getBankAccountByIban(ibanPayer));
+        }
+        return transaction;
     }
 }

@@ -44,7 +44,7 @@
     grid-template-areas: 'bottom-left-icon bottom-center-icon bottom-right-icon';
     width: 100%;
     color: #0074D9;
-    text-shadow: 0px 2px 3px black;
+    text-shadow: 0 2px 3px black;
 }
 
 .new-account-button {
@@ -91,5 +91,5 @@
     grid-template-rows:  600px auto;
     grid-template-areas: 'conten-top' 'icons-bottom';
     height: 100%;
-    row-gap: 0;
+    grid-row-gap: 0;
 }

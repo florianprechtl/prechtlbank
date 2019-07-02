@@ -87,7 +87,7 @@
                                     <b:commandButton class="margin2px" disabled="#{consultantModel.hasBankAccountStatus(bankAccount.accountStatus, 'FROZEN')}" look="warning" tooltip="eingefroren" icon="check" action="#{consultantModel.doUpdateBankAccountStatus(bankAccount, 'FROZEN')}"/>
                                     <b:commandButton class="margin2px" look="danger" tooltip="entfernen" value=" " icon="trash" action="#{consultantModel.doDeleteBankAccount(bankAccount)}"/>
                                 </h:form>
-                                <div style="width: 80px; height: 0px"></div>
+                                <div style="width: 80px; height: 0"/>
                             </b:dataTableColumn>
                         </b:dataTable>
                     </b:tab>

@@ -76,6 +76,7 @@ public interface DefaultSteamonService {
      * 
      * @param arg1
      * @param arg0
+     * @throws AccountException_Exception
      */
     @WebMethod
     @RequestWrapper(localName = "downloadAndInstallSoftware", targetNamespace = "http://service.steamon.de/", className = "de.Steamon.DownloadAndInstallSoftware")
@@ -84,7 +85,9 @@ public interface DefaultSteamonService {
         @WebParam(name = "arg0", targetNamespace = "")
         Account arg0,
         @WebParam(name = "arg1", targetNamespace = "")
-        Software arg1);
+        Software arg1)
+        throws AccountException_Exception
+    ;
 
     /**
      * 
