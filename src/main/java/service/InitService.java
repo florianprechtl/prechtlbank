@@ -56,7 +56,7 @@ public class InitService {
 
     //////////////////////////////////////////////// FUNCTIONS /////////////////////////////////////////////////////////
 
-    @PostConstruct
+    // @PostConstruct
     public void init() {
 
         logger.info("init :: PostConstruct!");

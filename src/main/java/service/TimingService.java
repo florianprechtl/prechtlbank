@@ -5,10 +5,12 @@ import entity.enums.Duration;
 import entity.enums.TransactionType;
 import org.apache.log4j.Logger;
 import service.Exceptions.TransactionException;
+import service.Exceptions.ValidationException;
 
 import javax.ejb.Schedule;
 import javax.ejb.Singleton;
 import javax.inject.Inject;
+import javax.transaction.Transactional;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Iterator;
@@ -26,27 +28,34 @@ public class TimingService {
     /**
      *  Checks in a specific time interval if the planned transactions have to be renewed
      */
-    @Schedule(second="0", minute="0", hour="*/12", persistent=false)
+    @Schedule(second="0", minute="0", hour="*/3", persistent=false)
     public void TransactionScheduler() {
         logger.info("Scheduler started");
         List<Transaction> plannedTransactions = transactionService.getAllPlannedTransactions();
         Iterator<Transaction> transactionIterator = plannedTransactions.iterator();
         while(transactionIterator.hasNext()) {
-            logger.info("Scheduler checks transaction");
             Transaction transaction = transactionIterator.next();
-            if (overdueTransactionInterval(transaction)) {
-                Transaction newTransaction = cloneTransaction(transaction);
-                try {
-                    if (newTransaction.getTransactionType().equals(TransactionType.TRANSFER)) {
-                        transactionService.transfer(newTransaction);
-                    } else {
-                        transactionService.directDebit(newTransaction);
-                    }
-                } catch (TransactionException e) {
-                    logger.error(e.getMessage());
+            renewTransaction(transaction);
+        }
+    }
+
+    @Transactional(Transactional.TxType.REQUIRES_NEW)
+    public void renewTransaction(Transaction transaction) {
+        if (overdueTransactionInterval(transaction)) {
+            Transaction newTransaction = cloneTransaction(transaction);
+            try {
+                if (newTransaction.getTransactionType().equals(TransactionType.TRANSFER)) {
+                    transactionService.transfer(newTransaction);
+                } else {
+                    transactionService.directDebit(newTransaction);
                 }
+                transaction.setLastTransactionDate(newTransaction.getDate());
+                transactionService.updateTransaction(transaction);
+            } catch (TransactionException | ValidationException e) {
+                logger.error(e.getMessage());
             }
         }
+
     }
 
     public Transaction cloneTransaction(Transaction transaction) {
