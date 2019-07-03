@@ -9,7 +9,6 @@ import entity.repo.BankAccountRepo;
 import entity.repo.TransactionRepo;
 import entity.repo.UserRepo;
 import service.BankAccountService;
-import service.Exceptions.TransactionException;
 import service.Exceptions.ValidationException;
 import service.TransactionService;
 import service.UserService;

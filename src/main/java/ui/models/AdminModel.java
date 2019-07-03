@@ -3,10 +3,8 @@ package ui.models;
 import entity.*;
 import entity.enums.*;
 import entity.repo.*;
-import org.apache.log4j.Logger;
 import service.*;
 
-import javax.enterprise.context.RequestScoped;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;

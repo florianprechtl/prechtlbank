@@ -61,14 +61,6 @@ public class RegisterUserModel {
         return "index";
     }
 
-    public UserService getUserService() {
-        return userService;
-    }
-
-    public void setUserService(UserService userService) {
-        this.userService = userService;
-    }
-
     public String getFirstname() {
         return firstname;
     }

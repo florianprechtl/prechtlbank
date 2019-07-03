@@ -2,13 +2,10 @@ package ui.models;
 
 import entity.User;
 import entity.repo.UserRepo;
-import org.apache.log4j.Logger;
 import service.Exceptions.ValidationException;
 import service.UserService;
 
 import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.context.RequestScoped;
-import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.application.NavigationHandler;
 import javax.faces.context.FacesContext;

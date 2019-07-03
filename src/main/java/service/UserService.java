@@ -27,12 +27,6 @@ public class UserService {
     private Logger logger;
 
     @Inject
-    private LoginUserModel loginUserModel;
-
-    @Inject
-    private TransactionService transactionService;
-
-    @Inject
     private BankAccountService bankAccountService;
 
     @Inject
@@ -65,7 +59,7 @@ public class UserService {
             throw new ValidationException("The entered Country is too short.", null);
 
         if (user.getUserType() == null)
-            throw new ValidationException("userType is not set.", null);
+            throw new ValidationException("UserType is not set.", null);
 
         if (user.getPassword() == null || user.getPassword().length() < 2)
             throw new ValidationException("Password is invalid or too short (min: 2 characters).", null);
@@ -103,31 +97,30 @@ public class UserService {
     @Transactional(Transactional.TxType.REQUIRED)
     public void deleteUserById(Long id) {
         User user = userRepo.getById(id);
-        logger.info("deleteUser :: delete dependencies");
-/*
-        transactionService.deleteTransactionByUserId(id);
-*/
-        bankAccountService.deleteBankAccountByUserId(id);
-        logger.info("deleteUser :: delete user");
-        em.remove(user);
+        logger.info("deleteUser :: Delete dependencies");
 
-        logger.info("deleteUser :: user successfully deleted");
+        bankAccountService.deleteBankAccountByUserId(id);
+        logger.info("deleteUser :: Delete user");
+
+        em.remove(user);
+        logger.info("deleteUser :: User successfully deleted");
     }
 
     @Transactional(Transactional.TxType.SUPPORTS)
     public User loginUser(LoginDTO loginData) throws LoginException {
         logger.info("loginUser :: Check Login DTO data");
         if(loginData == null || loginData.getLoginId() == null || loginData.getPassword() == null)
-            throw new LoginException("Entered data seems to be incomplete or invalid.", null);
+            throw new LoginException("Die eingegebenen Daten sind unvollständig oder fehlerhaft.", null);
 
         logger.info("loginUser :: Check credentials");
         User user = getUserByLoginId(loginData.getLoginId());
-        if (user == null) {
-            throw new LoginException("User '" + loginData.getLoginId() + "' does not exist.", null);
-        }
-        if (!user.checkPassword(loginData.getPassword())) {
-            throw new LoginException("The entered password is wrong.", null);
-        }
+
+        if (user == null)
+            throw new LoginException("Nutzer '" + loginData.getLoginId() + "' existiert nicht.", null);
+
+        if (!user.checkPassword(loginData.getPassword()))
+            throw new LoginException("Das eingegebene Passwort ist falsch.", null);
+
         return user;
     }
 
@@ -141,18 +134,5 @@ public class UserService {
         catch(Exception e) {
         }
         return null;
-    }
-
-    @Transactional(Transactional.TxType.REQUIRED)
-    public void updateSteamonKey(SteamonKey steamonKey) {
-        User user = userRepo.getById(loginUserModel.getUser().getId());
-        user.setSteamonKey(null);
-        em.persist(user);
-        user.setSteamonKey(steamonKey);
-        em.persist(user);
-    }
-
-    public void loggerTest() {
-        logger.info("test");
     }
 }

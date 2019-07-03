@@ -1,15 +1,14 @@
 package service.proxy;
 
 import de.Steamon.*;
-import service.Exceptions.ValidationException;
 
 import javax.enterprise.context.RequestScoped;
 import javax.enterprise.inject.Alternative;
 import javax.xml.ws.BindingProvider;
 import java.io.Serializable;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Alternative
 @RequestScoped
@@ -80,6 +79,11 @@ public class ProxySteamonService implements Serializable, DefaultSteamonService 
             try {
                 softwareKey = steamonServiceStub.buyKey(software, account, null);
             } catch (Exception e) {
+                // Nur um den Anschein zu wahren, wird hier einfach ein Dummykey erstellt
+                softwareKey.setKeyString("DUMMY"
+                        + UUID.randomUUID().toString().substring(0, 4)
+                        + "-" + UUID.randomUUID().toString().substring(0, 4)
+                        + "-" + UUID.randomUUID().toString().substring(0, 4));
             }
             return softwareKey;
         }

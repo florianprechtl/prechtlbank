@@ -1,8 +1,6 @@
 package service.proxy;
 
 import de.Steamon.*;
-import org.apache.log4j.Logger;
-import service.BankAccountService;
 import service.UserService;
 
 import javax.enterprise.context.SessionScoped;
@@ -11,15 +9,13 @@ import javax.inject.Inject;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Alternative
 @SessionScoped
 public class OfflineSteamonService implements Serializable, DefaultSteamonService {
 
     /* Ich brauche für die Nutzung des SteamonService nur zwei von den angebotenen Funktionen. Deswegen implementiere ich auch nur diese aus*/
-
-    @Inject
-    private UserService userService;
 
     @Override
     public List<Software> getSoftwareChoicesForFloBank() {
@@ -58,7 +54,11 @@ public class OfflineSteamonService implements Serializable, DefaultSteamonServic
     @Override
     public SoftwareKey buyKey(Software arg0, Account arg1, TransactionDTO arg2) {
         SoftwareKey softwareKey = new SoftwareKey();
-        softwareKey.setKeyString("DUMMY-DUMMY-DUMMY-DUMMY");
+        // Nur um den Anschein zu wahren, wird hier einfach ein Dummykey erstellt
+        softwareKey.setKeyString("DUMMY"
+                + UUID.randomUUID().toString().substring(0, 4)
+                + "-" + UUID.randomUUID().toString().substring(0, 4)
+                + "-" + UUID.randomUUID().toString().substring(0, 4));
         return softwareKey;
     }
 }

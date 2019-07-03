@@ -2,7 +2,6 @@ package service;
 
 import entity.BankAccount;
 import entity.BankInstitute;
-import entity.Transaction;
 import entity.repo.BankInstituteRepo;
 import org.apache.log4j.Logger;
 import service.Exceptions.ValidationException;
@@ -11,7 +10,6 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
 import javax.transaction.Transactional;
 import java.util.Iterator;
 import java.util.List;

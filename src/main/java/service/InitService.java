@@ -118,6 +118,7 @@ public class InitService {
         }
     }
 
+    // @PreDestroy
     public void removeAll() {
         logger.info("exit :: PreDestroy!");
         List<User> users = userRepo.getAll();

@@ -36,7 +36,7 @@ public class SteamonKeyService {
 
     private void validateBankInstitutionInput(SteamonKey steamonKey) throws ValidationException {
         if (steamonKey == null)
-            throw new ValidationException("steamonKey is null.", null);
+            throw new ValidationException("The steamonKey is null.", null);
 
         if (steamonKey.getKeyCode() == null)
             throw new ValidationException("The keyCode is invalid.", null);
