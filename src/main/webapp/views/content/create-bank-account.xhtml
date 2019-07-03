@@ -30,7 +30,7 @@
                                        itemLabel="#{d.title}"/>
                     </b:selectOneMenu>
 
-                    <h:outputText value="Account status: " class="padding2px margin2px"/>
+                    <h:outputText value="Account Status: " class="padding2px margin2px"/>
                     <b:selectOneMenu value="#{createBankAccountModel.selectedBankInstitute}" class="margin2px">
                         <f:selectItem itemLabel="(Bitte wählen Sie ein Bank Institut aus)" itemValue="#{null}"/>
                         <f:selectItems value="#{adminModel.allBankInstitutes}" var="c" itemValue="#{c}"
