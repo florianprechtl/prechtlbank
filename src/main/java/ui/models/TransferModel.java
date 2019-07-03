@@ -38,6 +38,7 @@ public class TransferModel {
     private Double amount;
     private String reasonOfUsage;
     private String receiver;
+    private Duration duration;
 
     @Transactional(Transactional.TxType.REQUIRED)
     public String makeTransaction() {
@@ -73,6 +74,10 @@ public class TransferModel {
             allBankAccounts = bankAccountService.getApprovedBankAccountsOfUser(loginUserModel.getUser().getId());
         }
         return allBankAccounts;
+    }
+
+    public Duration[] getAllDurations() {
+        return Duration.values();
     }
 
     public void setAllBankAccounts(List<BankAccount> allBankAccounts) {
@@ -117,5 +122,13 @@ public class TransferModel {
 
     public void setReceiver(String receiver) {
         this.receiver = receiver;
+    }
+
+    public Duration getDuration() {
+        return duration;
+    }
+
+    public void setDuration(Duration duration) {
+        this.duration = duration;
     }
 }

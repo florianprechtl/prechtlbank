@@ -34,9 +34,9 @@ public class ProfileModel implements Serializable {
 
     private User tmpUser;
 
-    private String oldPassword;
-    private String newPassword;
-    private String newPasswordRepeat;
+    private String oldPassword = "";
+    private String newPassword = "";
+    private String newPasswordRepeat = "";
 
     public void onLoad() {
         if (!loginUserModel.isLoggedIn()) {
@@ -78,6 +78,8 @@ public class ProfileModel implements Serializable {
 
     public String updateUserPassword() {
         try {
+            if (oldPassword == null || newPassword == null || newPasswordRepeat == null)
+                throw new ValidationException("Bitte fülle alle Felder aus", null);
             if (!oldPassword.equals(tmpUser.getPassword()))
                 throw new ValidationException("Das alte Passwort scheint falsch zu sein!", null);
             if (!newPassword.equals(newPasswordRepeat))
@@ -100,6 +102,8 @@ public class ProfileModel implements Serializable {
 
     public void resetUser() {
         tmpUser = userRepo.getById(loginUserModel.getUser().getId());
+        editMode = false;
+        editPassword = false;
     }
 
     public boolean isEditMode() {

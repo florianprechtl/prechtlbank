@@ -30,6 +30,9 @@
                 <b:inputText placeholder="Verwendungszweck" label="Verwendungszweck"
                              value="#{transferModel.reasonOfUsage}"/>
                 <b:inputText placeholder="Betrag" label="Betrag" value="#{transferModel.amount}"/>
+                <b:selectOneMenu value="#{transferModel.duration}" label="Zahlungsintervall">
+                    <f:selectItems value="#{transferModel.allDurations}" var="c" itemValue="#{c}" itemLabel="#{c}"/>
+                </b:selectOneMenu>
                 <b:commandButton look="success" value="Überweisung tätigen" colMd="12"
                                  action="#{transferModel.makeTransaction}"/>
             </b:form>

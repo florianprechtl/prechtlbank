@@ -110,6 +110,9 @@
                                      value="Passwort Übernehmen"
                                      action="#{profileModel.updateUserPassword}">
                     </b:commandButton>
+                    <b:commandButton class="margin2px" iconAwesome="undo" look="warning" rendered="#{profileModel.editPassword || profileModel.editMode}"
+                                     action="#{profileModel.resetUser}">
+                    </b:commandButton>
                 </h:form>
             </b:well>
         </f:view>
