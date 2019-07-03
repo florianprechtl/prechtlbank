@@ -42,8 +42,8 @@ public class TransferModel {
     @Transactional(Transactional.TxType.REQUIRED)
     public String makeTransaction() {
         try {
-            BankAccount payee = bankAccountService.getBankAccountByIban(selectedBankAccount.getIban());
-            BankAccount payer = bankAccountService.getBankAccountByIban(iban);
+            BankAccount payer = bankAccountService.getBankAccountByIban(selectedBankAccount.getIban());
+            BankAccount payee = bankAccountService.getBankAccountByIban(iban);
             Transaction transaction = new Transaction(payee, payer, amount,
                     TransactionStatus.NEW, TransactionType.TRANSFER, reasonOfUsage,
                     Duration.ONCE, new Date());

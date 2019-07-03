@@ -5,6 +5,11 @@
        bean-discovery-mode="annotated">
 
     <alternatives>
+        <!--
+        <class>
+            service.proxy.OfflineSteamonService
+        </class>
+        -->
         <class>
             service.proxy.ProxySteamonService
         </class>

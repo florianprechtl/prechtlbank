@@ -38,6 +38,8 @@
                                    data-order="#{transaction.date}"/>
                 <b:dataTableColumn value="#{bankAccountsModel.getTransactionPartner(transaction)}"
                                    label="Transaktionsparner"/>
+                <b:dataTableColumn value="#{transaction.reasonOfUsage}"
+                                   label="Verwendungszweck"/>
                 <b:dataTableColumn value="#{bankAccountsModel.getTransactionAmount(transaction)}" label="Betrag"/>
             </b:dataTable>
         </f:view>

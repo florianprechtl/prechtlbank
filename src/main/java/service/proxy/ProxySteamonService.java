@@ -45,6 +45,7 @@ public class ProxySteamonService implements Serializable, DefaultSteamonService 
 
             return steamonServiceStub;
         } catch (Exception e) {
+            System.out.println(e.getMessage());
         }
 
         return null;

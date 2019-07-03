@@ -58,7 +58,9 @@ public class InitService {
 
     @PostConstruct
     public void init() {
+
         logger.info("init :: PostConstruct!");
+        removeAll();
         try {
             /////////////////////////////////////////// USER REGISTRATION //////////////////////////////////////////////
             Address address = new Address("Mozartalee 8", "93562", "Mumflingen", "Deutschland");
@@ -116,7 +118,6 @@ public class InitService {
         }
     }
 
-    @PreDestroy
     public void removeAll() {
         logger.info("exit :: PreDestroy!");
         List<User> users = userRepo.getAll();
