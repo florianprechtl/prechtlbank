@@ -6,6 +6,7 @@ import javax.enterprise.context.RequestScoped;
 import javax.enterprise.inject.Alternative;
 import javax.xml.ws.BindingProvider;
 import java.io.Serializable;
+import java.lang.Exception;
 import java.net.URL;
 import java.util.List;
 import java.util.UUID;
@@ -63,11 +64,6 @@ public class ProxySteamonService implements Serializable, DefaultSteamonService 
     @Override
     public Account createAccount(Account arg0) {
         return null;
-    }
-
-    @Override
-    public void downloadAndInstallSoftware(Account arg0, Software arg1) {
-
     }
 
     @Override

@@ -1,6 +1,5 @@
 package entity.repo;
 
-import entity.BankInstitute;
 import entity.Transaction;
 import entity.util.SingleIdEntityRepository;
 

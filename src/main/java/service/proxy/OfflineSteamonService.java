@@ -1,11 +1,9 @@
 package service.proxy;
 
 import de.Steamon.*;
-import service.UserService;
 
 import javax.enterprise.context.SessionScoped;
 import javax.enterprise.inject.Alternative;
-import javax.inject.Inject;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -44,11 +42,6 @@ public class OfflineSteamonService implements Serializable, DefaultSteamonServic
     @Override
     public Account createAccount(Account arg0) {
         return null;
-    }
-
-    @Override
-    public void downloadAndInstallSoftware(Account arg0, Software arg1) {
-
     }
 
     @Override

@@ -1,14 +1,12 @@
 package ui.converter;
 
 import entity.BankAccount;
-import entity.repo.BankAccountRepo;
 import service.BankAccountService;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
-import javax.faces.convert.FacesConverter;
 import javax.inject.Inject;
 
 @ApplicationScoped
