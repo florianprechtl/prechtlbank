@@ -10,8 +10,8 @@ import javax.xml.ws.WebFault;
  * Generated source version: 2.2
  * 
  */
-@WebFault(name = "AccountException", targetNamespace = "http://service.steamon.de/")
-public class AccountException_Exception
+@WebFault(name = "Exception", targetNamespace = "http://service.steamon.de/")
+public class Exception_Exception
     extends java.lang.Exception
 {
 
@@ -19,14 +19,14 @@ public class AccountException_Exception
      * Java type that goes as soapenv:Fault detail element.
      * 
      */
-    private AccountException faultInfo;
+    private de.Steamon.Exception faultInfo;
 
     /**
      * 
      * @param faultInfo
      * @param message
      */
-    public AccountException_Exception(String message, AccountException faultInfo) {
+    public Exception_Exception(String message, de.Steamon.Exception faultInfo) {
         super(message);
         this.faultInfo = faultInfo;
     }
@@ -37,7 +37,7 @@ public class AccountException_Exception
      * @param cause
      * @param message
      */
-    public AccountException_Exception(String message, AccountException faultInfo, Throwable cause) {
+    public Exception_Exception(String message, de.Steamon.Exception faultInfo, Throwable cause) {
         super(message, cause);
         this.faultInfo = faultInfo;
     }
@@ -45,9 +45,9 @@ public class AccountException_Exception
     /**
      * 
      * @return
-     *     returns fault bean: de.Steamon.AccountException
+     *     returns fault bean: de.Steamon.Exception
      */
-    public AccountException getFaultInfo() {
+    public de.Steamon.Exception getFaultInfo() {
         return faultInfo;
     }
 

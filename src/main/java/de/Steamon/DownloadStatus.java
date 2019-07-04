@@ -15,7 +15,6 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;restriction base="{http://www.w3.org/2001/XMLSchema}string">
  *     &lt;enumeration value="DOWNLAOD_IN_PROGRESS"/>
  *     &lt;enumeration value="INSTALLED"/>
- *     &lt;enumeration value="UPDATING"/>
  *     &lt;enumeration value="WAITING"/>
  *     &lt;enumeration value="PAUSED"/>
  *     &lt;enumeration value="CANCELED"/>
@@ -32,7 +31,6 @@ public enum DownloadStatus {
 
     DOWNLAOD_IN_PROGRESS,
     INSTALLED,
-    UPDATING,
     WAITING,
     PAUSED,
     CANCELED,

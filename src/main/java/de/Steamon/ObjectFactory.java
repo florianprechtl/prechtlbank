@@ -25,7 +25,6 @@ import javax.xml.namespace.QName;
 public class ObjectFactory {
 
     private final static QName _AccountException_QNAME = new QName("http://service.steamon.de/", "AccountException");
-    private final static QName _DownloadAndInstallSoftwareResponse_QNAME = new QName("http://service.steamon.de/", "downloadAndInstallSoftwareResponse");
     private final static QName _GetSoftwareChoicesForFloBank_QNAME = new QName("http://service.steamon.de/", "getSoftwareChoicesForFloBank");
     private final static QName _Account_QNAME = new QName("http://service.steamon.de/", "account");
     private final static QName _BuyKeyResponse_QNAME = new QName("http://service.steamon.de/", "buyKeyResponse");
@@ -38,9 +37,9 @@ public class ObjectFactory {
     private final static QName _CreateAccountResponse_QNAME = new QName("http://service.steamon.de/", "createAccountResponse");
     private final static QName _LongIdEntity_QNAME = new QName("http://service.steamon.de/", "longIdEntity");
     private final static QName _ActivateKey_QNAME = new QName("http://service.steamon.de/", "activateKey");
+    private final static QName _Exception_QNAME = new QName("http://service.steamon.de/", "Exception");
     private final static QName _GetSoftwareChoicesForFloBankResponse_QNAME = new QName("http://service.steamon.de/", "getSoftwareChoicesForFloBankResponse");
     private final static QName _CreateAccount_QNAME = new QName("http://service.steamon.de/", "createAccount");
-    private final static QName _DownloadAndInstallSoftware_QNAME = new QName("http://service.steamon.de/", "downloadAndInstallSoftware");
 
     /**
      * Create a new ObjectFactory that can be used to create new instances of schema derived classes for package: de.Steamon
@@ -90,11 +89,11 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link DownloadAndInstallSoftware }
+     * Create an instance of {@link Exception }
      * 
      */
-    public DownloadAndInstallSoftware createDownloadAndInstallSoftware() {
-        return new DownloadAndInstallSoftware();
+    public Exception createException() {
+        return new Exception();
     }
 
     /**
@@ -111,14 +110,6 @@ public class ObjectFactory {
      */
     public AccountException createAccountException() {
         return new AccountException();
-    }
-
-    /**
-     * Create an instance of {@link DownloadAndInstallSoftwareResponse }
-     * 
-     */
-    public DownloadAndInstallSoftwareResponse createDownloadAndInstallSoftwareResponse() {
-        return new DownloadAndInstallSoftwareResponse();
     }
 
     /**
@@ -192,15 +183,6 @@ public class ObjectFactory {
     @XmlElementDecl(namespace = "http://service.steamon.de/", name = "AccountException")
     public JAXBElement<AccountException> createAccountException(AccountException value) {
         return new JAXBElement<AccountException>(_AccountException_QNAME, AccountException.class, null, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link DownloadAndInstallSoftwareResponse }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "http://service.steamon.de/", name = "downloadAndInstallSoftwareResponse")
-    public JAXBElement<DownloadAndInstallSoftwareResponse> createDownloadAndInstallSoftwareResponse(DownloadAndInstallSoftwareResponse value) {
-        return new JAXBElement<DownloadAndInstallSoftwareResponse>(_DownloadAndInstallSoftwareResponse_QNAME, DownloadAndInstallSoftwareResponse.class, null, value);
     }
 
     /**
@@ -312,6 +294,15 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link Exception }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://service.steamon.de/", name = "Exception")
+    public JAXBElement<Exception> createException(Exception value) {
+        return new JAXBElement<Exception>(_Exception_QNAME, Exception.class, null, value);
+    }
+
+    /**
      * Create an instance of {@link JAXBElement }{@code <}{@link GetSoftwareChoicesForFloBankResponse }{@code >}}
      * 
      */
@@ -327,15 +318,6 @@ public class ObjectFactory {
     @XmlElementDecl(namespace = "http://service.steamon.de/", name = "createAccount")
     public JAXBElement<CreateAccount> createCreateAccount(CreateAccount value) {
         return new JAXBElement<CreateAccount>(_CreateAccount_QNAME, CreateAccount.class, null, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link DownloadAndInstallSoftware }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "http://service.steamon.de/", name = "downloadAndInstallSoftware")
-    public JAXBElement<DownloadAndInstallSoftware> createDownloadAndInstallSoftware(DownloadAndInstallSoftware value) {
-        return new JAXBElement<DownloadAndInstallSoftware>(_DownloadAndInstallSoftware_QNAME, DownloadAndInstallSoftware.class, null, value);
     }
 
 }

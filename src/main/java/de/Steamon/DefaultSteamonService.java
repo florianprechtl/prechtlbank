@@ -33,7 +33,7 @@ public interface DefaultSteamonService {
     @WebResult(targetNamespace = "")
     @RequestWrapper(localName = "getSoftwareChoicesForFloBank", targetNamespace = "http://service.steamon.de/", className = "de.Steamon.GetSoftwareChoicesForFloBank")
     @ResponseWrapper(localName = "getSoftwareChoicesForFloBankResponse", targetNamespace = "http://service.steamon.de/", className = "de.Steamon.GetSoftwareChoicesForFloBankResponse")
-    List<Software> getSoftwareChoicesForFloBank();
+    public List<Software> getSoftwareChoicesForFloBank();
 
     /**
      * 
@@ -41,18 +41,18 @@ public interface DefaultSteamonService {
      * @param arg0
      * @return
      *     returns de.Steamon.AccountItem
-     * @throws AccountException_Exception
+     * @throws Exception_Exception
      */
     @WebMethod
     @WebResult(targetNamespace = "")
     @RequestWrapper(localName = "activateKey", targetNamespace = "http://service.steamon.de/", className = "de.Steamon.ActivateKey")
     @ResponseWrapper(localName = "activateKeyResponse", targetNamespace = "http://service.steamon.de/", className = "de.Steamon.ActivateKeyResponse")
-    AccountItem activateKey(
-            @WebParam(name = "arg0", targetNamespace = "")
-                    Account arg0,
-            @WebParam(name = "arg1", targetNamespace = "")
-                    SoftwareKey arg1)
-        throws AccountException_Exception
+    public AccountItem activateKey(
+        @WebParam(name = "arg0", targetNamespace = "")
+        Account arg0,
+        @WebParam(name = "arg1", targetNamespace = "")
+        SoftwareKey arg1)
+        throws Exception_Exception
     ;
 
     /**
@@ -66,26 +66,9 @@ public interface DefaultSteamonService {
     @WebResult(targetNamespace = "")
     @RequestWrapper(localName = "createAccount", targetNamespace = "http://service.steamon.de/", className = "de.Steamon.CreateAccount")
     @ResponseWrapper(localName = "createAccountResponse", targetNamespace = "http://service.steamon.de/", className = "de.Steamon.CreateAccountResponse")
-    Account createAccount(
-            @WebParam(name = "arg0", targetNamespace = "")
-                    Account arg0)
-        throws AccountException_Exception
-    ;
-
-    /**
-     * 
-     * @param arg1
-     * @param arg0
-     * @throws AccountException_Exception
-     */
-    @WebMethod
-    @RequestWrapper(localName = "downloadAndInstallSoftware", targetNamespace = "http://service.steamon.de/", className = "de.Steamon.DownloadAndInstallSoftware")
-    @ResponseWrapper(localName = "downloadAndInstallSoftwareResponse", targetNamespace = "http://service.steamon.de/", className = "de.Steamon.DownloadAndInstallSoftwareResponse")
-    void downloadAndInstallSoftware(
-            @WebParam(name = "arg0", targetNamespace = "")
-                    Account arg0,
-            @WebParam(name = "arg1", targetNamespace = "")
-                    Software arg1)
+    public Account createAccount(
+        @WebParam(name = "arg0", targetNamespace = "")
+        Account arg0)
         throws AccountException_Exception
     ;
 
@@ -102,13 +85,13 @@ public interface DefaultSteamonService {
     @WebResult(targetNamespace = "")
     @RequestWrapper(localName = "buyKey", targetNamespace = "http://service.steamon.de/", className = "de.Steamon.BuyKey")
     @ResponseWrapper(localName = "buyKeyResponse", targetNamespace = "http://service.steamon.de/", className = "de.Steamon.BuyKeyResponse")
-    SoftwareKey buyKey(
-            @WebParam(name = "arg0", targetNamespace = "")
-                    Software arg0,
-            @WebParam(name = "arg1", targetNamespace = "")
-                    Account arg1,
-            @WebParam(name = "arg2", targetNamespace = "")
-                    TransactionDTO arg2)
+    public SoftwareKey buyKey(
+        @WebParam(name = "arg0", targetNamespace = "")
+        Software arg0,
+        @WebParam(name = "arg1", targetNamespace = "")
+        Account arg1,
+        @WebParam(name = "arg2", targetNamespace = "")
+        TransactionDTO arg2)
         throws AccountException_Exception
     ;
 

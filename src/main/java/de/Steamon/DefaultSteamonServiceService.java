@@ -17,7 +17,7 @@ import javax.xml.ws.WebServiceFeature;
  * Generated source version: 2.2
  * 
  */
-@WebServiceClient(name = "DefaultSteamonServiceService", targetNamespace = "http://service.steamon.de/", wsdlLocation = "http://im-lamport:8080/steamon-0.1/DefaultSteamonService?WSDL")
+@WebServiceClient(name = "DefaultSteamonServiceService", targetNamespace = "http://service.steamon.de/", wsdlLocation = "http://im-lamport.oth-regensburg.de:8080/steamon-0.1/DefaultSteamonService?wsdl")
 public class DefaultSteamonServiceService
     extends Service
 {
@@ -30,7 +30,7 @@ public class DefaultSteamonServiceService
         URL url = null;
         WebServiceException e = null;
         try {
-            url = new URL("http://im-lamport:8080/steamon-0.1/DefaultSteamonService?WSDL");
+            url = new URL("http://im-lamport.oth-regensburg.de:8080/steamon-0.1/DefaultSteamonService?wsdl");
         } catch (MalformedURLException ex) {
             e = new WebServiceException(ex);
         }
